@@ -1,0 +1,11 @@
+# 依赖与构建产物
+node_modules
+.vitepress/dist
+.vitepress/cache
+
+# Obsidian 编辑器的工作区/配置（用 Obsidian 写文档时会生成，不入库）
+.obsidian/
+
+# 杂项
+*.zip
+.DS_Store
