@@ -1,0 +1,9 @@
+# Markdown 文件：仓库存 LF，Windows 本地 CRLF
+*.md text=auto
+
+# 图片：二进制，不做换行符转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
