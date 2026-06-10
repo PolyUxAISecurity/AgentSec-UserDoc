@@ -108,19 +108,19 @@
 
 引导完成后，您会看到**仪表盘**。
 
-> 📸 **[截图位置]** `screenshots/dashboard-ready.png` — 刚配置完的仪表盘
+> ![dashboard-overview](./screenshots/01-quickstart/dashboard-overview.png)
 
 现在，点击蓝色 **「启动监控」** 按钮。
 
 **您会立刻看到的变化：**
 
-| 变化 | 说明 |
-|------|------|
-| 按钮变色 | 蓝 → 红，文字变为「停止监控」 |
-| 状态变化 | 「等待连接」→「监控中」+ 绿色闪烁圆点 |
-| 脚本数出现 | 显示监控目录中找到的脚本数量 |
+| 变化    | 说明                   |
+| ----- | -------------------- |
+| 按钮变色  | 绿 → 红，文字变为「停止监控」     |
+| 状态变化  | 「等待连接」→「监控中」+ 绿色闪烁圆点 |
+| 脚本数出现 | 显示监控目录中找到的脚本数量       |
+![monitoring-started](./screenshots/01-quickstart/monitoring-started.png)
 
-> 📸 **[截图位置]** `screenshots/dashboard-monitoring-started.png` — 监控刚启动的仪表盘
 
 **AgentSec 正在做什么？**
 
@@ -144,7 +144,6 @@ graph TD
 
 ### 4.1 仪表盘概览
 
-> 📸 **[截图位置]** `screenshots/dashboard-first-results.png` — 第一次分析完成的仪表盘
 
 | 看这里 | 说明 |
 |--------|------|
@@ -157,33 +156,10 @@ graph TD
 
 点击左侧 **「防护日志」**，查看每个脚本的详情。
 
-> 📸 **[截图位置]** `screenshots/security-log-first-view.png` — 第一次进入防护日志
+![security-log-list](./screenshots/01-quickstart/security-log-list.png)
 
 **点击任意一个脚本**，右侧展开详情面板：
-
-> 📸 **[截图位置]** `screenshots/security-log-detail-annotated.png` — 标注过的详情面板
-
-```
-┌─────────────────────────────────────────────┐
-│  Main.xaml                                  │ ← 脚本名
-│  HIGH · 只读                                │ ← 风险等级 + 文件状态
-│ ─────────────────────────────────────────── │
-│  分析时间  1分钟前   分析器  AI 智能体分析    │
-│  检出问题  3 个      风险分数  68 / 100      │
-│ ─────────────────────────────────────────── │
-│                                             │
-│  ▼ CRITICAL  硬编码凭证 / API Key            │ ← 点击展开
-│    📍 第 15 行                               │   具体行号
-│    📝 代码: password = "admin123"            │   问题代码
-│    📋 描述: 明文写入密码...                   │   为什么是问题
-│    💡 建议: 改用凭证管理器存储                │   怎么修
-│                                             │
-│  ▼ HIGH  使用明文 HTTP 传输                   │
-│    ...                                      │
-└─────────────────────────────────────────────┘
-```
-
-**三个关键信息**：
+![script-detail-panel](./screenshots/01-quickstart/script-detail-panel.png)**三个关键信息**：
 1. **💡 建议**：告诉您怎么修复
 2. **📝 代码片段**：指出具体哪行有问题
 3. **风险等级颜色**：红 > 橙 > 黄 > 灰（越红越紧急）
@@ -203,9 +179,10 @@ graph TD
 1. 点击该脚本 → 打开详情面板
 2. 点击 **「还原」** 按钮
 3. 确认操作 → 文件自动移回，并加入「信任列表」
+![restore-button](./screenshots/01-quickstart/restore-button.png)
 
-> 📸 **[截图位置]** `screenshots/security-log-restore.png` — 详情面板中的还原按钮
-
+![restore-confirm](./screenshots/01-quickstart/restore-confirm.png)
+![restore-success](./screenshots/01-quickstart/restore-success.png)
 > 💡 还原后该文件内容不变，以后扫描会自动跳过。如果之后修改了文件，AgentSec 会重新分析。
 
 ---
@@ -220,7 +197,7 @@ graph TD
 
 > 「哪个脚本风险最高？为什么？」
 
-> 📸 **[截图位置]** `screenshots/chat-first-question.png` — 第一次使用 AI 助手
+![ai-assistant](./screenshots/01-quickstart/ai-assistant.png)
 
 AI 会基于实际的监控数据和分析结果回答，不是套话。
 
