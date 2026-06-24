@@ -13,6 +13,7 @@ export default withMermaid(
 
     // 部署子路径：默认根路径 '/'（本地 dev/preview）；
     // 部署到同域名子路径时由构建环境设 DOCS_BASE，如 DOCS_BASE=/manual/。
+    // GitHub Pages 项目页：工作流里设 DOCS_BASE=/AgentSec-UserDoc/。
     base: process.env.DOCS_BASE || '/',
 
     // 文档仍在撰写中：占位图、尚未补全的链接很正常，先不让它们阻断构建。
