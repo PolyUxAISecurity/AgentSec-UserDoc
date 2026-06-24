@@ -40,6 +40,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true # 若 Pages 尚未启用则自动启用，避免首次部署因未启用而失败
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
