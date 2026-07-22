@@ -1,36 +1,30 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
-// AgentSec Desktop 用户手册站点配置。
-// 内容按语言分目录：CN/（简体中文，现有）、后续 EN/、zh-TW/。
-// 正文全部是 md 文件，用 Obsidian 编辑即可；本文件只管导航/侧边栏/插件。
+// AgentSec Desktop User Manual site config.
+// Content organized by language: CN/ (Simplified Chinese), EN/ (English).
+// All content is md files — edit with Obsidian or any editor.
 export default withMermaid(
   defineConfig({
-    title: 'AgentSec 用户手册',
-    description: 'AgentSec Desktop —— AI 驱动的 RPA 脚本安全监控工具 · 用户手册',
-    lang: 'zh-CN',
+    title: 'AgentSec User Manual',
+    description: 'AgentSec Desktop — AI-Powered RPA Script Security Monitoring · User Manual',
+    lang: 'en-US',
     cleanUrls: true,
 
-    // 部署子路径：默认根路径 '/'（本地 dev/preview）；
-    // 部署到同域名子路径时由构建环境设 DOCS_BASE，如 DOCS_BASE=/manual/。
-    // GitHub Pages 项目页：工作流里设 DOCS_BASE=/AgentSec-UserDoc/。
     base: process.env.DOCS_BASE || '/',
 
-    // 文档仍在撰写中：占位图、尚未补全的链接很正常，先不让它们阻断构建。
-    // 等内容定稿后可改回 false，用 build 当死链检查器。
     ignoreDeadLinks: true,
 
-    // 让 /CN/ 直接展示这一语言的手册首页（其 README.md 当作首页用，不改文件名）。
+    // Rewrite README.md as index.md for each language.
     rewrites: {
       'CN/README.md': 'CN/index.md',
+      'EN/README.md': 'EN/index.md',
     },
 
     themeConfig: {
-      // 语言入口（现仅简体中文；加 EN/繁体时在这里和 sidebar 各加一组即可）
       nav: [
         { text: '简体中文', link: '/CN/' },
-        // { text: 'English', link: '/EN/' },
-        // { text: '繁體中文', link: '/zh-TW/' },
+        { text: 'English', link: '/EN/' },
       ],
 
       sidebar: {
@@ -65,11 +59,42 @@ export default withMermaid(
             ],
           },
         ],
+        '/EN/': [
+          { text: 'Home', link: '/EN/' },
+          {
+            text: 'Getting Started',
+            collapsed: false,
+            items: [
+              { text: '01 · Quick Start (Hands-on)', link: '/EN/01-quickstart' },
+              { text: '02 · Dashboard (Overview)', link: '/EN/02-dashboard' },
+              { text: '03 · First Security Analysis', link: '/EN/03-first-analysis' },
+            ],
+          },
+          {
+            text: 'Features',
+            collapsed: false,
+            items: [
+              { text: '04 · Monitoring & Directory Setup', link: '/EN/04-monitoring' },
+              { text: '05 · Threat Center (List · History · Notifications · Sandbox)', link: '/EN/05-security-log' },
+              { text: '06 · AgentSec Engine™ (Policy · Lab · AI Model · Marketplace)', link: '/EN/07-security-policy' },
+              { text: '07 · AI Security Assistant', link: '/EN/08-ai-assistant' },
+              { text: '08 · Settings Details', link: '/EN/09-settings' },
+            ],
+          },
+          {
+            text: 'Reference',
+            collapsed: false,
+            items: [
+              { text: '09 · Key Concepts', link: '/EN/10-concepts' },
+              { text: '10 · FAQ', link: '/EN/11-faq' },
+            ],
+          },
+        ],
       },
 
       search: { provider: 'local' },
-      outline: { level: [2, 3], label: '本页目录' },
-      docFooter: { prev: '上一页', next: '下一页' },
+      outline: { level: [2, 3], label: 'On this page' },
+      docFooter: { prev: 'Previous', next: 'Next' },
     },
   })
 )

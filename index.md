@@ -1,26 +1,27 @@
 ---
-# 站点根：目前只有简体中文，直接进入 CN 手册。
-# 以后有了 EN / 繁体，可把这里改成语言选择页。
 layout: home
 hero:
   name: AgentSec
-  text: 用户手册
-  tagline: AI 驱动的 RPA 脚本安全监控工具
+  text: User Manual
+  tagline: AI-Powered RPA Script Security Monitoring
   actions:
     - theme: brand
-      text: 阅读简体中文手册
+      text: 简体中文
       link: /CN/
+    - theme: brand
+      text: English
+      link: /EN/
     - theme: alt
-      text: 快速入门（跟我做）
+      text: Quick Start
       link: /CN/01-quickstart
 features:
-  - title: 🔍 自动扫描
-    details: 实时监测 UiPath、Python、PowerShell 等 RPA 脚本。
+  - title: 🔍 Auto-Scan
+    details: Real-time monitoring of UiPath, Python, PowerShell, and other RPA scripts.
     link: /CN/04-monitoring
-  - title: 🛡️ 智能分析
-    details: AI 自动发现数据外泄、硬编码密码、恶意命令等隐患。
+  - title: 🛡️ Intelligent Analysis
+    details: AI-powered detection of data exfiltration, hardcoded credentials, malicious commands.
     link: /CN/03-first-analysis
-  - title: 🚫 主动拦截
-    details: 高危脚本自动隔离，阻止运行，保护数据安全。
+  - title: 🚫 Proactive Blocking
+    details: Auto-quarantine high-risk scripts, prevent execution, protect data security.
     link: /CN/06-sandbox
 ---
