@@ -1,4 +1,4 @@
-# Dashboard Guide
+# Security Dashboard Guide
 
 > The dashboard is the first page you see when opening AgentSec. It centralizes monitoring status, risk overview, and statistics.
 

@@ -1,6 +1,6 @@
 # AgentSec Engine™ — Policy & Rules Configuration Guide
 
-> AgentSec Engine™ is the unified security engine. Expand it in the sidebar to access four sub-pages: **Current Policy**, **Rules Lab**, **AI Model**, **Policy Marketplace**.
+> AgentSec Engine™ is the unified security engine. Expand it in the sidebar to access four sub-pages: **Current Policy**, **Rule Lab**, **AI Model**, **Marketplace**.
 
 ---
 
@@ -27,9 +27,9 @@ AgentSec Engine™ contains four sub-pages:
 | Sub-Page | Description |
 |----------|-------------|
 | **Current Policy** | View and adjust currently active security rules (described here) |
-| **Rules Lab** | Technical view — rule details, edit JSON source |
+| **Rule Lab** | Technical view — rule details, edit JSON source |
 | **AI Model** | View current LLM model config (managed by server in login mode) |
-| **Policy Marketplace** | Browse and install AgentSec official preset policies |
+| **Marketplace** | Browse and install AgentSec official preset policies |
 
 ---
 
@@ -37,7 +37,7 @@ AgentSec Engine™ contains four sub-pages:
 
 ```
 ┌─────────────────────────────────────────────┐
-│  [Current Policy]  [Policy Marketplace]      │  ← Tab toggle
+│  [Current Policy]  [Marketplace]          │  ← Tab toggle
 ├─────────────────────────────────────────────┤
 │  🛡 Protection: Recommended                  │
 │  Critical/High enabled · Medium disabled     │
@@ -92,9 +92,9 @@ Click **"Restore Default Rules"** → confirm → rules revert to the built-in d
 
 ---
 
-## Policy Marketplace
+## Marketplace
 
-The Policy Marketplace provides AgentSec-maintained preset policies. One-click install replaces your current rules.
+The Marketplace provides AgentSec-maintained preset policies. One-click install replaces your current rules.
 
 Each policy card shows:
 
@@ -141,8 +141,8 @@ graph LR
 **Q: Do I need to restart monitoring after changing policy?**
 A: No. Changes take effect immediately.
 
-**Q: How often is the Policy Marketplace updated?**
-A: Maintained by AgentSec platform admins. Click the "Policy Marketplace" tab to auto-fetch the latest catalog.
+**Q: How often is the Marketplace updated?**
+A: Maintained by AgentSec platform admins. Click the "Marketplace" tab to auto-fetch the latest catalog.
 
 **Q: Can onpremise users edit policies?**
 A: In onpremise mode, policies are managed centrally by the server admin. The client is read-only.

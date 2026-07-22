@@ -42,9 +42,9 @@ AgentSec Desktop uses a single-page application design:
 
 | Location | Entry Point |
 |----------|-------------|
-| **Overview** | Sidebar "Overview" — Dashboard summary, risk overview, analysis pipeline |
+| **Security Dashboard** | Sidebar "Security Dashboard" — Dashboard summary, risk overview, analysis pipeline |
 | **Threat Center** | Sidebar "Threat Center" — Threat list, History, Notifications, Security Sandbox (4 Tabs) |
-| **AgentSec Engine™** | Sidebar "AgentSec Engine™" — Current policy, Rules lab, AI model, Policy marketplace |
+| **AgentSec Engine™** | Sidebar "AgentSec Engine™" — Current policy, Rule lab, AI model, Marketplace |
 | **AI Assistant** | Bottom-right floating button (or `Ctrl+K` / `Cmd+K`) |
 | **Settings** | Sidebar bottom gear icon — General, Account, Updates, Appearance, Version |
 
