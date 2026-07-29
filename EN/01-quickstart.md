@@ -44,10 +44,10 @@ Click the ⚙ **Settings** icon at the bottom of the sidebar → select **Genera
 
 Delete the config file and restart the app — it will act like first launch.
 
-| OS | Delete this file |
-|-----|------------------|
-| Windows | `%APPDATA%\AgentSec\config.json` |
-| macOS | `~/Library/Application Support/AgentSec/config.json` |
+| OS      | Delete this file                                     |
+| ------- | ---------------------------------------------------- |
+| Windows | `%APPDATA%\AgentSec\config.json`                     |
+| macOS   | `~/Library/Application Support/AgentSec/config.json` |
 
 > ⚠️ Option 2 clears ALL settings. Option 1 is recommended.
 
@@ -71,7 +71,13 @@ You'll see two options:
 3. Enter email and password (no account? Click Sign Up)
 4. After login, the browser **auto-redirects back to the app**
 
+> ![onboarding-login-browser](./screenshots/01-quickstart/onboarding-login-browser.png)
+>
+> ![onboarding-login-browser-verified](./screenshots/01-quickstart/onboarding-login-browser-verified.png)
+
 **Success indicator**: Your email and avatar appear at the bottom of the sidebar.
+
+> ![onboarding-login-success](./screenshots/01-quickstart/onboarding-login-success.png)
 
 ### 2.3 Local Mode Setup (for "Local" users)
 
@@ -80,10 +86,10 @@ After choosing local mode, configure your AI model:
 | Field | What to enter |
 |-------|---------------|
 | Model Provider | Ollama for free local model; OpenAI if you have a key |
-| Model Name | Ollama users use `qwen3.6:latest`; OpenAI users use `gpt-4o-mini` |
+| Model Name | Ollama users use `qwen3:latest`; OpenAI users use `gpt-4o-mini` |
 | API Key | OpenAI/Anthropic users enter key; Ollama leave blank |
 
-> 💡 No AI key? Use [Ollama](https://ollama.com) (completely free). Run `ollama pull qwen3.6` to download a model.
+> 💡 No AI key? Use [Ollama](https://ollama.com) (completely free). Run `ollama pull qwen3` to download a model.
 
 ### 2.4 Choose Monitoring Directories
 
@@ -102,15 +108,15 @@ After the wizard, you'll see the **Dashboard**.
 
 > ![dashboard-overview](./screenshots/01-quickstart/dashboard-overview.png)
 
-Now click the blue **"Start Monitoring"** button.
+Now turn on the monitoring switch.
 
 **What changes immediately:**
 
 | Change | Explanation |
 |--------|-------------|
-| Button color | Green → Red, text changes to "Stop Monitoring" |
-| Status | "Disconnected" → "Monitoring" + pulsing green dot |
-| Script count | Shows how many scripts were found in your directories |
+| Monitoring switch | Changes from off to on; the status text displays `Monitoring` |
+| Risk notification | A banner at the top shows the number of at-risk scripts pending action |
+| Analysis results | The analyzed-script count and Risk Files list update as scanning completes |
 
 > ![monitoring-started](./screenshots/01-quickstart/monitoring-started.png)
 
@@ -138,10 +144,11 @@ Wait a few seconds to tens of seconds, and results will appear.
 
 | Look at | Meaning |
 |---------|---------|
-| **Script Count** | Total scripts found in directories |
-| **Analyzed** | Scripts with completed AI analysis |
-| **Blocked** | Scripts marked as "needs blocking" (red, eye-catching) |
-| **Risk Overview** | Highest risk level among all scripts (Red/Orange/Yellow/Gray) |
+| **Analyzed** | Number of scripts with completed analysis |
+| **Overall Risk** | Distribution of scripts across risk levels |
+| **Issue Types** | Distribution of detected issue types across monitored scripts |
+| **Risk Files** | Risky scripts and their issue counts |
+| **Analysis Trend** | Analysis and blocked-script totals for the past 7, 14, or 30 days |
 
 ### 4.2 Enter Threat Center
 
@@ -149,7 +156,7 @@ Click **"Threat Center"** in the sidebar to view per-script details.
 
 ![security-log-list](./screenshots/01-quickstart/security-log-list.png)
 
-**Click any script** to expand the detail panel on the right:
+**Click any script** to expand the detail panel:
 
 ![script-detail-panel](./screenshots/01-quickstart/script-detail-panel.png)
 
@@ -171,8 +178,8 @@ If you see a "Quarantined" label (red), AgentSec considers the script very dange
 ### You think it's a false positive (safe script)?
 
 1. Click the script → detail panel opens
-2. Click **"Restore"** button
-3. Confirm → file is moved back and auto-added to the trust list
+2. Click **"Trust"**
+3. Confirm → the file moves to the **Safe** area
 
 > ![restore-button](./screenshots/01-quickstart/restore-button.png)
 > ![restore-confirm](./screenshots/01-quickstart/restore-confirm.png)
@@ -200,7 +207,7 @@ The AI responds based on actual monitoring data and analysis results — not gen
 
 ## 7. Quick Check: Are You Onboard?
 
-- [ ] Monitoring started, "Script Count" > 0
+- [ ] Monitoring started, with analyzed scripts or risk files appearing
 - [ ] Threat Center has completed analysis records
 - [ ] Clicked a script and saw detailed issues (or "No security issues found")
 
@@ -216,9 +223,9 @@ If all three are done — you've mastered AgentSec basics!
 | See a complete "discover → analyze → remediate" case | [03 — First Security Analysis](03-first-analysis.md) |
 | Learn monitoring details and optimization | [04 — Monitoring & Directory Setup](04-monitoring.md) |
 | Learn to interpret analysis results | [05 — Threat Center](05-security-log.md) |
-| Manage blocked and trusted files | [05 — Threat Center (Sandbox tab)](05-security-log.md) |
-| Adjust security detection strictness | [06 — AgentSec Engine™](07-security-policy.md) |
-| Learn all AI assistant capabilities | [07 — AI Security Assistant](08-ai-assistant.md) |
-| Configure account, model, updates, etc. | [08 — Settings Details](09-settings.md) |
-| Understand terminology in this manual | [09 — Key Concepts](10-concepts.md) |
-| Troubleshoot issues | [10 — FAQ](11-faq.md) |
+| Manage blocked and trusted files | [06 — Security Sandbox](06-sandbox.md) |
+| Adjust security detection strictness | [07 — Security Policy](07-security-policy.md) |
+| Learn all AI assistant capabilities | [08 — AI Security Assistant](08-ai-assistant.md) |
+| Configure account, model, updates, etc. | [09 — Settings Details](09-settings.md) |
+| Understand terminology in this manual | [10 — Key Concepts](10-concepts.md) |
+| Troubleshoot issues | [11 — FAQ](11-faq.md) |

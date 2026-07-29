@@ -76,12 +76,13 @@
 3. 输入邮箱和密码（没有账号？点击注册）
 4. 登录成功后，浏览器会**自动回到应用**
 
-> 📸 **[截图位置]** `screenshots/onboarding-login-browser.png` — 浏览器登录页面
+> ![onboarding-login-browser](./screenshots/01-quickstart/onboarding-login-browser.png)
+>
+> ![onboarding-login-browser-verified](./screenshots/01-quickstart/onboarding-login-browser-verified.png)
 
 **成功标志**：侧边栏底部出现您的邮箱和头像。
 
-> 📸 **[截图位置]** `screenshots/onboarding-login-success.png` — 登录成功后的界面
-
+> ![onboarding-login-success](./screenshots/01-quickstart/onboarding-login-success.png)
 ### 2.3 本地模式配置（选择「本地」的用户）
 
 选择本地模式后，需要配置 AI 模型：
@@ -96,7 +97,7 @@
 
 ### 2.4 选择监控目录
 
-点击「选择目录」，找到您存放 RPA 脚本的文件夹。
+点击「添加目录」，找到您存放 RPA 脚本的文件夹；在弹出的窗口中点击「选择文件夹」确认。
 
 > ![onboarding-select-dir](./screenshots/01-quickstart/onboarding-select-dir.png)
 ![chose-ok](./screenshots/01-quickstart/chose-ok.png)
@@ -110,15 +111,15 @@
 
 > ![dashboard-overview](./screenshots/01-quickstart/dashboard-overview.png)
 
-现在，点击蓝色 **「启动监控」** 按钮。
+现在，点击开关按钮，启动监控。
 
 **您会立刻看到的变化：**
 
-| 变化    | 说明                   |
-| ----- | -------------------- |
-| 按钮变色  | 绿 → 红，文字变为「停止监控」     |
-| 状态变化  | 「等待连接」→「监控中」+ 绿色闪烁圆点 |
-| 脚本数出现 | 显示监控目录中找到的脚本数量       |
+| 变化   | 说明                    |
+| ---- | --------------------- |
+| 监控开关 | 由关闭变为开启，状态文字显示为 `监控中` |
+| 风险提示 | 顶部出现待处理的风险脚本提示        |
+| 分析结果 | 分析脚本数量与风险文件列表会随扫描结果更新 |
 ![monitoring-started](./screenshots/01-quickstart/monitoring-started.png)
 
 
@@ -145,12 +146,13 @@ graph TD
 ### 4.1 仪表盘概览
 
 
-| 看这里 | 说明 |
-|--------|------|
-| **脚本数** | 目录中找到的脚本总数 |
-| **已分析** | 已完成 AI 分析的脚本数 |
-| **拦截数** | 被判定为「需要拦截」的脚本数（红色醒目） |
-| **风险概览** | 所有脚本中最高的风险等级（红/橙/黄/灰） |
+| 看这里        | 说明                   |
+| ---------- | -------------------- |
+| **已分析**    | 已完成分析的脚本数量           |
+| **整体风险**   | 各风险等级的数量分布           |
+| **问题类型排行** | 监控目录下的脚本中，各类型风险的数量分布 |
+| **风险文件**   | 风险脚本及其问题数量           |
+| **分析趋势**   | 近7/14/30天的分析量与拦截量统计  |
 
 ### 4.2 进入威胁中心
 
@@ -158,7 +160,7 @@ graph TD
 
 ![security-log-list](./screenshots/01-quickstart/security-log-list.png)
 
-**点击任意一个脚本**，右侧展开详情面板：
+**点击任意一个脚本**，展开详情面板：
 ![script-detail-panel](./screenshots/01-quickstart/script-detail-panel.png)**三个关键信息**：
 1. **💡 建议**：告诉您怎么修复
 2. **📝 代码片段**：指出具体哪行有问题
@@ -177,8 +179,8 @@ graph TD
 ### 您确认它是误拦（脚本是安全的）？
 
 1. 点击该脚本 → 打开详情面板
-2. 点击 **「还原」** 按钮
-3. 确认操作 → 文件自动移回，并加入「信任列表」
+2. 点击 **「信任」** 按钮
+3. 确认操作 → 文件移至「安全区」
 ![restore-button](./screenshots/01-quickstart/restore-button.png)
 
 ![restore-confirm](./screenshots/01-quickstart/restore-confirm.png)
@@ -205,7 +207,7 @@ AI 会基于实际的监控数据和分析结果回答，不是套话。
 
 ## 7. 快速检查：您上手了吗？
 
-- [ ] 监控成功启动，「脚本数」> 0
+- [ ] 监控成功启动，并出现已分析脚本或风险文件
 - [ ] 威胁中心中有已完成的分析记录
 - [ ] 点击某个脚本，看到了详细的问题列表（或「未发现安全问题」）
 
@@ -224,6 +226,7 @@ AI 会基于实际的监控数据和分析结果回答，不是套话。
 | 管理被拦截和已信任的文件 | [06 — 安全沙箱](06-sandbox.md) |
 | 调整安全检测的严格程度 | [07 — 安全策略](07-security-policy.md) |
 | 学习 AI 助手的全部能力 | [08 — AI 安全助手](08-ai-assistant.md) |
-| 配置账户、模型、更新等 | [09 — 设置详解](09-settings.md) |
-| 理解本文档中的术语 | [10 — 关键概念](10-concepts.md) |
-| 遇到问题怎么办 | [11 — 常见问题](11-faq.md) |
+| 通过示例学习 AI 助手的用法 | [09 — AI 助手使用场景](09-ai-assistant-use-cases.md) |
+| 配置账户、模型、更新等 | [10 — 设置详解](10-settings.md) |
+| 理解本文档中的术语 | [11 — 关键概念](11-concepts.md) |
+| 遇到问题怎么办 | [12 — 常见问题](12-faq.md) |

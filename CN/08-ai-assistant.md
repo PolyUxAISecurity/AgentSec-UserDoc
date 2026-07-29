@@ -14,7 +14,7 @@
 | 快捷键 | 按 `Ctrl+K`（Windows）或 `Cmd+K`（macOS） |
 | 再次按快捷键 | 关闭面板 |
 
-> 📸 **[截图位置]** `screenshots/chat-fab.png` — 右下角 AI 助手 FAB 按钮
+>![chat-fab](./screenshots/08-ai-assistant/chat-fab.png)
 
 ---
 
@@ -49,7 +49,7 @@
 └──────────────────────────┘
 ```
 
-> 📸 **[截图位置]** `screenshots/chat-panel-full.png` — AI 助手面板全景截图
+>![chat-panel-full](./screenshots/08-ai-assistant/chat-panel-full.png)
 
 ### 三种显示模式
 
@@ -69,18 +69,18 @@
 
 您可以用自然语言询问：
 
-| 可以问 | 示例 |
-|--------|------|
-| 安全概况 | 「总结一下当前所有脚本的安全状况」 |
-| 风险分析 | 「哪些脚本风险最高？为什么？」 |
-| 修复建议 | 「如何降低 Main.xaml 的安全风险？」 |
+| 可以问  | 示例                           |
+| ---- | ---------------------------- |
+| 安全概况 | 「总结一下当前所有脚本的安全状况」            |
+| 风险分析 | 「哪些脚本风险最高？为什么？」              |
+| 修复建议 | 「如何降低 Main.xaml 的安全风险？」      |
 | 规则解释 | 「AgentSec 当前的安全策略是什么？有哪些规则？」 |
-| 配置检查 | 「帮我检查当前配置是否合理」 |
-| 状态查询 | 「现在有哪些脚本正在分析？」 |
+| 配置检查 | 「帮我检查当前配置是否合理」               |
+| 状态查询 | 「现在有哪些脚本正在分析？」               |
 
-**上下文感知**：AI 助手知道您当前在哪个页面、选中了什么内容。例如在防护日志中选中 `Main.xaml` 时，上下文提示会自动变为「解读一下 Main.xaml 的分析结果」。
+**上下文感知**：AI 助手知道您当前在哪个页面、选中了什么内容。例如在威胁中心中选中 `Main.xaml` 时，上下文提示会自动变为「解读一下 Main.xaml 的分析结果」。
 
-> 📸 **[截图位置]** `screenshots/chat-context-chip.png` — 上下文指示器截图
+>![chat-context-chip](./screenshots/08-ai-assistant/chat-context-chip.png)
 
 ### 2. 自动执行操作
 
@@ -114,7 +114,7 @@ sequenceDiagram
     Note over 用户,AI助手: AI会先验证再操作，不会盲目执行
 ```
 
-> 📸 **[截图位置]** `screenshots/chat-tool-executing.png` — AI 执行工具时的进度卡片
+>![chat-tool-executing](./screenshots/08-ai-assistant/chat-tool-executing.png)
 
 ### 3. 快捷操作按钮
 
@@ -126,7 +126,7 @@ AI 回复末尾可能会附上 **快捷操作按钮**，例如：
 
 点击任一按钮即可自动发送对应问题，无需手动输入。
 
-> 📸 **[截图位置]** `screenshots/chat-suggested-actions.png` — AI 回复末尾的快捷操作按钮
+>![chat-suggested-actions](./screenshots/08-ai-assistant/chat-suggested-actions.png)
 
 ---
 
@@ -161,7 +161,6 @@ AI 回复末尾可能会附上 **快捷操作按钮**，例如：
 
 点击标签可快速跳转到 **AgentSec Engine™ → AI 模型**页面。
 
-> 📸 **[截图位置]** `screenshots/chat-model-pill.png` — 模型标签截图
 
 ---
 

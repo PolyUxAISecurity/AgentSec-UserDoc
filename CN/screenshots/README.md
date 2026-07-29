@@ -12,6 +12,7 @@
 | `install-macos-drag.png` | macOS DMG 拖入 Applications | 标准 macOS 安装界面 |
 | `onboarding-step0.png` | 配置向导首页 | 两个大卡片：登录/本地 |
 | `onboarding-login-browser.png` | 浏览器中的登录页面 | AgentSec 登录页 |
+| `onboarding-login-browser-verified.png` | 浏览器登录验证成功页 | 显示「已成功验证登录」提示 |
 | `onboarding-login-success.png` | 登录成功后的界面 | 侧边栏显示账号信息 |
 | `onboarding-select-dir.png` | 选择监控目录 | 文件选择器 |
 | `onboarding-rpa-suggestions.png` | RPA 工具目录检测 | 建议列表 |
