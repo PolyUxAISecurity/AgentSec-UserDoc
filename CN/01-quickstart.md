@@ -19,6 +19,8 @@
 > ![run-agentsec](./screenshots/01-quickstart/run-agentsec.png)
 
 > ⚠️ 如果弹出 Windows SmartScreen 警告，点击「更多信息」→「仍要运行」。
+>
+> ![windows-smartscreen-warning](./screenshots/01-quickstart/windows-smartscreen-warning.png)
 
 ### macOS 用户
 
@@ -41,9 +43,6 @@
 点击左侧 ⚙「设置」→ 左侧选「常规」→ 点击顶部的 **「运行引导向导」** 按钮。
 
 > ![reset-setting](./screenshots/01-quickstart/reset-setting.png)
-
-
-
 
 **方式二：删除配置文件（恢复出厂状态）**
 
@@ -100,7 +99,9 @@
 点击「添加目录」，找到您存放 RPA 脚本的文件夹；在弹出的窗口中点击「选择文件夹」确认。
 
 > ![onboarding-select-dir](./screenshots/01-quickstart/onboarding-select-dir.png)
-![chose-ok](./screenshots/01-quickstart/chose-ok.png)
+>
+> ![chose-ok](./screenshots/01-quickstart/chose-ok.png)
+
 > 💡 如果电脑安装了 UiPath，AgentSec 会自动检测并显示建议目录，直接点击即可。
 
 ---
@@ -118,9 +119,8 @@
 | 变化   | 说明                    |
 | ---- | --------------------- |
 | 监控开关 | 由关闭变为开启，状态文字显示为 `监控中` |
-| 风险提示 | 顶部出现待处理的风险脚本提示        |
 | 分析结果 | 分析脚本数量与风险文件列表会随扫描结果更新 |
-![monitoring-started](./screenshots/01-quickstart/monitoring-started.png)
+> ![monitoring-started](./screenshots/01-quickstart/monitoring-started.png)
 
 
 **AgentSec 正在做什么？**
@@ -158,10 +158,13 @@ graph TD
 
 点击左侧 **「威胁中心」**，查看每个脚本的详情。
 
-![security-log-list](./screenshots/01-quickstart/security-log-list.png)
+> ![security-log-list](./screenshots/01-quickstart/security-log-list.png)
 
-**点击任意一个脚本**，展开详情面板：
-![script-detail-panel](./screenshots/01-quickstart/script-detail-panel.png)**三个关键信息**：
+**点击任意一个脚本**，展开右侧详情面板：
+
+> ![script-detail-panel](./screenshots/01-quickstart/script-detail-panel.png)
+
+**三个关键信息**：
 1. **💡 建议**：告诉您怎么修复
 2. **📝 代码片段**：指出具体哪行有问题
 3. **风险等级颜色**：红 > 橙 > 黄 > 灰（越红越紧急）
@@ -181,10 +184,12 @@ graph TD
 1. 点击该脚本 → 打开详情面板
 2. 点击 **「信任」** 按钮
 3. 确认操作 → 文件移至「安全区」
-![restore-button](./screenshots/01-quickstart/restore-button.png)
+> ![trust-button](./screenshots/01-quickstart/trust-button.png)
 
-![restore-confirm](./screenshots/01-quickstart/restore-confirm.png)
-![restore-success](./screenshots/01-quickstart/restore-success.png)
+> ![trust-confirm](./screenshots/01-quickstart/trust-confirm.png)
+
+> ![trust-success](./screenshots/01-quickstart/trust-success.png)
+
 > 💡 还原后该文件内容不变，以后扫描会自动跳过。如果之后修改了文件，AgentSec 会重新分析。
 
 ---
@@ -199,7 +204,7 @@ graph TD
 
 > 「哪个脚本风险最高？为什么？」
 
-![ai-assistant](./screenshots/01-quickstart/ai-assistant.png)
+> ![ai-assistant](./screenshots/01-quickstart/ai-assistant.png)
 
 AI 会基于实际的监控数据和分析结果回答，不是套话。
 

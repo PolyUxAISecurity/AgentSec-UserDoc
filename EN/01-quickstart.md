@@ -16,9 +16,11 @@ This tutorial will **guide you step by step**. Open AgentSec and follow along.
 
 > ![install-windows-unzip](./screenshots/01-quickstart/install-windows-unzip.png)
 
-> ![run-agentsec](./screenshots/01-quickstart/run-agentsec.png)
+> ![run-agentsec|356](./screenshots/01-quickstart/run-agentsec.png)
 
 > ⚠️ If Windows SmartScreen warns you, click "More info" → "Run anyway".
+>
+> ![windows-smartscreen-warning|353](./screenshots/01-quickstart/windows-smartscreen-warning.png)
 
 ### macOS
 
@@ -95,7 +97,7 @@ After choosing local mode, configure your AI model:
 
 Click "Select Directory" and pick the folder containing your RPA scripts. **Multiple directories can be monitored simultaneously.**
 
-> ![onboarding-select-dir](./screenshots/01-quickstart/onboarding-select-dir.png)
+> ![onboarding-select-dir|554](./screenshots/01-quickstart/onboarding-select-dir.png)
 > ![chose-ok](./screenshots/01-quickstart/chose-ok.png)
 
 > 💡 If UiPath is installed, AgentSec will auto-detect and suggest the default directory — just click it.
@@ -181,9 +183,11 @@ If you see a "Quarantined" label (red), AgentSec considers the script very dange
 2. Click **"Trust"**
 3. Confirm → the file moves to the **Safe** area
 
-> ![restore-button](./screenshots/01-quickstart/restore-button.png)
-> ![restore-confirm](./screenshots/01-quickstart/restore-confirm.png)
-> ![restore-success](./screenshots/01-quickstart/restore-success.png)
+> ![trust-button](./screenshots/01-quickstart/trust-button.png)
+>
+> ![trust-confirm](./screenshots/01-quickstart/trust-confirm.png)
+>
+> ![trust-success](./screenshots/01-quickstart/trust-success.png)
 
 > 💡 After restore, the file content stays the same. If you later modify it, AgentSec will re-analyze it.
 
