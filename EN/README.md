@@ -32,7 +32,6 @@ AgentSec is an **AI-powered RPA script security monitoring tool**. It can:
 | 09 | [Settings Details](10-settings.md) | General, account, updates, appearance, version | As needed |
 | 10 | [Key Concepts](11-concepts.md) | Terminology: What is quarantine? What is risk level? | As needed |
 | 11 | [FAQ](12-faq.md) | Common issues and solutions | As needed |
-| 12 | [Demo Files](13-demo.md) | Download the UiPath demo project used in the manual | As needed |
 
 > 💡 **New user path**: 01 → 02 → 03 — three chapters and you're fully onboard. The rest is reference.
 

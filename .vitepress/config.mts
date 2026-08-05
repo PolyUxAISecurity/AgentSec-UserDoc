@@ -90,7 +90,6 @@ export default withMermaid(
             items: [
               { text: '10 · Key Concepts', link: '/EN/11-concepts' },
               { text: '11 · FAQ', link: '/EN/12-faq' },
-              { text: '12 · Demo Files', link: '/EN/13-demo' },
             ],
           },
         ],

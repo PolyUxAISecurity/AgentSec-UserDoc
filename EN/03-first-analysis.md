@@ -16,7 +16,9 @@ Assume that your monitoring directory, `C:\Users\Documents\UiPath`, contains thr
 
 > The keys, tokens, API endpoints, and channel IDs in these examples are demonstration values, not real credentials.
 
-You can download the sample package for these three UiPath workflows from the [Demo Files](13-demo.md) page to reproduce this chapter.
+To follow this chapter hands-on, download the companion [UiPath sample package](../demo/agentsec-uipath-demo.zip). After unzipping it, place the `Demo` folder in a test directory and set that directory as the monitored directory in AgentSec.
+
+The package contains three workflows: `Call_LLM_API.xaml`, `Call_LLM_Secure.xaml`, and `Cleanup_TempFiles.xaml`. The following phases explain their analysis results and handling flow step by step.
 
 You have just configured AgentSec and enabled monitoring from the monitoring status card in the left sidebar.
 

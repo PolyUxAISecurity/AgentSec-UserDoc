@@ -16,7 +16,9 @@
 
 > 示例中的密钥、Token、接口地址和频道编号均为演示值，不是真实凭据。
 
-您可以在 [Demo 示例文件](13-demo.md) 页面下载这三个 UiPath 工作流的示例包，用于复现本章案例。
+如果您想跟着本章复现，可以先下载配套的 [UiPath 示例包](../demo/agentsec-uipath-demo.zip)。解压后，将 `Demo` 文件夹放到一个测试目录，并在 AgentSec 中把该目录设为监控目录。
+
+示例包中包含三个工作流：`Call_LLM_API.xaml`、`Call_LLM_Secure.xaml` 和 `Cleanup_TempFiles.xaml`，后续各阶段会逐个说明它们的分析结果和处理方式。
 
 您刚刚配置好 AgentSec，在左侧监控状态卡片中开启监控。
 
