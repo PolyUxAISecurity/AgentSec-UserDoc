@@ -8,19 +8,10 @@
 
 安全沙箱是 AgentSec 的**文件安全隔离管理系统**。它分为两个区域：
 
-```
-┌──────────────────────┐    ┌──────────────────────┐
-│   隔离区              │    │   安全区              │
-│   (Quarantine)       │    │   (Safe Zone)        │
-│                      │    │                      │
-│  🦠 被拦截的脚本      │ ←→ │  ✅ 已信任的脚本      │
-│  等待审查            │    │  已还原/手动放行      │
-│                      │    │                      │
-│  自动进入：           │    │  自动进入：           │
-│  · AI判定block       │    │  · 从隔离区还原       │
-│  · 正则预拦截命中     │    │  · 手动加入          │
-└──────────────────────┘    └──────────────────────┘
-```
+| 区域 | 用途 |
+| --- | --- |
+| 隔离区 | 存放被 AgentSec 拦截、等待审查的脚本 |
+| 安全区 | 存放已确认可信、已从隔离区还原的脚本 |
 
 > ![安全沙箱双区全景](./screenshots/06-sandbox/sandbox-overview.png)
 
@@ -44,18 +35,7 @@
 
 ### 隔离时发生了什么？
 
-```mermaid
-graph TD
-    A[AI判定: block] --> B[Step1: 终止进程]
-    B --> C[Step2: 移动原文件]
-    C --> D[Step3: 生成安全桩]
-    D --> E[Step4: 写入元数据]
-    
-    B --> B1["· 搜索运行该脚本的进程<br/>· SIGTERM 优雅终止<br/>· 5秒后未响应则SIGKILL"]
-    C --> C1["· 移动到 .agentsec_quarantine/<br/>· 文件名加时间戳<br/>· 同级目录下"]
-    D --> D1["· 在原地生成安全桩文件<br/>· 内容说明被隔离原因<br/>· 设为只读(不可执行)"]
-    E --> E1["· .meta.json 记录隔离信息<br/>· 原始路径/风险等级/时间"]
-```
+当脚本被判定需要隔离时，AgentSec 会尝试终止正在运行的相关进程，将原文件移入隔离区，在原路径生成安全桩文件，并记录隔离元数据。
 
 ### 隔离区条目信息
 
@@ -124,22 +104,7 @@ graph TD
 
 > ![从威胁详情中信任文件](./screenshots/06-sandbox/sandbox-trust-from-detail.png)
 
-```mermaid
-sequenceDiagram
-    participant 用户
-    participant AgentSec
-    participant 磁盘
-    
-    用户->>AgentSec: 点击「移到安全区」
-    AgentSec->>磁盘: 删除安全桩文件
-    AgentSec->>磁盘: 将隔离文件移回原路径
-    AgentSec->>磁盘: 删除 .meta.json 元数据
-    AgentSec->>AgentSec: 计算文件SHA-256
-    AgentSec->>AgentSec: 加入白名单（信任列表）
-    AgentSec-->>用户: 显示「还原成功」
-    
-    Note over AgentSec,磁盘: 以后该文件只要内容不变<br/>就不会被重复分析
-```
+还原时，AgentSec 会删除安全桩文件，将隔离文件移回原路径，计算文件哈希并加入信任列表。只要文件内容不变，后续扫描不会重复分析。
 
 ### 将文件重新隔离（安全 → 隔离）
 

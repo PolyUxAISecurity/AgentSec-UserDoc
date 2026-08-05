@@ -20,34 +20,7 @@
 
 ## Assistant Panel Layout
 
-```
-┌──────────────────────────┐
-│ AI Assistant          ✕ ⛶│  ← Title bar (fullscreen toggle)
-│ ──────────────────────── │
-│ 📍 Current: Threat List  │  ← Context indicator
-│     [Ask AI about this →]│
-│ ──────────────────────── │
-│                          │
-│   🤖 Hi! I'm AgentSec    │
-│   AI Assistant...        │
-│                          │
-│   ┌──────────────────┐   │
-│   │ Summarize status  │   │  ← Suggested questions
-│   │ Highest risk?      │   │
-│   │ How to reduce?     │   │
-│   │ Current policy?    │   │
-│   └──────────────────┘   │
-│                          │
-│ ──────────────────────── │
-│ [📊 Checking config...]  │  ← Tool progress (when needed)
-│ ──────────────────────── │
-│ ┌────────────────────────┤
-│ │ Type your question...  │  ← Input box
-│ │                        │
-│ │ Model name  Enter ↑    │
-│ └────────────────────────┤
-└──────────────────────────┘
-```
+The AI Assistant panel contains a title bar, current-context indicator, suggested questions, conversation area, tool execution progress, and input box. You can type a question directly or click a suggested question to get started quickly.
 
 > ![Full AI Assistant panel](./screenshots/08-ai-assistant/chat-panel-full.png)
 
@@ -96,23 +69,7 @@ The AI assistant can execute 7 built-in tools:
 | Query analysis progress | "How's the analysis going?" → AI returns in-progress scripts |
 | Export logs | "Export my logs" → AI opens save dialog |
 
-**AI checks config before acting**. For example, if you say "Start monitoring", it calls the check_config tool first to verify everything is ready, and tells you what needs fixing if not.
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant AI_Assistant
-    participant AgentSec
-    
-    User->>AI_Assistant: "Start monitoring"
-    AI_Assistant->>AgentSec: call check_config tool
-    AgentSec-->>AI_Assistant: Config OK ✓
-    AI_Assistant->>AgentSec: call toggle_monitoring tool
-    AgentSec-->>AI_Assistant: Monitoring started
-    AI_Assistant-->>User: "Config check passed. Monitoring started.<br/>Scanning C:\Scripts..."
-    
-    Note over User,AI_Assistant: AI validates before acting
-```
+**AI checks config before acting**. For example, if you say "Start monitoring", it verifies that the monitoring directory, AI model, and server connection are ready. If something is wrong, it explains what needs fixing before continuing.
 
 > For example, the following screenshot shows the AI Assistant exporting security logs from the last 7 days:
 > ![The AI Assistant exports security logs](./screenshots/08-ai-assistant/chat-tool-executing.png)

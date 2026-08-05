@@ -14,20 +14,7 @@ Click **⚙ Settings** (the gear icon) in the left navigation bar, or click the 
 
 ## Settings Page Layout
 
-The Settings page uses a **left-side category navigation and right-side content** layout:
-
-```
-┌──────────┬──────────────────────────────┐
-│ General  │                              │
-│ Security │   Settings for the selected  │
-│ Account  │   category                   │
-│ Updates  │                              │
-│ Appear.  │   (right panel)              │
-│ Version  │                              │
-├──────────┴──────────────────────────────┤
-│       [One save button for all config]  │
-└─────────────────────────────────────────┘
-```
+The Settings page uses a **left-side category navigation and right-side content** layout. Use the left side to switch between General, Security Configuration, Account, Updates, Appearance, and Version; the right side shows the settings for the selected category.
 
 ### ⚡ Auto-Save
 

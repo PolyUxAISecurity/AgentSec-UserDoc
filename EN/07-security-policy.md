@@ -157,14 +157,7 @@ Each rule contains the following properties:
 | severity | Risk severity | `critical` / `high` / `medium` / `low` |
 | action | Action after a match | `block` / `warn` |
 
-```mermaid
-graph LR
-    A[Rule enabled] --> B[Check the corresponding risk<br/>during script analysis]
-    B --> C{Does the script<br/>match the rule?}
-    C -->|Block| D[Prevent execution and record the event]
-    C -->|Warn| E[Display a risk warning and allow execution]
-    C -->|No match| F[Pass as safe]
-```
+During script analysis, AgentSec checks risks covered by enabled rules. If a blocking rule matches, AgentSec prevents execution and records the event. If a warning rule matches, it displays a risk warning and allows execution. If no rule matches, the script passes as safe.
 
 > ⚠️ After you disable a rule group or individual rule, AgentSec no longer checks for the corresponding risk. Make changes carefully.
 

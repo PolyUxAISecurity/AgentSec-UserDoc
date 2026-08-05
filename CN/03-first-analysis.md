@@ -26,32 +26,7 @@
 
 ## 阶段一：扫描与发现
 
-启动监控后，AgentSec 会扫描 `C:\Users\Documents\UiPath`，发现三个 `.xaml` 文件并依次创建分析任务。
-
-```mermaid
-sequenceDiagram
-
-participant 用户
-
-participant AgentSec
-
-participant 文件系统
-
-用户->>AgentSec: 点击「启动监控」
-
-AgentSec->>文件系统: 递归扫描 C:\Users\Documents\UiPath
-
-文件系统-->>AgentSec: 发现 3 个脚本
-
-Note over AgentSec: Call_LLM_API.xaml (XAML, 1KB)
-
-Note over AgentSec: Call_LLM_Secure.xaml (XAML, 18KB)
-
-Note over AgentSec: Cleanup_TempFiles.xaml (XAML, 1KB)
-
-AgentSec-->>用户: 仪表盘显示「脚本数: 3」
-
-```
+启动监控后，AgentSec 会扫描 `C:\Users\Documents\UiPath`，发现三个 `.xaml` 文件并依次创建分析任务。扫描完成后，仪表盘会更新脚本数量和初步分析结果。
 
 **您看到的画面：**
 > ![首次扫描后的仪表盘分析结果](./screenshots/03-first-analysis/scan-results-dashboard.png)
@@ -60,19 +35,9 @@ AgentSec-->>用户: 仪表盘显示「脚本数: 3」
 
 ## 阶段二：安全检查
 
-每个脚本依次经过：
-### 第1关：正则快速扫描
+每个脚本都会先经过正则快速扫描；未命中高危规则的脚本继续进入 AI 深度分析，命中高危规则的脚本会直接被拦截。
 
-```mermaid
-graph LR
-    A[Call_LLM_API.xaml] --> B1[正则扫描]
-    C[Call_LLM_Secure.xaml] --> B2[正则扫描]
-    D[Cleanup_TempFiles.xaml] --> B3[正则扫描]
-    
-    B1 -->|"未命中<br/>进入AI分析"| E1[🤖 AI]
-    B2 -->|"未命中<br/>进入AI分析"| E2[🤖 AI]
-    B3 -->|"⚠️ 命中高危模式"| F["🚫 直接拦截<br/>不等AI"]
-```
+### 第1关：正则快速扫描
 
 三份脚本的正则扫描结果：
 
@@ -138,20 +103,6 @@ graph LR
 
 该工作流先构造工单摘要请求，通过 HTTP 接口调用大模型；随后构造 Slack 消息，并通过另一个 HTTP 请求发送回帖。
 
-```mermaid
-
-flowchart LR
-
-A[构造工单摘要请求] --> B[调用 LLM 接口]
-
-B --> C[读取 LLM 响应]
-
-C --> D[构造 Slack 消息]
-
-D --> E[调用 Slack 中继接口]
-
-```
-
 #### AgentSec 的判定
 AgentSec 检出 **5 个问题**，主要与 XAML 中的明文 API Key、Slack Token 和疑似密码字段有关，因此将文件判定为 **High** 并隔离。
 
@@ -207,18 +158,7 @@ Remove-Item -Recurse -Force -Path C:\
 | `Call_LLM_Secure.xaml` | 无需隔离处理；按正常流程测试接口权限和业务逻辑 |
 | `Cleanup_TempFiles.xaml` | 删除系统盘递归删除命令，改用经过校验的明确目标目录 |
 
-修改风险文件后，点击 **「重新分析」**。只有分析结果和人工复核均通过，才应信任或还原文件。
-
-```mermaid
-flowchart TD
-    A[查看隔离原因和全部问题] --> B[在副本中修复工作流]
-    B --> C[按AI建议修复问题]
-    C --> D[重新分析]
-    D --> E{是否仍有问题}
-    E -->|是| B
-    E -->|否| F[人工复核]
-    F --> G[信任或还原]
-```
+修改风险文件后，点击 **「重新分析」**。如果仍有问题，应继续修复；如果分析结果通过，再进行人工复核，确认安全后再信任或还原文件。
 
 > 请通过 AgentSec 的威胁中心和安全沙箱管理隔离文件，不要手动修改 `.agentsec_quarantine` 中的原始文件或元数据。
 

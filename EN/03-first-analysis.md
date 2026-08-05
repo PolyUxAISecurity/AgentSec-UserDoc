@@ -26,32 +26,7 @@ You have just configured AgentSec and enabled monitoring from the monitoring sta
 
 ## Phase 1: Scan and Discovery
 
-After monitoring starts, AgentSec scans `C:\Users\Documents\UiPath`, discovers the three `.xaml` files, and creates analysis tasks for them one by one.
-
-```mermaid
-sequenceDiagram
-
-participant User
-
-participant AgentSec
-
-participant File System
-
-User->>AgentSec: Click "Start Monitoring"
-
-AgentSec->>File System: Recursively scan C:\Users\Documents\UiPath
-
-File System-->>AgentSec: 3 scripts found
-
-Note over AgentSec: Call_LLM_API.xaml (XAML, 1KB)
-
-Note over AgentSec: Call_LLM_Secure.xaml (XAML, 18KB)
-
-Note over AgentSec: Cleanup_TempFiles.xaml (XAML, 1KB)
-
-AgentSec-->>User: Dashboard displays "Scripts: 3"
-
-```
+After monitoring starts, AgentSec scans `C:\Users\Documents\UiPath`, discovers the three `.xaml` files, and creates analysis tasks for them one by one. Once scanning finishes, the dashboard updates the script count and initial analysis results.
 
 **What you see:**
 > ![Dashboard analysis results after the first scan](./screenshots/03-first-analysis/scan-results-dashboard.png)
@@ -60,20 +35,9 @@ AgentSec-->>User: Dashboard displays "Scripts: 3"
 
 ## Phase 2: Security Checks
 
-Each script goes through the following checks:
+Each script first goes through a fast regex scan. Scripts that do not match high-risk rules continue to in-depth AI analysis, while scripts that match high-risk rules are blocked immediately.
 
 ### Check 1: Fast Regex Scan
-
-```mermaid
-graph LR
-    A[Call_LLM_API.xaml] --> B1[Regex scan]
-    C[Call_LLM_Secure.xaml] --> B2[Regex scan]
-    D[Cleanup_TempFiles.xaml] --> B3[Regex scan]
-    
-    B1 -->|"No match<br/>Proceed to AI analysis"| E1[🤖 AI]
-    B2 -->|"No match<br/>Proceed to AI analysis"| E2[🤖 AI]
-    B3 -->|"⚠️ High-risk pattern matched"| F["🚫 Block immediately<br/>Do not wait for AI"]
-```
 
 Regex scan results for the three scripts:
 
@@ -141,20 +105,6 @@ These represent three typical outcomes:
 
 This workflow first builds a ticket-summary request and calls an LLM through an HTTP endpoint. It then builds a Slack message and posts the response through another HTTP request.
 
-```mermaid
-
-flowchart LR
-
-A[Build ticket summary request] --> B[Call LLM endpoint]
-
-B --> C[Read LLM response]
-
-C --> D[Build Slack message]
-
-D --> E[Call Slack relay endpoint]
-
-```
-
 #### AgentSec's Assessment
 
 AgentSec detects **5 issues**, mainly related to a plaintext API key, Slack token, and password-like fields in the XAML. It therefore classifies the file as **High** and quarantines it.
@@ -212,18 +162,7 @@ This command attempts a forced recursive deletion starting at the root of the sy
 | `Call_LLM_Secure.xaml` | No quarantine action is needed; test API permissions and business logic through the normal workflow |
 | `Cleanup_TempFiles.xaml` | Remove the recursive system-drive deletion command and use a validated, explicit target directory |
 
-After modifying a risky file, click **“Reanalyze.”** Trust or restore the file only after both the analysis result and manual review have passed.
-
-```mermaid
-flowchart TD
-    A[Review the quarantine reason and all issues] --> B[Fix a copy of the workflow]
-    B --> C[Apply the AI remediation suggestions]
-    C --> D[Reanalyze]
-    D --> E{Are there still issues?}
-    E -->|Yes| B
-    E -->|No| F[Manual review]
-    F --> G[Trust or restore]
-```
+After modifying a risky file, click **“Reanalyze.”** If issues remain, continue fixing the workflow. If the analysis passes, perform a manual review and trust or restore the file only after confirming it is safe.
 
 > Manage quarantined files through AgentSec's Threat Center and Security Sandbox. Do not manually modify the original files or metadata in `.agentsec_quarantine`.
 

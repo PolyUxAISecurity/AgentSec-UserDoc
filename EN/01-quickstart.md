@@ -126,17 +126,7 @@ Now turn on the monitoring switch.
 
 **What AgentSec is doing:**
 
-```mermaid
-graph TD
-    A["🔍 Scanning directories..."] --> B["Found N scripts"]
-    B --> C["Security check for each"]
-    C --> D1["⚡ Regex fast scan<br/>&lt;1ms"]
-    D1 -->|"High-risk match<br/>(e.g. rm -rf /)"| E1["🚫 Block immediately<br/>No AI needed"]
-    D1 -->|No match| D2["🤖 AI deep analysis<br/>10-30s per script"]
-    D2 -->|"Critical"| E1
-    D2 -->|"High"| E2["⚠️ Warn"]
-    D2 -->|"Medium/Low"| E3["✅ Allow"]
-```
+AgentSec scans scripts in the monitored directory and runs a fast regex check first. Scripts that do not match high-risk rules continue to AI deep analysis. Based on the result, AgentSec automatically blocks, warns, or allows the script.
 
 ---
 

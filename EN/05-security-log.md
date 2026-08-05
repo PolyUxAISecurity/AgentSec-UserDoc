@@ -15,27 +15,7 @@ Click **“Threat Center”** in the left navigation bar.
 
 ## Interface Layout
 
-The **Threat List** uses a **two-column layout**. When no file is selected, the threat list is the main focus. After you select a file, its analysis details appear on the right:
-
-```
-┌──────────────────────┬──────────────────────────┐
-│  Left: Script List   │  Right: Detail Panel     │
-│                      │                          │
-│  📁 Critical 1 · 1  │  ┌────────────────────┐  │
-│  └─ Cleanup_        │  │ Call_LLM_API.xaml  │  │
-│     TempFiles.xaml  │  │ High · Quarantined │  │
-│                      │  │ · 5 issues         │  │
-│  📁 High 1 · 2     │  ├────────────────────┤  │
-│  ├─ Call_LLM_      │  │ Analyzed: 24m ago  │  │
-│  │  API.xaml       │  │ Risk score: 89/100 │  │
-│  └─ Call_LLM_      │  ├────────────────────┤  │
-│     Secure.xaml    │  │ Issues:            │  │
-│                      │  │ HIGH password var  │  │
-│                      │  │ HIGH Slack token   │  │
-│                      │  │ HIGH Bearer Token  │  │
-│                      │  └────────────────────┘  │
-└──────────────────────┴──────────────────────────┘
-```
+The **Threat List** uses a **two-column layout**. When no file is selected, the threat list is the main focus. After you select a file, its analysis details appear on the right.
 
 - **Left**: Displays all analyzed scripts. You can browse them by risk group in either a directory-tree or list view
 - **Right**: After you click a script, displays its analysis result, risk score, and issue list
@@ -129,32 +109,9 @@ If no security issues are found after analysis, a green message appears:
 
 ### Issue Cards
 
-Each security issue is displayed in a collapsible card:
+Each security issue appears as a collapsible card with the risk level, trigger location, code snippet, issue description, and remediation recommendation.
 
-```
-┌─────────────────────────────────────────┐
-│ CRITICAL  Hardcoded credential/API Key⌄│
-├─────────────────────────────────────────┤
-│ 📍 Location: Line 15                    │
-│                                         │
-│ 📝 Code snippet:                        │
-│ ┌───────────────────────────────────┐   │
-│ │ password = "admin123"             │   │
-│ │ api_key = "sk-abc123..."          │   │
-│ └───────────────────────────────────┘   │
-│                                         │
-│ 📋 Description: The script contains    │
-│   a plaintext password and API key,     │
-│   creating a credential exposure risk. │
-│                                         │
-│ 💡 Recommendation: Use a credential    │
-│   manager, such as UiPath Credential   │
-│   Manager, or environment variables    │
-│   to store sensitive information.      │
-└─────────────────────────────────────────┘
-```
-
-> ![Expanded security issue detail card|415](./screenshots/05-security-log/security-log-issue-card.png)
+> ![Expanded security issue detail card](./screenshots/05-security-log/security-log-issue-card.png)
 
 Click the card heading to expand or collapse the details.
 
@@ -179,16 +136,7 @@ If a script was blocked incorrectly and you have confirmed that it is safe, you 
 
 > ![Trust and reanalyze actions in the detail panel](./screenshots/05-security-log/security-log-trust-actions.png)
 
-```mermaid
-graph LR
-    A[Click Trust] --> B[Confirm the action]
-    B --> C[Delete the safe stub file]
-    C --> D[Move the original file back to its original path]
-    D --> E[Automatically add it to the allowlist]
-    E --> F[Skip the file during the next scan]
-```
-
-The restored file is automatically added to the **allowlist** (trusted list). Future scans skip analysis if the file's contents have not changed.
+After you confirm trust, AgentSec removes the safe stub, restores the original file to its original path, and adds the file to the **allowlist** (trusted list). Future scans skip analysis if the file's contents have not changed.
 
 ---
 

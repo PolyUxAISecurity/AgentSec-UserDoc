@@ -13,8 +13,6 @@ AgentSec monitoring includes the following automated operations:
 3. **Perform security checks**: Process each script through a “fast regex scan” followed by “in-depth AI analysis”
 4. **Respond automatically**: Block, warn, or allow the script according to the analysis result
 
-> 📸 **[Screenshot location]** `screenshots/monitoring-overview.png` — Diagram of the monitoring workflow
-
 ---
 
 ## How to Choose Monitoring Directories
@@ -61,21 +59,7 @@ AgentSec automatically detects RPA tools installed on your computer and lists th
 
 > ![Monitoring switch off|214](./screenshots/04-monitoring/monitoring-toggle-off.png) → ![Monitoring switch on|213](./screenshots/04-monitoring/monitoring-toggle-on.png)
 
-The following actions occur after monitoring starts:
-
-```mermaid
-graph TD
-    A[Turn on the monitoring switch] --> B[Scan existing files]
-    A --> C[Start watching files]
-    B --> D[Analyze every script]
-    C --> E[Automatically analyze new files]
-    D --> F[Push analysis results to the interface in real time]
-    E --> F
-    F --> G{Analysis conclusion}
-    G -->|Block| H[Terminate process + quarantine file + replace with safe stub]
-    G -->|Warn| I[Lock file as read-only + record warning]
-    G -->|Allow| J[Keep file writable + record log]
-```
+After monitoring starts, AgentSec scans existing files, starts watching for new or modified scripts, analyzes each script, and pushes the result back to the interface in real time. Depending on the conclusion, AgentSec blocks, warns, or allows the script.
 
 ### Stop Monitoring
 
@@ -89,31 +73,7 @@ graph TD
 
 ## What Happens During Monitoring?
 
-```mermaid
-sequenceDiagram
-    participant Script Directory
-    participant AgentSec
-    participant User
-    
-    Script Directory->>AgentSec: New file / file modification event
-    
-    Note over AgentSec: Check 1: Basic filtering
-    AgentSec->>AgentSec: Skip temporary files (~ prefix/.tmp/.swp)
-    AgentSec->>AgentSec: Skip non-script files (not .xaml/.py, etc.)
-    AgentSec->>AgentSec: Skip allowlisted files
-    
-    Note over AgentSec: Check 2: Regex pre-scan (milliseconds)
-    AgentSec->>AgentSec: Check 23 high-risk patterns
-    alt Match (for example: rm -rf / or mimikatz)
-        AgentSec->>Script Directory: Quarantine immediately + notify user
-    else No match
-        Note over AgentSec: Check 3: In-depth AI analysis
-        AgentSec->>AgentSec: Call AI model for analysis
-        AgentSec->>AgentSec: Assess risk level
-    end
-    
-    AgentSec-->>User: Push analysis result to the interface
-```
+During monitoring, AgentSec performs basic filtering, regex pre-scan, and AI deep analysis in order, then pushes the final result to the interface. If the regex pre-scan already matches a high-risk pattern, the script is blocked immediately without waiting for AI analysis.
 
 ### Check 1: Basic Filtering
 
@@ -162,10 +122,10 @@ AgentSec recursively monitors the directories you select, up to 10 subdirectory 
 
 If a monitoring directory contains **more than 30** script files, AgentSec uses an intelligent two-stage process:
 
-```
-Stage 1 (fast pre-scan): 32 concurrent tasks, regex scan only → immediately block high-risk matches
-Stage 2 (AI analysis):     8 concurrent tasks, in-depth AI analysis of the remaining files
-```
+| Stage | Processing |
+| --- | --- |
+| Fast pre-scan | Uses 32 concurrent tasks for regex scanning; high-risk matches are blocked immediately |
+| AI analysis | Uses 8 concurrent tasks for in-depth AI analysis of the remaining scripts |
 
 As a result, even when a directory contains hundreds of scripts, high-risk scripts can be blocked immediately without waiting in the AI queue.
 

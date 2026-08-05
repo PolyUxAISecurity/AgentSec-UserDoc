@@ -13,8 +13,6 @@ AgentSec 的监控功能包含以下自动操作：
 3. **安全检查**：每个脚本依次经过「正则快速扫描」→「AI 深度分析」
 4. **自动响应**：根据分析结果自动拦截、警告或放行
 
-> 📸 **[截图位置]** `screenshots/monitoring-overview.png` — 监控工作流程示意图
-
 ---
 
 ## 如何选择监控目录？
@@ -61,21 +59,7 @@ AgentSec 会自动检测您电脑上已安装的 RPA 工具，将其默认项目
 
 > ![监控开关关闭|214](./screenshots/04-monitoring/monitoring-toggle-off.png) → ![监控开关开启|213](./screenshots/04-monitoring/monitoring-toggle-on.png)
 
-启动后发生的变化：
-
-```mermaid
-graph TD
-    A[点击「启动监控」开关] --> B[扫描已有文件]
-    A --> C[启动文件监听]
-    B --> D[逐个分析所有脚本]
-    C --> E[新文件出现时自动分析]
-    D --> F[分析结果实时推送到界面]
-    E --> F
-    F --> G{分析结论}
-    G -->|拦截| H[终止进程 + 隔离文件 + 替换安全桩]
-    G -->|警告| I[锁定文件只读 + 记录告警]
-    G -->|放行| J[保持文件可写 + 记录日志]
-```
+启动监控后，AgentSec 会扫描已有文件，开始监听新增或修改的脚本，并将分析结果实时推送到界面。根据分析结论，AgentSec 会自动执行拦截、警告或放行。
 
 ### 停止
 
@@ -89,31 +73,7 @@ graph TD
 
 ## 监控过程中会发生什么？
 
-```mermaid
-sequenceDiagram
-    participant 脚本目录
-    participant AgentSec
-    participant 用户
-    
-    脚本目录->>AgentSec: 新文件 / 文件修改事件
-    
-    Note over AgentSec: 第1关：基础过滤
-    AgentSec->>AgentSec: 跳过临时文件(~开头/.tmp/.swp)
-    AgentSec->>AgentSec: 跳过非脚本文件(非.xaml/.py等)
-    AgentSec->>AgentSec: 跳过白名单中的文件
-    
-    Note over AgentSec: 第2关：正则预扫（毫秒级）
-    AgentSec->>AgentSec: 检查23条高危模式
-    alt 命中（如: rm -rf /、mimikatz）
-        AgentSec->>脚本目录: 直接隔离 + 通知用户
-    else 未命中
-        Note over AgentSec: 第3关：AI深度分析
-        AgentSec->>AgentSec: 调用AI模型分析
-        AgentSec->>AgentSec: 评估风险等级
-    end
-    
-    AgentSec-->>用户: 推送分析结果到界面
-```
+监控过程中，AgentSec 会按顺序完成基础过滤、正则预扫和 AI 深度分析，并把最终结果推送到界面。如果正则预扫已经命中高危模式，脚本会被直接拦截，不再等待 AI 分析。
 
 ### 第1关：基础过滤
 
@@ -160,10 +120,10 @@ AgentSec 会递归监控您选择的目录（最多 10 层子目录），但会�
 
 如果您的监控目录中有 **超过 30 个**脚本文件，AgentSec 采用智能两段式处理：
 
-```
-阶段1（快速预扫）：32个并发，仅做正则扫描 → 命中高危的直接拦截
-阶段2（AI分析）：   8个并发， 对剩余文件做AI深度分析
-```
+| 阶段 | 处理方式 |
+| --- | --- |
+| 快速预扫 | 使用 32 个并发任务执行正则扫描，命中高危规则的脚本会立即拦截 |
+| AI 分析 | 使用 8 个并发任务，对剩余脚本执行 AI 深度分析 |
 
 这样即使目录中有上百个脚本，高危脚本也能被即时拦截，不需要排队等 AI。
 

@@ -57,18 +57,6 @@ AgentSec Desktop uses a single-page application design:
 
 AgentSec supports three running modes — choose what fits your environment:
 
-```mermaid
-graph TD
-    A[First launch] --> B{Choose mode}
-    B -->|"Recommended 👍"| C[Login to AgentSec Cloud]
-    B -->|Intranet| D[Login to Self-hosted Server]
-    B -->|Fully offline| E[Local Mode]
-    
-    C --> F["AI analysis via cloud<br/>No AI model config needed<br/>Organization-managed quota"]
-    D --> G["AI analysis via self-hosted server<br/>Enter server address<br/>Enterprise self-hosted"]
-    E --> H["AI analysis runs locally<br/>Configure your own AI model<br/>Data never leaves your machine"]
-```
-
 | Mode | Use Case | Requirements |
 |------|----------|-------------|
 | **Login to AgentSec** (Recommended) | Most users | An AgentSec account (sign up via browser) |

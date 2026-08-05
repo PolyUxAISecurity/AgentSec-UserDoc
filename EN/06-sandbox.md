@@ -8,18 +8,10 @@
 
 The Security Sandbox is AgentSec's file security management system with two zones:
 
-```
-┌──────────────────────┐    ┌──────────────────────┐
-│   Quarantine Zone    │    │   Safe Zone          │
-│                      │    │                      │
-│  🦠 Blocked scripts  │ ←→ │  ✅ Trusted scripts │
-│   Awaiting review    │    │   Restored/Allowed   │
-│                      │    │                      │
-│   Entered by:        │    │   Entered by:        │
-│  · AI block verdict  │    │   · Restore from QZ  │
-│  · Regex prefilter   │    │   · Manual add       │
-└──────────────────────┘    └──────────────────────┘
-```
+| Zone | Purpose |
+| --- | --- |
+| Quarantine Zone | Stores scripts blocked by AgentSec and waiting for review |
+| Safe Zone | Stores scripts confirmed as trusted and restored from quarantine |
 
 > ![Full view of the two Security Sandbox zones](./screenshots/06-sandbox/sandbox-overview.png)
 
@@ -43,18 +35,7 @@ The Security Sandbox is integrated into the **Threat Center**. Click **“Threat
 
 ### What Happens During Quarantine?
 
-```mermaid
-graph TD
-    A[AI verdict: block] --> B[Step 1: Kill process]
-    B --> C[Step 2: Move original file]
-    C --> D[Step 3: Generate safe stub]
-    D --> E[Step 4: Write metadata]
-    
-    B --> B1["· Find running process<br/>· SIGTERM graceful stop<br/>· 5s timeout → SIGKILL"]
-    C --> C1["· Move to .agentsec_quarantine/<br/>· Timestamped filename<br/>· Same directory level"]
-    D --> D1["· Safe stub at original path<br/>· Explains quarantine reason<br/>· Read-only (cannot execute)"]
-    E --> E1["· .meta.json records details<br/>· Original path/risk level/time"]
-```
+When a script must be quarantined, AgentSec attempts to stop the related running process, moves the original file into quarantine, creates a safe stub at the original path, and records quarantine metadata.
 
 ### Quarantine Entry Information
 
@@ -124,22 +105,7 @@ If a script was blocked incorrectly, you can restore it:
 
 > ![Trust a file from its threat details](./screenshots/06-sandbox/sandbox-trust-from-detail.png)
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant AgentSec
-    participant Disk
-    
-    User->>AgentSec: Click "Move to Safe Zone"
-    AgentSec->>Disk: Delete the safe stub file
-    AgentSec->>Disk: Move the quarantined file back to its original path
-    AgentSec->>Disk: Delete the .meta.json metadata
-    AgentSec->>AgentSec: Calculate the file's SHA-256 hash
-    AgentSec->>AgentSec: Add the file to the allowlist (trusted list)
-    AgentSec-->>User: Display "Restore successful"
-    
-    Note over AgentSec,Disk: As long as the file's contents remain unchanged,<br/>it will not be analyzed again
-```
+During restore, AgentSec deletes the safe stub, moves the quarantined file back to its original path, calculates the file hash, and adds it to the trusted list. As long as the file contents remain unchanged, future scans will not analyze it again.
 
 ### Quarantine a File Again (Safe → Isolate)
 

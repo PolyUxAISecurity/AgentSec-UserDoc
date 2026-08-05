@@ -55,18 +55,6 @@ AgentSec 桌面端采用单页应用设计：
 
 AgentSec 支持三种运行模式，您可以根据实际情况选择：
 
-```mermaid
-graph TD
-    A[首次打开 AgentSec] --> B{选择使用方式}
-    B -->|"推荐 👍"| C[登录 AgentSec 云端]
-    B -->|内网环境| D[登录内网服务器]
-    B -->|完全离线| E[本地模式]
-    
-    C --> F["AI 分析由云端处理<br/>无需配置 AI 模型<br/>组织统一管理配额"]
-    D --> G["AI 分析由内网服务器处理<br/>需填写服务器地址<br/>企业自托管"]
-    E --> H["AI 分析在本机完成<br/>需自行配置 AI 模型<br/>数据完全不出本机"]
-```
-
 | 模式 | 适用场景 | 需要什么 |
 |------|---------|---------|
 | **登录 AgentSec**（推荐） | 大多数用户 | 一个 AgentSec 账号（浏览器登录即可） |
@@ -85,40 +73,11 @@ graph TD
 
 ## 典型工作流程
 
-```mermaid
-sequenceDiagram
-    participant 用户
-    participant AgentSec
-    participant AI引擎
-    participant 脚本文件
-    
-    用户->>AgentSec: 1. 选择监控目录
-    用户->>AgentSec: 2. 点击「启动监控」
-    
-    loop 持续监控
-        AgentSec->>脚本文件: 3. 检测新增/修改的脚本
-        脚本文件-->>AgentSec: 发现脚本文件
-        
-        AgentSec->>AgentSec: 4. 正则快速扫描（毫秒级）
-        alt 命中高危模式
-            AgentSec->>脚本文件: 5a. 直接拦截 + 隔离
-            AgentSec-->>用户: 通知：发现高危脚本已拦截
-        else 需要AI判断
-            AgentSec->>AI引擎: 5b. 提交AI深度分析
-            AI引擎-->>AgentSec: 返回分析结果
-            alt 风险等级：拦截
-                AgentSec->>脚本文件: 终止进程 + 隔离文件
-            else 风险等级：警告
-                AgentSec-->>用户: 通知：建议修复
-            else 风险等级：放行
-                AgentSec-->>用户: 记录日志（无告警）
-            end
-        end
-    end
-    
-    用户->>AgentSec: 6. 在防护日志中查看详情
-    用户->>AgentSec: 7. 对误拦文件执行还原
-```
+1. 选择需要监控的 RPA 脚本目录。
+2. 启动监控后，AgentSec 自动发现新增或修改的脚本。
+3. 脚本先经过正则快速扫描，再按需进入 AI 深度分析。
+4. AgentSec 根据风险等级自动拦截、警告或放行。
+5. 用户在威胁中心查看详情，并按需信任、修复或重新分析。
 
 ---
 
