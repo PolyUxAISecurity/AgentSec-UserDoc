@@ -14,6 +14,8 @@
 | Shortcut | Press `Ctrl+K` (Windows) or `Cmd+K` (macOS) |
 | Press again | Close the panel |
 
+> ![Open the AI Assistant](./screenshots/08-ai-assistant/chat-fab.png)
+
 ---
 
 ## Assistant Panel Layout
@@ -47,13 +49,17 @@
 └──────────────────────────┘
 ```
 
+> ![Full AI Assistant panel](./screenshots/08-ai-assistant/chat-panel-full.png)
+
 ### Three Display Modes
 
 | Mode | Effect |
 |------|--------|
 | Closed | FAB at bottom-right, panel hidden |
 | Docked | Panel on right, 1/3 width, main content auto-shrinks |
-| Fullscreen | Panel expanded to max width |
+| Fullscreen | Panel expanded to max width, suitable for viewing complex content |
+
+In Docked mode, click the expand button in the title bar to switch to Fullscreen mode.
 
 ---
 
@@ -68,11 +74,13 @@ Ask in natural language:
 | Security overview | "Summarize the current security status of all scripts" |
 | Risk analysis | "Which scripts have the highest risk? Why?" |
 | Fix advice | "How do I reduce the security risk of Main.xaml?" |
-| Rule explanation | "What is AgentSec's current security policy?" |
+| Rule explanation | "What is AgentSec's current security policy? What rules does it contain?" |
 | Config check | "Check if my current configuration is correct" |
 | Status query | "Which scripts are being analyzed right now?" |
 
-**Context-aware**: The AI knows what page you're on and what's selected. For example, selecting `Main.xaml` in Threat Center shows a context chip "Interpret Main.xaml's analysis results".
+**Context-aware**: The AI knows what page you're on and what's selected. For example, selecting `Cleanup_TempFiles.xaml` in Threat Center shows a context chip "Interpret Cleanup_TempFiles.xaml's analysis results".
+
+> ![The AI Assistant recognizes the current script context](./screenshots/08-ai-assistant/chat-context-chip.png)
 
 ### 2. Auto-Execute Operations
 
@@ -106,6 +114,9 @@ sequenceDiagram
     Note over User,AI_Assistant: AI validates before acting
 ```
 
+> For example, the following screenshot shows the AI Assistant exporting security logs from the last 7 days:
+> ![The AI Assistant exports security logs](./screenshots/08-ai-assistant/chat-tool-executing.png)
+
 ### 3. Quick Action Buttons
 
 AI replies may include suggested action buttons:
@@ -115,6 +126,8 @@ AI replies may include suggested action buttons:
 ```
 
 Click any button to auto-send that question — no typing needed.
+
+> ![Quick action buttons following an AI response](./screenshots/08-ai-assistant/chat-suggested-actions.png)
 
 ---
 
@@ -144,8 +157,8 @@ Click any button to auto-send that question — no typing needed.
 
 The input box bottom-left shows a **model badge** with the current AI model:
 
-- **Signed-in mode**: `AgentSec / gpt-4o` (server relay, no config needed)
-- **Local mode**: `OpenAI / gpt-4o-mini` or `Ollama / qwen3.6:latest` (per your settings)
+- **Signed-in mode**: `AgentSec / Deepintent-v1` (server relay, no config needed)
+- **Local mode**: `OpenAI / gpt-4o-mini` or `Ollama / qwen3:latest` (per your settings)
 
 Click the badge to jump to **AgentSec Engine™ → AI Model** page.
 

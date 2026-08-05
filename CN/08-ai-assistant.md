@@ -1,6 +1,6 @@
 # AI 安全助手使用指南
 
-> AgentSec 内置了一个 AI 安全助手（Copilot）。您可以用自然语言向它提问，它会根据当前的监控状态、分析结果和配置信息给出回答，还可以直接帮您执行操作。
+> AgentSec 内置了一个 AI 安全助手。您可以用自然语言向它提问，它会根据当前的监控状态、分析结果和配置信息给出回答，还可以直接帮您执行操作。
 
 ---
 
@@ -14,7 +14,7 @@
 | 快捷键 | 按 `Ctrl+K`（Windows）或 `Cmd+K`（macOS） |
 | 再次按快捷键 | 关闭面板 |
 
->![chat-fab](./screenshots/08-ai-assistant/chat-fab.png)
+> ![打开 AI 助手](./screenshots/08-ai-assistant/chat-fab.png)
 
 ---
 
@@ -49,7 +49,7 @@
 └──────────────────────────┘
 ```
 
->![chat-panel-full](./screenshots/08-ai-assistant/chat-panel-full.png)
+> ![AI 助手完整面板](./screenshots/08-ai-assistant/chat-panel-full.png)
 
 ### 三种显示模式
 
@@ -78,9 +78,9 @@
 | 配置检查 | 「帮我检查当前配置是否合理」               |
 | 状态查询 | 「现在有哪些脚本正在分析？」               |
 
-**上下文感知**：AI 助手知道您当前在哪个页面、选中了什么内容。例如在威胁中心中选中 `Main.xaml` 时，上下文提示会自动变为「解读一下 Main.xaml 的分析结果」。
+**上下文感知**：AI 助手知道您当前在哪个页面、选中了什么内容。例如在威胁中心中选中 `Cleanup_TempFiles.xaml` 时，上下文提示会自动变为「解读一下 Cleanup_TempFiles.xaml 的分析结果」。
 
->![chat-context-chip](./screenshots/08-ai-assistant/chat-context-chip.png)
+> ![AI 助手感知当前脚本上下文](./screenshots/08-ai-assistant/chat-context-chip.png)
 
 ### 2. 自动执行操作
 
@@ -114,7 +114,8 @@ sequenceDiagram
     Note over 用户,AI助手: AI会先验证再操作，不会盲目执行
 ```
 
->![chat-tool-executing](./screenshots/08-ai-assistant/chat-tool-executing.png)
+>例如，以下截图展示了AI助手导出7日内安全日志的过程：
+> ![AI 助手执行安全日志导出](./screenshots/08-ai-assistant/chat-tool-executing.png)
 
 ### 3. 快捷操作按钮
 
@@ -126,7 +127,7 @@ AI 回复末尾可能会附上 **快捷操作按钮**，例如：
 
 点击任一按钮即可自动发送对应问题，无需手动输入。
 
->![chat-suggested-actions](./screenshots/08-ai-assistant/chat-suggested-actions.png)
+> ![AI 回复后的快捷操作按钮](./screenshots/08-ai-assistant/chat-suggested-actions.png)
 
 ---
 
@@ -156,7 +157,7 @@ AI 回复末尾可能会附上 **快捷操作按钮**，例如：
 
 输入框左下角有一个 **模型标签**，显示当前使用的 AI 模型：
 
-- **登录模式**：`AgentSec / gpt-4o`（服务端中转，您无需配置）
+- **登录模式**：`AgentSec / Deepintent-v1`（服务端中转，您无需配置）
 - **本地模式**：`OpenAI / gpt-4o-mini` 或 `Ollama / qwen3:latest`（取决于您的设置）
 
 点击标签可快速跳转到 **AgentSec Engine™ → AI 模型**页面。

@@ -1,7 +1,19 @@
 # 依赖与构建产物
-node_modules
-.vitepress/dist
-.vitepress/cache
+node_modules/
+.pnpm-store/
+.vitepress/dist/
+.vitepress/cache/
+
+# UiPath / AgentSec 本机运行产物
+Demo/.local/
+Demo/.agentsec_quarantine/
+Demo/.settings/
+Demo/.tmh/
+Demo/.entities/
+Demo/.objects/
+Demo/.templates/
+*.nupkg
+project.lock.json
 
 # Obsidian 编辑器的工作区/配置（用 Obsidian 写文档时会生成，不入库）
 .obsidian/

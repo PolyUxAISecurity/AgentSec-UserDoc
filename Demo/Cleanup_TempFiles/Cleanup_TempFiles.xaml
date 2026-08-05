@@ -1,0 +1,16 @@
+<!--
+  [AgentSec] This script has been quarantined due to security risks.
+  Upload ID : user-revoked
+  Risk Level: unknown (Score: 0/100)
+  Blocked At: 2026-08-02T14:20:15.268Z
+  The original file has been moved to .agentsec_quarantine/
+-->
+<Activity mc:Ignorable="sap sap2010" x:Class="AgentSecBlocked"
+  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Sequence DisplayName="AgentSec - Script Blocked">
+    <Terminate DisplayName="Security Block"
+      Reason="[AgentSec] Script quarantined due to security policy violation." />
+  </Sequence>
+</Activity>

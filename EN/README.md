@@ -28,9 +28,10 @@ AgentSec is an **AI-powered RPA script security monitoring tool**. It can:
 | 05 | [Threat Center](05-security-log.md) | Threat list, history, notifications, security sandbox | 10 min |
 | 06 | [AgentSec Engine™](07-security-policy.md) | Security policy, rules lab, AI model, policy marketplace | 10 min |
 | 07 | [AI Security Assistant](08-ai-assistant.md) | Chat with AI, let it help you operate | 5 min |
-| 08 | [Settings Details](09-settings.md) | General, account, updates, appearance, version | As needed |
-| 09 | [Key Concepts](10-concepts.md) | Terminology: What is quarantine? What is risk level? | As needed |
-| 10 | [FAQ](11-faq.md) | Common issues and solutions | As needed |
+| 08 | [AI Assistant Use Cases](09-ai-assistant-use-cases.md) | Use examples to investigate risks, remediate issues, and check configuration | 5 min |
+| 09 | [Settings Details](10-settings.md) | General, account, updates, appearance, version | As needed |
+| 10 | [Key Concepts](11-concepts.md) | Terminology: What is quarantine? What is risk level? | As needed |
+| 11 | [FAQ](12-faq.md) | Common issues and solutions | As needed |
 
 > 💡 **New user path**: 01 → 02 → 03 — three chapters and you're fully onboard. The rest is reference.
 
@@ -99,7 +100,7 @@ graph TD
 
 - 📖 Browse the detailed manual via the left sidebar
 - 💬 Use the built-in AI Security Assistant (press `Ctrl+K` or `Cmd+K`)
-- ❓ Check the [FAQ](11-faq.md)
+- ❓ Check the [FAQ](12-faq.md)
 
 ---
 

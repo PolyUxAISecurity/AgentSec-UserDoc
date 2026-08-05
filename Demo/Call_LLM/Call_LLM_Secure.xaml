@@ -1,0 +1,206 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Call_LLM_Secure" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uwah="clr-namespace:UiPath.Web.Activities.Http;assembly=UiPath.Web.Activities" xmlns:uwahm="clr-namespace:UiPath.Web.Activities.Http.Models;assembly=UiPath.Web.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Http</x:String>
+      <x:String>System.Net.Http.Headers</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Web.Activities.Http</x:String>
+      <x:String>UiPath.Web.Activities.Http.Models</x:String>
+      <x:String>System.Net</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Http</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>System.Net.Primitives</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <sap:WorkflowViewStateService.ViewState>
+    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+      <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
+      <x:Boolean x:Key="ShouldCollapseAll">False</x:Boolean>
+    </scg:Dictionary>
+  </sap:WorkflowViewStateService.ViewState>
+  <Sequence DisplayName="工单智能摘要（安全版）/ Ticket Auto-Summary (secure) [v1.2.0]" sap2010:Annotation.AnnotationText="Workflow version: 1.2.0&#xD;&#xA;Credential sources: LLM_Gateway_ApiKey and Slack_Bot_Token Orchestrator Assets&#xD;&#xA;Logging policy: metadata only; credentials and response content are never logged." sap:VirtualizedContainerService.HintSize="808,1100" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="runtimeCredential" />
+      <Variable x:TypeArguments="x:String" Name="slackCredential" />
+      <Variable x:TypeArguments="x:String" Name="llmBody" />
+      <Variable x:TypeArguments="x:String" Name="llmResponseBody" />
+      <Variable x:TypeArguments="x:String" Name="slackBody" />
+      <Variable x:TypeArguments="x:String" Name="slackResponseBody" />
+      <Variable x:TypeArguments="x:Int32" Name="httpStatusCode" />
+      <Variable x:TypeArguments="x:Int32" Name="responseLength" />
+      <Variable x:TypeArguments="s:DateTime" Name="requestStartedAt" />
+      <Variable x:TypeArguments="x:Boolean" Name="callSucceeded" />
+      <Variable x:TypeArguments="uwahm:HttpResponseSummary" Name="responseContent" />
+      <Variable x:TypeArguments="uwahm:HttpResponseSummary" Name="slackResponseContent" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="Start duration timer" sap2010:WorkflowViewState.IdRef="Assign_StartTime">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:DateTime">[requestStartedAt]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:DateTime">[DateTime.UtcNow]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <TryCatch DisplayName="Protected LLM and Slack workflow" sap2010:WorkflowViewState.IdRef="TryCatch_LLM">
+      <TryCatch.Try>
+        <Sequence DisplayName="Secure ticket summary and Slack post" sap2010:WorkflowViewState.IdRef="Sequence_Try">
+          <ui:GetRobotAsset TimeoutMS="{x:Null}" AssetName="LLM_Gateway_ApiKey" CacheStrategy="None" DisplayName="Get runtime credential from Orchestrator" sap2010:WorkflowViewState.IdRef="GetRobotAsset_1">
+            <ui:GetRobotAsset.Value>
+              <OutArgument x:TypeArguments="x:String">[runtimeCredential]</OutArgument>
+            </ui:GetRobotAsset.Value>
+          </ui:GetRobotAsset>
+          <Assign DisplayName="构造 LLM 请求 / Build LLM request" sap2010:WorkflowViewState.IdRef="Assign_LlmBody">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[llmBody]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[&quot;{&quot;&quot;model&quot;&quot;:&quot;&quot;example-model&quot;&quot;,&quot;&quot;messages&quot;&quot;:[{&quot;&quot;role&quot;&quot;:&quot;&quot;user&quot;&quot;,&quot;&quot;content&quot;&quot;:&quot;&quot;请总结以下工单：用户无法登录系统。&quot;&quot;}]}&quot;]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <uwah:NetHttpRequest BasicAuthUsername="{x:Null}" BinaryPayload="{x:Null}" ClientCertPath="{x:Null}" Cookies="{x:Null}" CustomNegotiatedAuthCredentials="{x:Null}" FilePath="{x:Null}" FormData="{x:Null}" LocalFiles="{x:Null}" OutputFileName="{x:Null}" OutputFileTargetFolder="{x:Null}" Parameters="{x:Null}" PathResource="{x:Null}" ProxyConfiguration="{x:Null}" ResourceFiles="{x:Null}" AuthenticationType="OAuthToken" ContinueOnError="False" DisableSslVerification="False" DisplayName="安全调用大模型摘要 / Securely call LLM for summary" EnableCookies="True" FileOverwrite="AutoRename" FollowRedirects="True" FormDataParts="[New List (Of FormDataPart) From _&#xD;&#xA;{&#xD;&#xA;&#x9;New FileFormDataPart(),&#xD;&#xA;&#x9;New BinaryFormDataPart(),&#xD;&#xA;&#x9;New TextFormDataPart()&#xD;&#xA;}]" Headers="[New Dictionary(Of String, String) From {{ &quot;Content-Type&quot;, &quot;application/json&quot; }}]" sap2010:WorkflowViewState.IdRef="NetHttpRequest_SecureLLM" InitialDelay="500" MaxRedirects="3" MaxRetryAfterDelay="30000" Method="POST" Multiplier="2" OAuthToken="[runtimeCredential]" PreferRetryAfterValue="True" RequestBodyType="Text" RequestUrl="https://llm-gateway.contoso.com/v1/chat/completions" Result="[responseContent]" RetryCount="3" RetryPolicyType="Basic" RetryStatusCodes="[New List (Of System.Net.HttpStatusCode) From _&#xD;&#xA;{&#xD;&#xA;&#x9;System.Net.HttpStatusCode.RequestTimeout,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.TooManyRequests,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.InternalServerError,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.BadGateway,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.ServiceUnavailable,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.GatewayTimeout&#xD;&#xA;}]" SaveRawRequestResponse="False" SaveResponseAsFile="False" TextPayload="[llmBody]" TextPayloadContentType="application/json" TextPayloadEncoding="UTF-8" TlsProtocol="Automatic" UseJitter="True" UseOsNegotiatedAuthCredentials="True">
+            <uwah:NetHttpRequest.TimeoutInMiliseconds>
+              <InArgument x:TypeArguments="s:Nullable(x:Int32)">
+                <Literal x:TypeArguments="s:Nullable(x:Int32)" Value="30000" />
+              </InArgument>
+            </uwah:NetHttpRequest.TimeoutInMiliseconds>
+          </uwah:NetHttpRequest>
+          <Assign DisplayName="读取安全响应正文 / Read secure response body" sap2010:WorkflowViewState.IdRef="Assign_ResponseBody">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[llmResponseBody]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[If(responseContent Is Nothing, String.Empty, responseContent.TextContent)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="读取 HTTP 状态 / Read HTTP status" sap2010:WorkflowViewState.IdRef="Assign_StatusCode">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[httpStatusCode]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[If(responseContent Is Nothing, 0, CInt(responseContent.StatusCode))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Calculate response length" sap2010:WorkflowViewState.IdRef="Assign_ResponseLength">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[responseLength]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[If(llmResponseBody Is Nothing, 0, llmResponseBody.Length)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <If Condition="[httpStatusCode &lt; 200 OrElse httpStatusCode &gt;= 300]" DisplayName="Validate HTTP status" sap2010:WorkflowViewState.IdRef="If_Status">
+            <If.Then>
+              <Throw Exception="[New SystemException(&quot;LLM gateway returned HTTP &quot; + httpStatusCode.ToString)]" sap2010:WorkflowViewState.IdRef="Throw_Status" />
+            </If.Then>
+          </If>
+          <ui:GetRobotAsset TimeoutMS="{x:Null}" AssetName="Slack_Bot_Token" CacheStrategy="None" DisplayName="Get Slack token from Orchestrator" sap2010:WorkflowViewState.IdRef="GetRobotAsset_Slack">
+            <ui:GetRobotAsset.Value>
+              <OutArgument x:TypeArguments="x:String">[slackCredential]</OutArgument>
+            </ui:GetRobotAsset.Value>
+          </ui:GetRobotAsset>
+          <Assign DisplayName="构造 Slack 消息 / Build Slack message" sap2010:WorkflowViewState.IdRef="Assign_SlackBody">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[slackBody]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[&quot;{&quot;&quot;channel&quot;&quot;:&quot;&quot;C12345678&quot;&quot;,&quot;&quot;text&quot;&quot;:&quot;&quot;测试：工单摘要已生成。&quot;&quot;}&quot;]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <uwah:NetHttpRequest BasicAuthUsername="{x:Null}" BinaryPayload="{x:Null}" ClientCertPath="{x:Null}" Cookies="{x:Null}" CustomNegotiatedAuthCredentials="{x:Null}" FilePath="{x:Null}" FormData="{x:Null}" LocalFiles="{x:Null}" OutputFileName="{x:Null}" OutputFileTargetFolder="{x:Null}" Parameters="{x:Null}" PathResource="{x:Null}" ProxyConfiguration="{x:Null}" ResourceFiles="{x:Null}" AuthenticationType="OAuthToken" ContinueOnError="False" DisableSslVerification="False" DisplayName="安全回帖到 Slack / Securely post back to Slack" EnableCookies="True" FileOverwrite="AutoRename" FollowRedirects="True" FormDataParts="[New List (Of FormDataPart) From _&#xD;&#xA;{&#xD;&#xA;&#x9;New FileFormDataPart(),&#xD;&#xA;&#x9;New BinaryFormDataPart(),&#xD;&#xA;&#x9;New TextFormDataPart()&#xD;&#xA;}]" Headers="[New Dictionary(Of String, String) From {{ &quot;Content-Type&quot;, &quot;application/json&quot; }}]" sap2010:WorkflowViewState.IdRef="NetHttpRequest_SecureSlack" InitialDelay="500" MaxRedirects="3" MaxRetryAfterDelay="30000" Method="POST" Multiplier="2" OAuthToken="[slackCredential]" PreferRetryAfterValue="True" RequestBodyType="Text" RequestUrl="https://slack-relay.contoso.com/api/chat.postMessage" Result="[slackResponseContent]" RetryCount="3" RetryPolicyType="Basic" RetryStatusCodes="[New List (Of System.Net.HttpStatusCode) From _&#xD;&#xA;{&#xD;&#xA;&#x9;System.Net.HttpStatusCode.RequestTimeout,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.TooManyRequests,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.InternalServerError,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.BadGateway,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.ServiceUnavailable,&#xD;&#xA;&#x9;System.Net.HttpStatusCode.GatewayTimeout&#xD;&#xA;}]" SaveRawRequestResponse="False" SaveResponseAsFile="False" TextPayload="[slackBody]" TextPayloadContentType="application/json" TextPayloadEncoding="UTF-8" TlsProtocol="Automatic" UseJitter="True" UseOsNegotiatedAuthCredentials="True">
+            <uwah:NetHttpRequest.TimeoutInMiliseconds>
+              <InArgument x:TypeArguments="s:Nullable(x:Int32)">
+                <Literal x:TypeArguments="s:Nullable(x:Int32)" Value="30000" />
+              </InArgument>
+            </uwah:NetHttpRequest.TimeoutInMiliseconds>
+          </uwah:NetHttpRequest>
+          <Assign DisplayName="读取 Slack 响应正文 / Read Slack response body" sap2010:WorkflowViewState.IdRef="Assign_SlackResponseBody">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[slackResponseBody]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[If(slackResponseContent Is Nothing, String.Empty, slackResponseContent.TextContent)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="读取 Slack HTTP 状态 / Read Slack HTTP status" sap2010:WorkflowViewState.IdRef="Assign_SlackStatusCode">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[httpStatusCode]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[If(slackResponseContent Is Nothing, 0, CInt(slackResponseContent.StatusCode))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Calculate Slack response length" sap2010:WorkflowViewState.IdRef="Assign_SlackResponseLength">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[responseLength]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[If(slackResponseBody Is Nothing, 0, slackResponseBody.Length)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <If Condition="[httpStatusCode &lt; 200 OrElse httpStatusCode &gt;= 300]" DisplayName="Validate Slack HTTP status" sap2010:WorkflowViewState.IdRef="If_SlackStatus">
+            <If.Then>
+              <Throw Exception="[New SystemException(&quot;Slack relay returned HTTP &quot; + httpStatusCode.ToString)]" sap2010:WorkflowViewState.IdRef="Throw_SlackStatus" />
+            </If.Then>
+            <If.Else>
+              <Assign DisplayName="Mark workflow successful" sap2010:WorkflowViewState.IdRef="Assign_Success">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Boolean">[callSucceeded]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                </Assign.Value>
+              </Assign>
+            </If.Else>
+          </If>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_Exception">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="caughtException" />
+            </ActivityAction.Argument>
+            <ui:LogMessage DisplayName="Log safe error details" Level="Error" Message="[&quot;Secure ticket workflow failed. Type=&quot; + caughtException.GetType().Name + &quot;; Details=&quot; + If(String.IsNullOrEmpty(caughtException.Message), &quot;No details&quot;, caughtException.Message.Substring(0, Math.Min(300, caughtException.Message.Length)))]" sap2010:WorkflowViewState.IdRef="LogMessage_Error" />
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+      <TryCatch.Finally>
+        <ui:LogMessage DisplayName="Log workflow metadata only" Level="Info" Message="[&quot;Secure workflow metadata: success=&quot; + callSucceeded.ToString + &quot;; lastStatus=&quot; + httpStatusCode.ToString + &quot;; durationMs=&quot; + CInt((DateTime.UtcNow - requestStartedAt).TotalMilliseconds).ToString + &quot;; lastResponseLength=&quot; + responseLength.ToString]" sap2010:WorkflowViewState.IdRef="LogMessage_Metadata" />
+      </TryCatch.Finally>
+    </TryCatch>
+  </Sequence>
+</Activity>

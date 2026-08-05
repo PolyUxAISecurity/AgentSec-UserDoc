@@ -1,0 +1,10 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "entryPoints": [
+    {
+      "filePath": "Call_LLM/Call_LLM_Secure.xaml",
+      "uniqueId": "f0f09d66-29b2-45ea-80c4-8a7fa2304d3a",
+      "type": "process"
+    }
+  ]
+}

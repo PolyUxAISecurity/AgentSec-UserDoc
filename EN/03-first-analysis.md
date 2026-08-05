@@ -1,250 +1,246 @@
-# 03 — First Security Analysis (Full Case Study)
+# 03 — First Security Analysis: Three UiPath Workflow Cases
 
-> This page walks you through a real scenario: "discover scripts → AI analysis → view results → handle issues" from start to finish.
+> This page uses three UiPath XAML workflows to demonstrate the complete process, from starting monitoring and viewing analysis results to handling risky files.
 
 ---
 
 ## Scenario Setup
 
-Your monitoring directory `C:\Users\zhangsan\Documents\UiPath` contains three scripts:
+Assume that your monitoring directory, `C:\Users\Documents\UiPath`, contains three scripts:
 
-| File | Description |
-|------|-------------|
-| `Main.xaml` | A UiPath main workflow — reads Excel and sends email |
-| `Helper.py` | A Python helper script with a hardcoded database password |
-| `Cleanup.ps1` | A PowerShell cleanup script — deletes temp files |
+| File | Purpose | Main Security Characteristics |
+| --- | --- | --- |
+| `Call_LLM_API.xaml` | Calls an LLM to generate a ticket summary, then posts the result to Slack | Stores an API key and Slack token directly in the workflow |
+| `Call_LLM_Secure.xaml` | A secure rewrite of `Call_LLM_API.xaml` | Reads credentials from Orchestrator Assets and includes exception handling and secure logging |
+| `Cleanup_TempFiles.xaml` | Calls PowerShell to clean up files | Executes a forced recursive deletion command against the root of the system drive |
 
-You've just configured AgentSec and clicked "Start Monitoring".
+> The keys, tokens, API endpoints, and channel IDs in these examples are demonstration values, not real credentials.
+
+You have just configured AgentSec and enabled monitoring from the monitoring status card in the left sidebar.
 
 ---
 
-## Phase 1: Scan & Discovery
+## Phase 1: Scan and Discovery
+
+After monitoring starts, AgentSec scans `C:\Users\Documents\UiPath`, discovers the three `.xaml` files, and creates analysis tasks for them one by one.
 
 ```mermaid
 sequenceDiagram
-    participant User
-    participant AgentSec
-    participant File System
-    
-    User->>AgentSec: Click "Start Monitoring"
-    AgentSec->>File System: Recursively scan C:\Users\zhangsan\Documents\UiPath
-    File System-->>AgentSec: Found 3 scripts
-    
-    Note over AgentSec: Main.xaml (XAML, 12KB)
-    Note over AgentSec: Helper.py (Python, 3KB)
-    Note over AgentSec: Cleanup.ps1 (PowerShell, 2KB)
-    
-    AgentSec-->>User: Dashboard shows "Scripts: 3"
-    AgentSec-->>User: Threat Center adds 3 "Analyzing" entries
+
+participant User
+
+participant AgentSec
+
+participant File System
+
+User->>AgentSec: Click "Start Monitoring"
+
+AgentSec->>File System: Recursively scan C:\Users\Documents\UiPath
+
+File System-->>AgentSec: 3 scripts found
+
+Note over AgentSec: Call_LLM_API.xaml (XAML, 1KB)
+
+Note over AgentSec: Call_LLM_Secure.xaml (XAML, 18KB)
+
+Note over AgentSec: Cleanup_TempFiles.xaml (XAML, 1KB)
+
+AgentSec-->>User: Dashboard displays "Scripts: 3"
+
 ```
 
 **What you see:**
-
-- Dashboard: Scripts = 3, Analyzing = 3, Analyzed = 0
-- Threat Center: 3 entries showing green spinning "Analyzing" icon
+> ![Dashboard analysis results after the first scan](./screenshots/03-first-analysis/scan-results-dashboard.png)
 
 ---
 
-## Phase 2: Security Check
+## Phase 2: Security Checks
 
-Each script goes through:
+Each script goes through the following checks:
 
-### Stage 1: Regex Fast Scan
+### Check 1: Fast Regex Scan
 
 ```mermaid
 graph LR
-    A[Main.xaml] --> B1[Regex scan]
-    C[Helper.py] --> B2[Regex scan]
-    D[Cleanup.ps1] --> B3[Regex scan]
+    A[Call_LLM_API.xaml] --> B1[Regex scan]
+    C[Call_LLM_Secure.xaml] --> B2[Regex scan]
+    D[Cleanup_TempFiles.xaml] --> B3[Regex scan]
     
-    B1 -->|"No match<br/>→ AI analysis"| E1["🤖 AI"]
-    B2 -->|"No match<br/>→ AI analysis"| E2["🤖 AI"]
-    B3 -->|"⚠️ High-risk match"| F["🚫 Block immediately<br/>No AI needed"]
+    B1 -->|"No match<br/>Proceed to AI analysis"| E1[🤖 AI]
+    B2 -->|"No match<br/>Proceed to AI analysis"| E2[🤖 AI]
+    B3 -->|"⚠️ High-risk pattern matched"| F["🚫 Block immediately<br/>Do not wait for AI"]
 ```
 
-Regex scan results:
+Regex scan results for the three scripts:
 
 | Script | Regex Result | Action |
-|--------|-------------|--------|
-| `Main.xaml` | No match | → Enter AI analysis |
-| `Helper.py` | No match | → Enter AI analysis |
-| `Cleanup.ps1` | ⚠️ Hit `fs-remove-item-system` (PowerShell forced recursive delete) | → **Block immediately** |
+| --- | --- | --- |
+| `Call_LLM_API.xaml` | No match | → Proceed to AI analysis |
+| `Call_LLM_Secure.xaml` | No match | → Proceed to AI analysis |
+| `Cleanup_TempFiles.xaml` | ⚠️ Matches `fs-remove-item-system` (PowerShell forced recursive deletion) | → **Block immediately** |
 
-**Cleanup.ps1 regex hit means**: the script contains a command like `Remove-Item -Recurse -Force C:\...` — AgentSec blocks it without waiting for AI.
+**The regex match for Cleanup_TempFiles.xaml means** that the script contains a high-risk command such as `Remove-Item -Recurse -Force C:\...`. AgentSec does not need to wait for AI analysis and blocks it immediately.
 
-After Cleanup.ps1 is quarantined:
-- Original file → `.agentsec_quarantine\Cleanup_20260609T093000Z.ps1`
-- Original path → Safe stub file (read-only, cannot execute)
-- Threat Center shows: `CRITICAL · Quarantined · ⚡Regex prefilter block`
+After `Cleanup_TempFiles.xaml` is quarantined:
 
-### Stage 2: AI Deep Analysis
+- Original file → `.agentsec_quarantine\Cleanup_TempFiles_20260609T093000Z.xaml`
+- Original path → A read-only safe stub that cannot be executed
 
-Main.xaml and Helper.py enter AI analysis. AgentSec calls the AI model to analyze script security.
+### Check 2: In-Depth AI Analysis
 
-**Main.xaml analysis process** (signed-in mode):
+`Call_LLM_API.xaml` and `Call_LLM_Secure.xaml` proceed to AI analysis. AgentSec calls the AI model to assess the security of each script.
+
+**Analysis process for Call_LLM_API.xaml** (signed-in mode):
 
 ```
-Upload script content → AgentSec Cloud → AI Analysis
+Upload script content → AgentSec Cloud → AI analysis
   ↓
-Checklist (based on your enabled security policy rules):
-  · Sending data externally? (network request check)
-  · Hardcoded credentials? (credential check)
-  · Plaintext HTTP? (transport security check)
-  · Exception handling? (code quality check)
-  · SQL injection risk? (injection check)
-  ... (checks against enabled rules in your policy)
+Checks (based on your enabled security policy rules):
+  · Does it send data externally? (network request check)
+  · Does it contain hardcoded passwords? (credential check)
+  · Does it use plaintext HTTP? (transport security check)
+  · Does it include exception handling? (code quality check)
+  · Is there a risk of SQL injection? (injection check)
+  ... (15–21 rules are checked, depending on your policy settings)
   ↓
-Return analysis result
+Return analysis results
 ```
 
 ---
 
 ## Phase 3: View Results
 
-After analysis completes, the three script results:
+After analysis is complete, click **“Threat Center”** in the left navigation bar, then select a file from the script list to view its details.
+> ![Analysis results for the three scripts in the Threat Center](./screenshots/03-first-analysis/analysis-results-overview.png)
 
-| Script | Risk Level | Action | Issues |
-|--------|-----------|--------|--------|
-| `Main.xaml` | MEDIUM | Allow | 2 |
-| `Helper.py` | CRITICAL | Block (Quarantined) | 1 |
-| `Cleanup.ps1` | CRITICAL | Block (Quarantined) ⚡Regex | 1 |
+| File | Analysis Result | Issues | File Status |
+| --- | --- | ---: | --- |
+| `Call_LLM_API.xaml` | **High** | 5 | Quarantined |
+| `Call_LLM_Secure.xaml` | **Safe** | 0 | Not quarantined |
+| `Cleanup_TempFiles.xaml` | **Critical** | 1 | Quarantined |
 
----
+These represent three typical outcomes:
 
-## Phase 4: Individual Analysis
+- **Safe**: No security issues were found, and the file can continue to be used;
+- **High**: High-risk issues exist. The file has been quarantined and must be fixed or manually reviewed;
+- **Critical**: The file contains an operation that may cause severe damage. It has been quarantined and should be handled first.
 
-### Script 1: Main.xaml — MEDIUM · Allow
-
-Click Main.xaml, the detail panel opens on the right:
-
-**Issue 1: MEDIUM — Missing global exception handling**
-
-```
-📍 Location: Entire workflow
-📋 Description: No TryCatch/Finally wrapping the main logic.
-       Runtime errors may leak internal paths or data.
-💡 Fix: Add TryCatch activity around the Sequence,
-       log generic error messages instead of full stack traces.
-```
-
-**Issue 2: LOW — Insufficient logging**
-
-```
-📍 Location: After email send step
-📋 Description: No logging for the email send operation.
-       Failure is untraceable.
-💡 Fix: Add Log Message activities before and after key operations.
-```
-
-**Decision**: Both issues are suggestions only — low risk. AgentSec did not block the file. Fix at your convenience.
+> The analysis details page also provides actions such as **“Trust,” “Reanalyze,”** and **“Ask AI.”** Use “Trust” only after confirming that the file is safe.
 
 ---
 
-### Script 2: Helper.py — CRITICAL · Quarantined
+## Phase 4: Interpret Each Result
 
-Click Helper.py, the detail panel opens:
+### Script 1: `Call_LLM_API.xaml` — High · Quarantined
 
-**Issue: CRITICAL — Hardcoded credential / API Key**
+#### What the Workflow Does
 
-```
-📍 Location: Line 15
-📝 Code snippet:
-    14  | # Database connection
-    15  | conn = pyodbc.connect('DRIVER={ODBC};SERVER=prod-db;
-         |                      UID=admin;PWD=MyPassword123')
-    16  | cursor = conn.cursor()
-
-📋 Description: The Python script hardcodes production database
-       credentials (admin/MyPassword123). Anyone with the script
-       can access the database.
-
-💡 Fix:
-   1. Immediately change the database password (already exposed)
-   2. Use environment variables instead:
-      conn = pyodbc.connect(os.environ['DB_CONN_STRING'])
-   3. Or use a key management service (e.g. Azure Key Vault)
-```
-
-**What AgentSec already did**:
-- ✅ Checked for running Python processes → terminated
-- ✅ Moved original file to `.agentsec_quarantine\`
-- ✅ Replaced original path with safe stub
-- ✅ Generated `.meta.json` recording quarantine details
-
-**Your next step**: Fix the hardcoded password in the code, then restore from quarantine.
-
----
-
-### Script 3: Cleanup.ps1 — CRITICAL · Quarantined ⚡Regex prefilter
-
-Cleanup.ps1 skipped AI analysis (blocked by regex prefilter). Its detail panel shows "Regex Prefilter Block":
-
-**Issue: HIGH — PowerShell forced recursive delete on system drive**
-
-```
-📍 Code snippet:
-    Remove-Item -Path C:\Windows\Temp\* -Recurse -Force
-
-📋 Description: Remove-Item -Recurse -Force pointing at C: drive.
-       Even though the target is Temp, the -Recurse -Force
-       combination on system drive is highly destructive.
-
-💡 Fix:
-   1. Use exact absolute paths, avoid wildcards with -Recurse -Force
-   2. Add -WhatIf for dry-run (PowerShell 5.1+)
-   3. Consider using built-in Disk Cleanup instead
-```
-
----
-
-## Phase 5: Remediation
-
-### Helper.py (needs fix then restore)
-
-1. Open `.agentsec_quarantine\Helper_20260609T093015Z.py` to view the original
-2. Edit line 15 — replace hardcoded password with environment variable
-3. In AgentSec, find Helper.py in the Threat Center
-4. Click **"Restore"** to put the fixed file back
-5. File content changed (hash differs) → AgentSec will re-analyze
+This workflow first builds a ticket-summary request and calls an LLM through an HTTP endpoint. It then builds a Slack message and posts the response through another HTTP request.
 
 ```mermaid
-graph TD
-    A[Restore in AgentSec] --> B[File returns to original path]
-    B --> C[Open with editor]
-    C --> D[Fix per AI suggestions]
-    D --> E[Save file]
-    E --> F[AgentSec detects change<br/>Auto re-analyses]
-    F --> G{Analysis Result}
-    G -->|"✅ Fixed"| H["Risk decreased<br/>No longer blocked"]
-    G -->|"❌ Still issues"| I["Blocked again<br/>Continue fixing"]
+
+flowchart LR
+
+A[Build ticket summary request] --> B[Call LLM endpoint]
+
+B --> C[Read LLM response]
+
+C --> D[Build Slack message]
+
+D --> E[Call Slack relay endpoint]
+
 ```
 
-### Cleanup.ps1 (regex prefilter block, needs review)
+#### AgentSec's Assessment
 
-Regex prefilter blocked files need human judgment: is it really dangerous?
+AgentSec detects **5 issues**, mainly related to a plaintext API key, Slack token, and password-like fields in the XAML. It therefore classifies the file as **High** and quarantines it.
 
-- If Cleanup.ps1 really just cleans C:\Windows\Temp (reasonable): Restore + add to whitelist
-- If the script is from unknown origin and truly dangerous: Keep in quarantine
+**Recommended action:** Remove plaintext credentials, rotate the exposed keys, and use UiPath Orchestrator Assets or another secrets-management service instead.
+
+> ![High-risk analysis result for Call_LLM_API.xaml](./screenshots/03-first-analysis/call-llm-api-analysis.png)
 
 ---
 
-## Summary: What You Learned
+### Script 2: `Call_LLM_Secure.xaml` — Safe · Not Quarantined
 
-| Lesson | Detail |
-|--------|--------|
-| AgentSec scanning is **automatic** | After starting, everything is automatic — no manual triggers |
-| Two-layer safety net | Regex prefilter (milliseconds) + AI analysis (deep check) |
-| Blocked ≠ Deleted | Files are "quarantined", not deleted — restorable anytime |
-| Check three things in details | Risk level, code snippet, remediation advice |
-| Blocked ≠ always dangerous | Cleanup.ps1's regex block could be a false positive — needs human review |
+#### How It Differs from the High-Risk Version
+
+The secure version still performs the same business process—calling an LLM to generate a summary and posting it to Slack—but uses a safer implementation:
+
+| Improvement | XAML Implementation |
+| --- | --- |
+| Does not store plaintext credentials | Uses `GetRobotAsset` to retrieve `LLM_Gateway_ApiKey` and `Slack_Bot_Token` |
+| Supplies tokens at runtime | HTTP requests use the `OAuthToken` variable instead of hardcoding the token in request headers |
+| Restricts request behavior | Enables TLS, sets timeouts, and configures a limited number of retries |
+| Checks response status | Explicitly throws an exception for non-2xx HTTP status codes |
+| Handles runtime exceptions | Wraps the LLM and Slack calls in `TryCatch` |
+| Reduces sensitive data in logs | Records only metadata such as success status, HTTP status, elapsed time, and response length |
+
+#### AgentSec's Assessment
+
+This workflow performs the same LLM and Slack calls, but retrieves credentials from Orchestrator Assets and includes exception handling, HTTP status checks, and secure logging. No security issues are found, so the result is **Safe** and the file remains available.
+
+> ![Safe analysis result for Call_LLM_Secure.xaml](./screenshots/03-first-analysis/call-llm-secure-analysis.png)
+
+---
+
+### Script 3: `Cleanup_TempFiles.xaml` — Critical · Quarantined
+
+This workflow is nominally intended to clean up temporary files, but its PowerShell activity actually executes:
+
+```powershell
+Remove-Item -Recurse -Force -Path C:\
+```
+
+This command attempts a forced recursive deletion starting at the root of the system drive. AgentSec classifies it as **Critical** and quarantines it immediately.
+
+**Recommended action:** Do not trust or restore the file directly. Change the deletion target to an explicit, controlled temporary directory, validate the path before execution, and use `-WhatIf` for a dry run.
+
+> ![Critical-risk analysis result for Cleanup_TempFiles.xaml](./screenshots/03-first-analysis/cleanup-tempfiles-analysis.png)
+
+---
+
+## Phase 5: Handle and Remediate
+
+| File | Primary Action |
+| --- | --- |
+| `Call_LLM_API.xaml` | Rotate the exposed credentials, remove plaintext keys, and follow the secure version by using Orchestrator Assets |
+| `Call_LLM_Secure.xaml` | No quarantine action is needed; test API permissions and business logic through the normal workflow |
+| `Cleanup_TempFiles.xaml` | Remove the recursive system-drive deletion command and use a validated, explicit target directory |
+
+After modifying a risky file, click **“Reanalyze.”** Trust or restore the file only after both the analysis result and manual review have passed.
+
+```mermaid
+flowchart TD
+    A[Review the quarantine reason and all issues] --> B[Fix a copy of the workflow]
+    B --> C[Apply the AI remediation suggestions]
+    C --> D[Reanalyze]
+    D --> E{Are there still issues?}
+    E -->|Yes| B
+    E -->|No| F[Manual review]
+    F --> G[Trust or restore]
+```
+
+> Manage quarantined files through AgentSec's Threat Center and Security Sandbox. Do not manually modify the original files or metadata in `.agentsec_quarantine`.
+
+---
+
+## Summary: What You Learned from the First Analysis
+
+| Lesson | Description |
+| --- | --- |
+| AgentSec scanning is **automatic** | After monitoring starts, the entire process is automatic and requires no manual trigger |
+| There are two layers of protection | Regex pre-scan (milliseconds) + AI analysis (in-depth checks) |
+| Blocking does not mean deletion | Files are quarantined rather than deleted and can be restored |
+| Review three things in the details | Risk level, code snippet, and remediation suggestions |
+| A blocked file is not necessarily dangerous | A regex block of Cleanup.ps1 may be a false positive and requires human judgment |
 
 ---
 
 ## Next Steps
 
-| I want to... | Read this |
-|--------------|-----------|
-| More monitoring configuration options | [04 — Monitoring & Directory Setup](04-monitoring.md) |
-| All Threat Center features | [05 — Threat Center](05-security-log.md) |
-| Managing quarantined/trusted files | [05 — Threat Center (Sandbox tab)](05-security-log.md) |
-| Adjusting blocking strictness | [06 — AgentSec Engine™](07-security-policy.md) |
+- [Configure and manage monitoring directories](04-monitoring.md)
+- [View complete analysis details in the Threat Center](05-security-log.md)
+- [Manage the quarantine and security zones](06-sandbox.md)
+- [Configure security policies](07-security-policy.md)
+- [Use the AI Assistant to explain and remediate issues](08-ai-assistant.md)

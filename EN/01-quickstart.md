@@ -230,6 +230,7 @@ If all three are done — you've mastered AgentSec basics!
 | Manage blocked and trusted files | [06 — Security Sandbox](06-sandbox.md) |
 | Adjust security detection strictness | [07 — Security Policy](07-security-policy.md) |
 | Learn all AI assistant capabilities | [08 — AI Security Assistant](08-ai-assistant.md) |
-| Configure account, model, updates, etc. | [09 — Settings Details](09-settings.md) |
-| Understand terminology in this manual | [10 — Key Concepts](10-concepts.md) |
-| Troubleshoot issues | [11 — FAQ](11-faq.md) |
+| Learn how to use the AI Assistant through examples | [09 — AI Assistant Use Cases](09-ai-assistant-use-cases.md) |
+| Configure account, model, updates, etc. | [10 — Settings Details](10-settings.md) |
+| Understand terminology in this manual | [11 — Key Concepts](11-concepts.md) |
+| Troubleshoot issues | [12 — FAQ](12-faq.md) |

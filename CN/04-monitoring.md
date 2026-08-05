@@ -21,18 +21,18 @@ AgentSec 的监控功能包含以下自动操作：
 
 ### 在仪表盘中设置
 
-1. 点击仪表盘顶部的监控目录卡片
-2. 自动跳转到「设置 → 常规」页面
+1. 点击左下角头像旁的「设置 」
+2. 在「设置 」页面中选择「安全配置」
 3. 点击「选择目录」按钮
 4. 支持**多目录同时监控**：可添加多个文件夹路径
 
-> 📸 **[截图位置]** `screenshots/settings-watchdir-select.png` — 设置页面中的监控目录选择
+> ![在安全设置中添加监控目录](./screenshots/04-monitoring/settings-watchdir-select.png)
 
 ### 使用自动检测
 
 AgentSec 会自动检测您电脑上已安装的 RPA 工具，将其默认项目目录列在建议区：
 
-> 📸 **[截图位置]** `screenshots/settings-rpa-suggestions.png` — RPA 目录建议列表
+> ![自动检测到的 RPA 目录建议](./screenshots/04-monitoring/settings-rpa-suggestions.png)
 
 | 可能检测到的工具 | 默认目录 |
 |----------------|---------|
@@ -57,15 +57,15 @@ AgentSec 会自动检测您电脑上已安装的 RPA 工具，将其默认项目
 ### 启动
 
 1. 确认「监控目录」已正确设置
-2. 点击蓝色 **「启动监控」** 按钮
+2. 点击开启**「监控」** 开关
 
-> 📸 **[截图位置]** `screenshots/dashboard-start-btn.png` — 启动监控按钮
+> ![监控开关关闭|214](./screenshots/04-monitoring/monitoring-toggle-off.png) → ![监控开关开启|213](./screenshots/04-monitoring/monitoring-toggle-on.png)
 
 启动后发生的变化：
 
 ```mermaid
 graph TD
-    A[点击「启动监控」] --> B[扫描已有文件]
+    A[点击「启动监控」开关] --> B[扫描已有文件]
     A --> C[启动文件监听]
     B --> D[逐个分析所有脚本]
     C --> E[新文件出现时自动分析]
@@ -79,13 +79,11 @@ graph TD
 
 ### 停止
 
-- 点击红色 **「停止监控」** 按钮
+- 关闭**「监控」** 开关
 - 停止后：
   - 不再监听新文件
   - 正在进行的分析会继续完成
   - 已分析的结果保留在界面上
-
-> 📸 **[截图位置]** `screenshots/dashboard-stop-btn.png` — 停止监控按钮（红色）
 
 ---
 
@@ -191,7 +189,7 @@ AgentSec 会递归监控您选择的目录（最多 10 层子目录），但会�
 
 1. 如果监控正在运行，**先停止监控**
 2. 在设置中修改监控目录（或直接在仪表盘的目录卡片点击跳转）
-3. 重新点击「启动监控」
+3. 重新点击开启「监控」开关
 4. AgentSec 会对新目录重新全量扫描
 
 ---

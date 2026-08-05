@@ -97,8 +97,9 @@
 | 文件名 | 内容 | 说明 |
 |--------|------|------|
 | `settings-overview.png` | 设置页全景 | 分类导航+右侧面板 |
-| `settings-general.png` | 常规设置 | 配置向导+模式+目录 |
+| `settings-general.png` | 常规设置 | 配置向导+模式+开发者选项 |
 | `settings-mode-selector.png` | 运行模式下拉 | 三种模式 |
+| `settings-security.png` | 安全配置 | 监控目录+隐私与安全+分析引擎 |
 | `settings-account.png` | 账户设置 | 已登录状态 |
 | `settings-test-server.png` | 服务端连接测试 | 测试结果 |
 | `settings-ai-model.png` | AI模型设置 | 本地模式配置 |

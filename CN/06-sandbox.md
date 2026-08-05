@@ -22,7 +22,7 @@
 └──────────────────────┘    └──────────────────────┘
 ```
 
-> 📸 **[截图位置]** `screenshots/sandbox-overview.png` — 安全沙箱双区全景截图
+> ![安全沙箱双区全景](./screenshots/06-sandbox/sandbox-overview.png)
 
 ---
 
@@ -30,7 +30,7 @@
 
 安全沙箱已整合进**威胁中心**。在左侧导航栏点击 **「威胁中心」**，再点击顶部的 **「安全沙箱」** Tab。
 
-> 📸 **[截图位置]** `screenshots/sandbox-nav.png` — 威胁中心安全沙箱 Tab
+> ![打开威胁中心的安全沙箱](./screenshots/06-sandbox/sandbox-nav.png)
 
 ---
 
@@ -68,7 +68,7 @@ graph TD
 | 原始路径 | 文件被隔离前的完整路径 |
 | 隔离时间 | 何时被隔离 |
 
-> 📸 **[截图位置]** `screenshots/sandbox-quarantine-item.png` — 隔离区文件条目详情
+> ![隔离区中的高风险文件条目](./screenshots/06-sandbox/sandbox-quarantine-item.png)
 
 ---
 
@@ -104,8 +104,12 @@ graph TD
 **方式一：逐文件还原**
 
 1. 在隔离区勾选要还原的文件
-2. 点击上方 **「移到安全区 →」** 按钮
+2. 点击 **「批量信任」** 按钮
 3. 确认操作
+
+> ![勾选隔离文件并执行批量信任](./screenshots/06-sandbox/sandbox-trust-selected.png)
+>
+> ![批量信任确认对话框](./screenshots/06-sandbox/sandbox-trust-confirm.png)
 
 **方式二：拖拽还原**
 
@@ -114,11 +118,11 @@ graph TD
 
 **方式三：从防护日志还原**
 
-1. 在防护日志中找到被隔离的脚本
+1. 在中找到被隔离的脚本
 2. 点击展开详情面板
-3. 点击 **「还原」** 按钮
+3. 点击 **「信任」** 按钮
 
-> 📸 **[截图位置]** `screenshots/sandbox-restore.png` — 还原文件操作截图
+> ![从威胁详情中信任文件](./screenshots/06-sandbox/sandbox-trust-from-detail.png)
 
 ```mermaid
 sequenceDiagram
@@ -142,12 +146,12 @@ sequenceDiagram
 如果之前还原的文件经过审查发现确实有风险，或想撤销信任：
 
 1. 在安全区勾选要重新隔离的文件
-2. 点击上方 **「← 移到隔离区」** 按钮
+2. 点击上方 **「批量隔离」** 按钮
 3. 确认操作
 
 文件会被从安全区移除，重新执行隔离流程。
 
-> 📸 **[截图位置]** `screenshots/sandbox-quarantine-from-safe.png` — 从安全区移回隔离区操作截图
+> ![从安全区批量移回隔离区](./screenshots/06-sandbox/sandbox-quarantine-from-safe.png)
 
 ### 多选操作
 

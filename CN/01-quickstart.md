@@ -1,4 +1,4 @@
-# 01 — 快速入门（跟我做）
+# 快速入门（跟我做）
 
 > 预计用时：10 分钟 | 您将完成：安装 → 登录 → 配置 → 第一次监控 → 看懂第一个分析结果
 
@@ -16,11 +16,11 @@
 
 > ![install-windows-unzip](./screenshots/01-quickstart/install-windows-unzip.png)
 
-> ![run-agentsec](./screenshots/01-quickstart/run-agentsec.png)
+> ![run-agentsec|476](./screenshots/01-quickstart/run-agentsec.png)
 
 > ⚠️ 如果弹出 Windows SmartScreen 警告，点击「更多信息」→「仍要运行」。
 >
-> ![windows-smartscreen-warning](./screenshots/01-quickstart/windows-smartscreen-warning.png)
+> ![windows-smartscreen-warning|416](./screenshots/01-quickstart/windows-smartscreen-warning.png)
 
 ### macOS 用户
 
@@ -81,7 +81,7 @@
 
 **成功标志**：侧边栏底部出现您的邮箱和头像。
 
-> ![onboarding-login-success](./screenshots/01-quickstart/onboarding-login-success.png)
+> ![登录后的账户信息](./screenshots/01-quickstart/onboarding-account-details.png)
 ### 2.3 本地模式配置（选择「本地」的用户）
 
 选择本地模式后，需要配置 AI 模型：
@@ -98,7 +98,7 @@
 
 点击「添加目录」，找到您存放 RPA 脚本的文件夹；在弹出的窗口中点击「选择文件夹」确认。
 
-> ![onboarding-select-dir](./screenshots/01-quickstart/onboarding-select-dir.png)
+> ![onboarding-select-dir|482](./screenshots/01-quickstart/onboarding-select-dir.png)
 >
 > ![chose-ok](./screenshots/01-quickstart/chose-ok.png)
 
@@ -158,11 +158,11 @@ graph TD
 
 点击左侧 **「威胁中心」**，查看每个脚本的详情。
 
-> ![security-log-list](./screenshots/01-quickstart/security-log-list.png)
+> ![威胁中心脚本列表](./screenshots/01-quickstart/security-log-list.png)
 
 **点击任意一个脚本**，展开右侧详情面板：
 
-> ![script-detail-panel](./screenshots/01-quickstart/script-detail-panel.png)
+> ![脚本安全分析详情面板](./screenshots/01-quickstart/script-detail-panel.png)
 
 **三个关键信息**：
 1. **💡 建议**：告诉您怎么修复
@@ -184,7 +184,7 @@ graph TD
 1. 点击该脚本 → 打开详情面板
 2. 点击 **「信任」** 按钮
 3. 确认操作 → 文件移至「安全区」
-> ![trust-button](./screenshots/01-quickstart/trust-button.png)
+> ![安全沙箱中的信任按钮](./screenshots/01-quickstart/trust-button.png)
 
 > ![trust-confirm](./screenshots/01-quickstart/trust-confirm.png)
 
