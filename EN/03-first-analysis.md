@@ -16,6 +16,8 @@ Assume that your monitoring directory, `C:\Users\Documents\UiPath`, contains thr
 
 > The keys, tokens, API endpoints, and channel IDs in these examples are demonstration values, not real credentials.
 
+You can download the sample package for these three UiPath workflows from the [Demo Files](13-demo.md) page to reproduce this chapter.
+
 You have just configured AgentSec and enabled monitoring from the monitoring status card in the left sidebar.
 
 ---

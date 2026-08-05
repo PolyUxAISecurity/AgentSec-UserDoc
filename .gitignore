@@ -20,4 +20,5 @@ project.lock.json
 
 # 杂项
 *.zip
+!.vitepress/public/demo/agentsec-uipath-demo.zip
 .DS_Store
