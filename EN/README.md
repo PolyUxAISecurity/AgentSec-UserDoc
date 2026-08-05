@@ -2,6 +2,8 @@
 
 Welcome to AgentSec Desktop! This manual will help you quickly get started and fully understand how to use AgentSec to protect your RPA scripts.
 
+To follow the Quick Start and First Security Analysis hands-on, download the companion [UiPath sample package](https://github.com/PolyUxAISecurity/AgentSec-UserDoc/raw/main/Demo/agentsec-uipath-demo.zip).
+
 ---
 
 ## What is AgentSec?

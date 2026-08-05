@@ -2,6 +2,8 @@
 
 欢迎使用 AgentSec Desktop！本手册将帮助您快速上手，全面了解如何使用 AgentSec 保护您的 RPA 脚本安全。
 
+如果您想跟着「快速入门」和「第一次安全分析」一起操作，可以先下载配套的 [UiPath 示例包](https://github.com/PolyUxAISecurity/AgentSec-UserDoc/raw/main/Demo/agentsec-uipath-demo.zip)。
+
 ---
 
 ## 什么是 AgentSec？
