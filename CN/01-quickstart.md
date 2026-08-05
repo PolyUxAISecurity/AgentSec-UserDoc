@@ -4,6 +4,8 @@
 
 本教程会**带着您一步一步操作**。请打开 AgentSec，跟着做。
 
+如果您想直接使用配套示例完成后续安全分析，可以先下载 [UiPath 示例包](https://github.com/PolyUxAISecurity/AgentSec-UserDoc/raw/main/Demo/agentsec-uipath-demo.zip)，解压后在后续步骤中把 `Demo` 文件夹设为监控目录。
+
 ---
 
 ## 1. 安装并打开

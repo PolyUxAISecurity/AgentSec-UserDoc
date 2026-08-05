@@ -57,7 +57,6 @@ export default withMermaid(
             items: [
               { text: '10 · 关键概念', link: '/CN/11-concepts' },
               { text: '11 · 常见问题', link: '/CN/12-faq' },
-              { text: '12 · Demo 示例文件', link: '/CN/13-demo' },
             ],
           },
         ],

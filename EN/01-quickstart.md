@@ -4,6 +4,8 @@
 
 This tutorial will **guide you step by step**. Open AgentSec and follow along.
 
+If you want to use the companion sample for the later security analysis steps, download the [UiPath sample package](https://github.com/PolyUxAISecurity/AgentSec-UserDoc/raw/main/Demo/agentsec-uipath-demo.zip), unzip it, and set the `Demo` folder as the monitored directory in the steps below.
+
 ---
 
 ## 1. Install and Launch

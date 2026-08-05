@@ -16,7 +16,7 @@
 
 > 示例中的密钥、Token、接口地址和频道编号均为演示值，不是真实凭据。
 
-如果您想跟着本章复现，可以先下载配套的 [UiPath 示例包](../demo/agentsec-uipath-demo.zip)。解压后，将 `Demo` 文件夹放到一个测试目录，并在 AgentSec 中把该目录设为监控目录。
+如果您想跟着本章复现，可以先下载配套的 [UiPath 示例包](https://github.com/PolyUxAISecurity/AgentSec-UserDoc/raw/main/Demo/agentsec-uipath-demo.zip)。解压后，将 `Demo` 文件夹放到一个测试目录，并在 AgentSec 中把该目录设为监控目录。
 
 示例包中包含三个工作流：`Call_LLM_API.xaml`、`Call_LLM_Secure.xaml` 和 `Cleanup_TempFiles.xaml`，后续各阶段会逐个说明它们的分析结果和处理方式。
 
