@@ -14,17 +14,13 @@
 | Shortcut | Press `Ctrl+K` (Windows) or `Cmd+K` (macOS) |
 | Press again | Close the panel |
 
-> ![Open the AI Assistant](./screenshots/08-ai-assistant/chat-fab.png)
+![Open the AI Assistant](./screenshots/08-ai-assistant/pasted-20261104060522.png)
 
 ---
 
 ## Assistant Panel Layout
 
 The panel contains a title bar, chat history, new chat, current-context indicator, suggested questions, conversation area, tool progress, and input box. Type a question or select a suggested question to get started.
-
-![Screenshot pending: full AI Assistant panel](./screenshots/pending.svg)
-
-_Screenshot pending: current panel, History and New chat controls, context, tool progress, and model badge._
 
 ### Three Display Modes
 
@@ -77,10 +73,6 @@ The assistant can query application state and help with these operations:
 
 Use the client's **Export logs** button to export logs. Apply policies and change rules on their respective pages.
 
-![Screenshot pending: state queries and tool progress](./screenshots/pending.svg)
-
-_Screenshot pending: expand the tool progress and show the actual query result._
-
 ### 3. Read and Repair a Script Copy
 
 1. Open **Settings → Security → DeepIntent Agent workspace**.
@@ -89,10 +81,6 @@ _Screenshot pending: expand the tool progress and show the actual query result._
 4. Review the changes, then select **Open workspace** to inspect the file and arrange validation and use.
 
 The assistant can read and write workspace copies. It does not directly modify the external original or execute scripts.
-
-![Screenshot pending: importing and repairing a copy](./screenshots/pending.svg)
-
-_Screenshot pending: workspace entry, successful import, and assistant reading and saving the copy._
 
 ### 4. Quick Action Buttons
 
@@ -110,9 +98,7 @@ Click any button to auto-send that question — no typing needed.
 
 When signed in and enrolled in an organization, **Useful** and **Not useful** buttons appear below assistant answers. Select **Not useful** to optionally describe the problem, then select **Send**. Local mode does not show these feedback buttons.
 
-![Screenshot pending: answer rating and written feedback](./screenshots/pending.svg)
-
-_Screenshot pending: rating buttons, optional comment, and submission status._
+![Rate an assistant answer and submit feedback](./screenshots/08-ai-assistant/pasted-20261104060643.png)
 
 ---
 
@@ -136,9 +122,7 @@ _Screenshot pending: rating buttons, optional comment, and submission status._
 - Select **Chat history** in the title bar to search, open, and continue saved conversations, including after restarting the app.
 - Select **New chat** to start another conversation. Older conversations remain in history. To remove one, select its delete button in the history list and confirm.
 
-![Screenshot pending: chat history](./screenshots/pending.svg)
-
-_Screenshot pending: history search, new chat button, and a saved conversation._
+![Search and open saved chat history](./screenshots/08-ai-assistant/pasted-20261104060701.png)
 
 ---
 

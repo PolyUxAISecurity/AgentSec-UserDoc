@@ -4,9 +4,7 @@ The sidebar's **Security Dashboard** has two entries: **Security Overview** and 
 
 ## 1. Read the Security Overview
 
-![Screenshot pending: Full Security Overview](./screenshots/pending.svg)
-
-_Screenshot pending: four metric cards, Overall Risk, Agent risk ranking, Static detection, and High-risk events._
+![Security Overview dashboard](./screenshots/02-dashboard/pasted-20261104052146.png)
 
 | Area | How to read it |
 | --- | --- |
@@ -35,15 +33,13 @@ Without records, the page shows **Layout preview · No data yet** and links to c
 
 A script **block recommendation** does not mean the file has been quarantined. Agent block counts include calls that were actually denied.
 
-![Screenshot pending: Script and Agent risk trends](./screenshots/pending.svg)
-
-_Screenshot pending: 7/30-day selector, both trend sources, and their metrics._
+![Script and Agent risk trends](./screenshots/02-dashboard/pasted-20261104052257.png)
 
 ## 3. Start or Stop Script Monitoring
 
 The status card at the top of the sidebar shows connection and monitoring status. Its switch starts or stops script monitoring in the configured directories.
 
-> ![Pending: current sidebar status indicator and monitoring switch](./screenshots/pending.svg)
+![Sidebar monitoring status and switch](./screenshots/02-dashboard/pasted-20261104052330.png)
 
 First add folders under **Settings → Security → Watch Directory**, then turn monitoring on. Selecting the status indicator also opens directory configuration. See [Monitoring and Directory Setup](04-monitoring.md).
 
@@ -62,10 +58,6 @@ Script monitoring and **Runtime protection** are separate features. To record Ag
 | **Audit Log** | Tool-call audit records for this Agent |
 | **Session Traces** | Related activity grouped by session |
 | **Rules hit** | Rules matched by this Agent |
-
-![Screenshot pending: Agent list and details](./screenshots/pending.svg)
-
-_Screenshot pending: list search, selected Agent details, and the four tabs._
 
 DeepIntent Agent is integrated automatically and labeled **Audit only**. Text-only replies do not count as tool-call events. External Agents need a connector and supported tool activity before their audit and enforcement records appear.
 

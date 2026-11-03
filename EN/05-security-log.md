@@ -9,7 +9,7 @@
 
 Click **“Threat Center”** in the left navigation bar.
 
-> ![Screenshot pending: current Threat Center overview](./screenshots/pending.svg)
+![Threat Center tabs and script threats](./screenshots/05-security-log/pasted-20261104054911.png)
 
 | Tab | Content |
 | --- | --- |
@@ -19,8 +19,6 @@ Click **“Threat Center”** in the left navigation bar.
 | History | Previous script analysis records |
 | Notifications | Security, analysis, monitoring, and system messages |
 | Security Sandbox | Quarantine, Safe, and Remediation zones |
-
-_Screenshot pending: all six tabs and current script details._
 
 ---
 
@@ -40,7 +38,7 @@ The **Script threats** tab uses a **two-column layout**. When no file is selecte
 | Search box | Search by filename |
 | `Directory Tree` / `List` | Switch the script list display mode |
 
-> ![Screenshot pending: current script list and detail columns](./screenshots/pending.svg)
+![Script list and analysis detail layout](./screenshots/05-security-log/pasted-20261104054936.png)
 
 ---
 
@@ -57,7 +55,7 @@ In **Directory Tree** view, scripts are grouped by directory. Group headings sho
 
 Each folder can be collapsed or expanded by clicking it, and the number of scripts in the folder appears on the right.
 
-> ![Screenshot pending: scripts grouped by directory with detection sources](./screenshots/pending.svg)
+![Script threats grouped by directory](./screenshots/05-security-log/pasted-20261104054956.png)
 
 ### Script Entry Information
 
@@ -90,7 +88,7 @@ Each script entry displays:
 
 ## Right: Detail Panel
 
-> ![Screenshot pending: detection source, authoring intent, and detail actions](./screenshots/pending.svg)
+![Script analysis detail panel and available actions](./screenshots/05-security-log/pasted-20261104055016.png)
 
 Click any script on the left to display its detailed analysis result on the right.
 
@@ -124,9 +122,6 @@ When a script's verdict changes, **Verdict history** in its details shows previo
 
 When the current checks find no issues, the details show a corresponding pass message. Also check the participating engines: a clean rule scan does not mean AI review completed.
 
-> ✅ **No security issues found**
-> ![Screenshot pending: a clean result and participating engines](./screenshots/pending.svg)
-
 ### Issue Cards
 
 Each security issue appears as a collapsible card with the risk level, trigger location, code snippet, issue description, and remediation recommendation.
@@ -156,7 +151,9 @@ If a script was blocked incorrectly and you have confirmed that it is safe, you 
 2. Locate the red quarantine information bar in the detail panel
 3. Select **Trust** and confirm; use **Security Sandbox** for bulk actions
 
-> ![Screenshot pending: Quarantine, Trust, Re-analyze, and Deep AI review actions](./screenshots/pending.svg)
+![Trust action for a quarantined script](./screenshots/05-security-log/pasted-20261104055121.png)
+
+![Confirm restoration of a quarantined script](./screenshots/05-security-log/pasted-20261104055130.png)
 
 After you confirm trust, AgentSec removes the safe stub, restores the original file to its original path, and adds the file to the **allowlist** (trusted list). Future scans skip analysis if the file's contents have not changed.
 
@@ -170,13 +167,17 @@ You can export analysis results as a ZIP file for submitting a support ticket or
 2. Select a save location
 3. Click **“Save”**
 
-> ![Screenshot pending: Export Logs in the upper-right More menu](./screenshots/pending.svg)
+![Export Logs from Threat Center](./screenshots/05-security-log/pasted-20261104055147.png)
 
 The export contains:
 
 - Security analysis records, excluding script source code
 - Application runtime logs
 - AI conversation records
+
+![Contents of the exported analysis records](./screenshots/05-security-log/pasted-20261104055301.png)
+
+The exported `security-analysis.json` file can also be analyzed with other AI tools to generate reports in the PDF format you need.
 
 ---
 

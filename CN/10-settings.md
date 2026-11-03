@@ -8,7 +8,7 @@
 
 点击侧边栏底部的 **⚙ 设置** 按钮。
 
-![待补：新版设置分类导航全景](./screenshots/pending.svg)
+![打开设置](./screenshots/10-settings/pasted-20261104060900.png)
 
 ---
 
@@ -24,20 +24,18 @@
 
 ## 一、常规
 
-![待补：常规设置、运行模式与 Agent Island](./screenshots/pending.svg)
-
 ### 配置向导
 
 点击 **「运行引导向导」** 可以重新运行首次配置向导。适合想要重新设置使用方式或监控目录的情况。
 
 ### 运行模式
 
-| 模式                 | 说明                         |
-| ------------------ | -------------------------- |
-| Local（离线本地） | 不登录 AgentSec；规则在本机运行。AI 可选，使用您配置的模型服务 |
-| Community（云端 SaaS） | 登录 AgentSec 云服务，使用组织提供的模型服务 |
+| 模式                 | 说明                                    |
+| ------------------ | ------------------------------------- |
+| Local（离线本地）        | 不登录 AgentSec；规则在本机运行。AI 可选，使用您配置的模型服务 |
+| Community（云端 SaaS） | 登录 AgentSec 云服务，使用组织提供的模型服务           |
 
-![待补：本地模式和可选 AI 模型配置](./screenshots/pending.svg)
+![运行模式](./screenshots/10-settings/pasted-20261104060935.png)
 
 切换模式后，下方会显示对应的提示和配置项。
 
@@ -70,15 +68,13 @@ Debug 的 **Git 保管库** 可查看内容快照的提交日志、追踪文件�
 
 ## 二、安全配置
 
-![待补：安全配置页面及新增功能](./screenshots/pending.svg)
+![二、安全配置](./screenshots/10-settings/pasted-20261104060959.png)
 
 ### DeepIntent Agent 工作区
 
 点击 **导入待修复脚本**，把需要助手读取或修改的脚本副本放入工作区；点击 **打开工作区** 查看文件。助手的文件工具只访问该工作区，监控目录不会扩大其读写范围，原始脚本不会因导入而修改。
 
-![待补：DeepIntent Agent 工作区](./screenshots/pending.svg)
-
-_截图待补：工作区路径、导入待修复脚本与打开工作区按钮。_
+![DeepIntent Agent 工作区](./screenshots/10-settings/pasted-20261104061100.png)
 
 ### 运行时防护与 Agent 接入
 
@@ -90,10 +86,6 @@ _截图待补：工作区路径、导入待修复脚本与打开工作区按钮�
 4. 到 **安全仪表盘 → Agent 监控** 和 **威胁中心 → Agent 实时事件** 查看记录。
 
 内置 DeepIntent Agent 自动接入，界面标为「仅审计」。外部 Agent 仅对已接入且受支持的工具调用实施防护。**超时处置** 可选「拒绝（默认）」或「放行并留痕」。
-
-![待补：运行时防护与 Agent 目录检测](./screenshots/pending.svg)
-
-_截图待补：运行时防护开关、超时处置及已检测 Agent 的部署状态。_
 
 ### 监控开关
 
@@ -140,9 +132,7 @@ AI 研判用于理解脚本意图，补充识别规则暂未覆盖的风险。�
 
 ## 三、账户
 
-![待补：当前版本账户与组织信息](./screenshots/pending.svg)
-
-### 登录状态
+![三、账户](./screenshots/10-settings/pasted-20261104061257.png)
 
 #### 已登录
 
@@ -166,13 +156,11 @@ AI 研判用于理解脚本意图，补充识别规则暂未覆盖的风险。�
 
 点击 **「测试连接」** 可以验证服务端是否可达、登录凭证是否有效。
 
-![待补：账户页测试连接结果](./screenshots/pending.svg)
-
----
+![连接测试](./screenshots/10-settings/pasted-20261104061326.png)
 
 ## 四、更新
 
-![待补：版本更新、上次检查与更新 API 地址](./screenshots/pending.svg)
+![四、更新](./screenshots/10-settings/pasted-20261104061359.png)
 
 ### 自动检查更新
 
@@ -202,7 +190,7 @@ AI 研判用于理解脚本意图，补充识别规则暂未覆盖的风险。�
 
 ## 五、外观
 
-![待补：界面大小、主题、配色风格及语言](./screenshots/pending.svg)
+![五、外观](./screenshots/10-settings/pasted-20261104061419.png)
 
 ### 界面大小
 
@@ -230,7 +218,7 @@ AI 研判用于理解脚本意图，补充识别规则暂未覆盖的风险。�
 
 ## 六、版本说明
 
-![待补：v2.3.7 版本说明](./screenshots/pending.svg)
+![六、版本说明](./screenshots/10-settings/pasted-20261104061429.png)
 
 显示 v2.0.1 起的版本更新历史（Changelog），按版本倒序排列。
 

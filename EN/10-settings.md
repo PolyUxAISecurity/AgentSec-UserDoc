@@ -8,7 +8,7 @@
 
 Select the **⚙ Settings** button at the bottom of the sidebar.
 
-![Screenshot pending: Updated Settings categories](./screenshots/pending.svg)
+![Settings category navigation](./screenshots/10-settings/pasted-20261104060900.png)
 
 ---
 
@@ -24,8 +24,6 @@ Settings save automatically. Monitoring and runtime-protection switches take eff
 
 ## I. General
 
-![Screenshot pending: General, Run Mode, and Agent Island](./screenshots/pending.svg)
-
 ### Setup Wizard
 
 Select **Run setup wizard** to run initial setup again. This is useful when you want to reconfigure the run mode or monitoring directories.
@@ -37,7 +35,7 @@ Select **Run setup wizard** to run initial setup again. This is useful when you 
 | Local (Offline) | No AgentSec sign-in; rules run on this computer. AI is optional and uses your configured model service |
 | Community (Cloud SaaS) | Sign in to AgentSec cloud and use the model service provided by your organization |
 
-![Screenshot pending: Local mode and optional AI model settings](./screenshots/pending.svg)
+![Run mode and optional local AI configuration](./screenshots/10-settings/pasted-20261104060935.png)
 
 After you switch modes, the corresponding messages and configuration options appear below.
 
@@ -71,15 +69,13 @@ The **“Reset All Data”** button:
 
 ## II. Security
 
-![Screenshot pending: Updated Security](./screenshots/pending.svg)
+![Security configuration settings](./screenshots/10-settings/pasted-20261104060959.png)
 
 ### DeepIntent Agent Workspace
 
 Select **Import scripts for repair** to copy scripts into the workspace, then **Open workspace** to view them. The assistant's file tools access only this workspace. Monitoring directories do not expand its access, and importing a script does not modify the original.
 
-![Screenshot pending: DeepIntent Agent workspace](./screenshots/pending.svg)
-
-_Screenshot pending: workspace path, Import scripts for repair, and Open workspace._
+![DeepIntent Agent workspace controls](./screenshots/10-settings/pasted-20261104061100.png)
 
 ### Runtime Protection and Agent Connections
 
@@ -91,10 +87,6 @@ Enable **Runtime protection** to record DeepIntent Agent activity and tool audit
 4. View records under **Security Dashboard → Agent Monitor** and **Threat Center → Agent live events**.
 
 DeepIntent Agent is integrated automatically and labeled **Audit only**. External Agent protection applies to supported tool calls from connected Agents. **Timeout action** offers **Deny (default)** or **Allow + audit**.
-
-![Screenshot pending: Runtime protection and Agent directory detection](./screenshots/pending.svg)
-
-_Screenshot pending: protection switch, timeout action, and deployment status for detected Agents._
 
 ### Monitoring
 
@@ -141,9 +133,7 @@ AI assessment interprets script intent and helps identify risks not yet covered 
 
 ## III. Account
 
-![Screenshot pending: Account and organization information](./screenshots/pending.svg)
-
-### Sign-In Status
+![Account and organization information](./screenshots/10-settings/pasted-20261104061257.png)
 
 #### Signed In
 
@@ -167,13 +157,13 @@ Click **“Sign Out”** to disconnect from the server.
 
 Click **“Test Connection”** to verify that the server is reachable and the sign-in credentials are valid.
 
-![Screenshot pending: Account connection test result](./screenshots/pending.svg)
+![Account connection test result](./screenshots/10-settings/pasted-20261104061326.png)
 
 ---
 
 ## IV. Updates
 
-![Screenshot pending: Updates, last check, and API URL](./screenshots/pending.svg)
+![Version updates and update API settings](./screenshots/10-settings/pasted-20261104061359.png)
 
 ### Automatically Check for Updates
 
@@ -204,7 +194,7 @@ When a new version is detected:
 
 ## V. Appearance
 
-![Screenshot pending: Interface size, theme, accent, and language](./screenshots/pending.svg)
+![Interface size, theme, accent, and language settings](./screenshots/10-settings/pasted-20261104061419.png)
 
 ### Interface Size
 
@@ -233,7 +223,7 @@ The entire interface updates immediately after you switch languages. The AI Assi
 
 ## VI. Version Notes
 
-![Screenshot pending: v2.3.7 version notes](./screenshots/pending.svg)
+![Version release notes](./screenshots/10-settings/pasted-20261104061429.png)
 
 Displays version history from v2.0.1 onward, with the latest version first.
 

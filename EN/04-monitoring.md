@@ -24,13 +24,13 @@ AgentSec monitoring includes the following automated operations:
 3. Click **“Select Directory”**
 4. **Multiple directories can be monitored simultaneously**: Add more than one folder path
 
-> ![Pending: Watch Directory in current Security settings](./screenshots/pending.svg)
+![Monitoring directory configuration](./screenshots/04-monitoring/pasted-20261104054816.png)
 
 ### Use Auto-Detection
 
 AgentSec automatically detects RPA tools installed on your computer and lists their default project directories in the suggestions area:
 
-> ![Pending: currently detected RPA directory suggestions](./screenshots/pending.svg)
+![Detected RPA directory suggestions](./screenshots/04-monitoring/pasted-20261104054826.png)
 
 | Tool That May Be Detected | Default Directory |
 | --- | --- |
@@ -57,7 +57,7 @@ AgentSec automatically detects RPA tools installed on your computer and lists th
 1. Confirm that the **“Monitoring Directories”** are configured correctly
 2. Turn on the **“Monitoring”** switch
 
-> ![Pending: current sidebar monitoring switch off and on](./screenshots/pending.svg)
+![Turn monitoring on from the sidebar](./screenshots/04-monitoring/pasted-20261104054847.png)
 
 After monitoring starts, AgentSec scans existing files, watches new or modified scripts, and updates results in real time. With the default enforcement policy, blocking rule matches are quarantined automatically. AI recommendations to block require you to select **Quarantine** in Threat Center.
 

@@ -36,7 +36,7 @@ To configure the app again:
 
 Click the ⚙ **Settings** icon at the bottom of the sidebar → select **General** on the left → click the **"Run setup wizard"** button.
 
-![Screenshot pending: Run setup wizard in General settings](./screenshots/pending.svg)
+![Run the setup wizard from General settings](./screenshots/01-quickstart/pasted-20261104045938.png)
 
 ### 2.1 Choose your mode
 
@@ -59,16 +59,15 @@ You'll see two options:
 4. After login, the browser **auto-redirects back to the app**
 
 > ![onboarding-login-browser](./screenshots/01-quickstart/onboarding-login-browser.png)
->
 > ![onboarding-login-browser-verified](./screenshots/01-quickstart/onboarding-login-browser-verified.png)
 
 **Success indicator**: Your email and avatar appear at the bottom of the sidebar.
 
-> ![onboarding-login-success](./screenshots/01-quickstart/onboarding-login-success.png)
+> ![Account information after signing in](./screenshots/01-quickstart/onboarding-account-details.png)
 
 ### 2.3 Choose Watch Directory
 
-Click **Add Directory** and pick the folder containing your RPA scripts. **Multiple directories can be monitored simultaneously.**
+Click **Add Directory**, locate the folder containing your RPA scripts, and confirm with **Select Folder** in the dialog.
 
 > ![onboarding-select-dir|554](./screenshots/01-quickstart/onboarding-select-dir.png)
 > ![chose-ok](./screenshots/01-quickstart/chose-ok.png)
@@ -89,9 +88,7 @@ Select a provider and model name, then enter an API key if required. Local servi
 
 After the wizard, you'll see the **Dashboard**.
 
-![Screenshot pending: Security Overview and sidebar monitoring switch](./screenshots/pending.svg)
-
-_Screenshot pending: Security Dashboard → Security Overview, including the sidebar monitoring switch._
+![Security Overview after completing the setup wizard](./screenshots/01-quickstart/pasted-20261104050439.png)
 
 Now turn on the monitoring switch.
 
@@ -101,8 +98,6 @@ Now turn on the monitoring switch.
 |--------|-------------|
 | Monitoring switch | Changes from off to on; the status text displays `Monitoring` |
 | Analysis results | Script results and risk distribution update as scanning completes |
-
-![Screenshot pending: Monitoring status and updated script results](./screenshots/pending.svg)
 
 **What AgentSec is doing:**
 
@@ -127,11 +122,11 @@ Rule results appear first. AI assessment time depends on the script, model, and 
 
 Click **"Threat Center"** in the sidebar to view per-script details.
 
-![Screenshot pending: Updated Script threats](./screenshots/pending.svg)
+![Script list in Threat Center](./screenshots/01-quickstart/pasted-20261104050538.png)
 
 **Click any script** to expand the detail panel:
 
-![Screenshot pending: Script details, engine status, and action taken](./screenshots/pending.svg)
+![Selected script analysis details](./screenshots/01-quickstart/pasted-20261104050646.png)
 
 **Three key pieces of information:**
 1. **💡 Recommendation**: How to fix the issue
@@ -154,13 +149,13 @@ Keep it quarantined; do not select **Trust** or restore it. Review the finding a
 2. Click **"Trust"**
 3. Confirm → the file moves to the **Safe** area
 
-![Screenshot pending: Trust action in Security Sandbox](./screenshots/pending.svg)
->
-![Screenshot pending: Trust confirmation dialog](./screenshots/pending.svg)
->
-![Screenshot pending: File status after trust or restore](./screenshots/pending.svg)
+![Select a quarantined script to trust](./screenshots/01-quickstart/pasted-20261104050907.png)
 
-> 💡 After restore, the file content stays the same. If you later modify it, AgentSec will re-analyze it.
+![Confirm the trust operation](./screenshots/01-quickstart/pasted-20261104050925.png)
+
+![Script restored to the Safe Zone](./screenshots/01-quickstart/pasted-20261104050952.png)
+
+> 💡 After restore, the file content stays the same and future scans skip it. If you later modify it, AgentSec will re-analyze it.
 
 ---
 
@@ -174,7 +169,7 @@ Try asking:
 
 > "Which script has the highest risk? Why?"
 
-![Screenshot pending: Current AI Assistant and response](./screenshots/pending.svg)
+![AI Assistant answering a security question](./screenshots/01-quickstart/pasted-20261104051054.png)
 
 The AI responds based on actual monitoring data and analysis results — not generic replies.
 

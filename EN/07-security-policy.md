@@ -22,9 +22,7 @@ Expand **“AgentSec Engine™”** in the left navigation bar, then click **“
 
 In self-hosted mode, the administrator manages rules and the client shows a read-only notice. When editing is available, select **Save rules** after changing rules, domains, or credential formats.
 
-![Screenshot pending: AgentSec Engine overview](./screenshots/pending.svg)
-
-_Screenshot pending: five protection modules, active rule version, and AI status._
+![AgentSec Engine protection modules](./screenshots/07-security-policy/pasted-20261104060046.png)
 
 ---
 
@@ -132,15 +130,15 @@ To detect proprietary company keys, add their prefixes under **“Custom Prefixe
 
 Select **Configure model** at the top of Engine, or the **AI Model** tab in a module detail page, to view connection status and the current model:
 
+![Current AI model and connection status](./screenshots/07-security-policy/pasted-20261104060208.png)
+
 - The Rules Engine performs deterministic blocking of known risks.
 - The DeepIntent large model assesses script intent.
 - Findings identify which engines participated. Rules continue to work when AI is disabled.
 
 After signing in, AgentSec relays AI requests and the organization manages the quota. The current model is shown in the interface. In Local mode, select **Go to settings** and configure your model under **Settings → General → Operating mode**.
 
-![Screenshot pending: AI model status and settings entry](./screenshots/pending.svg)
-
-_Screenshot pending: current model, connection status, and Go to settings._
+![AI model settings entry](./screenshots/07-security-policy/pasted-20261104060312.png)
 
 ---
 
@@ -176,15 +174,15 @@ During script analysis, AgentSec checks the risks covered by enabled rules. Bloc
 
 The Rule Lab has **Built-in demos**, **Test a script**, and **Dify workflows** tabs. Select a tab, then start its operation; switching tabs does not start analysis. See the [Dify guide](dify.md) for workflow audits.
 
-![Screenshot pending: the three Rule Lab tabs](./screenshots/pending.svg)
-
-_Screenshot pending: Built-in demos, Test a script, Dify workflows, and their start controls._
+![Rule Lab tabs and demo controls](./screenshots/07-security-policy/pasted-20261104060351.png)
 
 ## Run the Demonstration
 
 The page includes nine real UiPath `.xaml` samples covering scenarios such as downloading and executing code, deleting files, bypassing validation, domain blocklists and allowlists, and credential patterns.
 
 In **Built-in demos**, select **Run Demo** to analyze the samples and review their verdicts. Some samples without rule matches proceed to AI analysis when AI is enabled and configured. The page identifies the engine used.
+
+![Built-in demo verdicts and participating engines](./screenshots/07-security-policy/pasted-20261104060415.png)
 
 The lab shows detection verdicts. It does not execute the samples or quarantine files in your projects.
 
@@ -261,9 +259,7 @@ To create your own detection rules, enable **Show custom DSL rules** under **Set
 
 These rules apply only on this device. Turning off Advanced mode hides the management entry; saved rules continue to run according to their enabled state.
 
-![Screenshot pending: DSL editor and active rules](./screenshots/pending.svg)
-
-_Screenshot pending: Advanced mode switch, validation result, and active rule list._
+![Custom DSL rule editor and active rules](./screenshots/07-security-policy/pasted-20261104060505.png)
 
 # FAQ
 

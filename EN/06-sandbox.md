@@ -14,17 +14,13 @@ Security Sandbox manages quarantined and trusted files, with a separate area for
 | Safe Zone | Stores scripts confirmed as trusted and restored from quarantine |
 | Remediation Zone | Edit and recheck quarantined copies; files remain isolated |
 
-> ![Screenshot pending: Quarantine, Safe, and Remediation zones](./screenshots/pending.svg)
-
-_Screenshot pending: Quarantine, Safe, and the Remediation zone below them._
-
 ---
 
 ## Open the Security Sandbox
 
 The Security Sandbox is integrated into the **Threat Center**. Click **“Threat Center”** in the left navigation bar, then click the **“Security Sandbox”** tab at the top.
 
-> ![Screenshot pending: open Security Sandbox from the current Threat Center](./screenshots/pending.svg)
+![Open Security Sandbox in Threat Center](./screenshots/06-sandbox/pasted-20261104055501.png)
 
 ---
 
@@ -50,8 +46,6 @@ Each entry in the Quarantine Zone displays:
 | Risk level | `CRITICAL` / `HIGH` label |
 | Original path | Full path of the file before it was quarantined |
 | Quarantine time | When the file was quarantined |
-
-> ![Screenshot pending: quarantine reason, Trust, and Remediate actions](./screenshots/pending.svg)
 
 ---
 
@@ -91,9 +85,11 @@ If a script was blocked incorrectly, you can restore it:
 2. Click **“Trust Selected”**
 3. Confirm the operation
 
-> ![Pending: select quarantined files and trust them in the current Sandbox](./screenshots/pending.svg)
->
-> ![Pending: current confirmation dialog for trusting selected files](./screenshots/pending.svg)
+![Select quarantined files for bulk trust](./screenshots/06-sandbox/pasted-20261104055754.png)
+
+![Bulk trust confirmation](./screenshots/06-sandbox/pasted-20261104055849.png)
+
+![Restored files in the Safe Zone](./screenshots/06-sandbox/pasted-20261104055807.png)
 
 **Option 2: Restore by Dragging**
 
@@ -106,7 +102,7 @@ If a script was blocked incorrectly, you can restore it:
 2. Expand its detail panel
 3. Click **“Trust”**
 
-> ![Screenshot pending: Trust in the current threat details](./screenshots/pending.svg)
+![Trust a file from its Threat Center details](./screenshots/06-sandbox/pasted-20261104055910.png)
 
 During restore, AgentSec deletes the safe stub, moves the quarantined file back to its original path, calculates the file hash, and adds it to the trusted list. As long as the file contents remain unchanged, future scans will not analyze it again.
 
@@ -119,7 +115,7 @@ If a previously restored file is found to be risky after review, or you want to 
 
 The files are removed from the Safe Zone and processed through the quarantine workflow again.
 
-> ![Pending: quarantine selected files from the current Safe Zone](./screenshots/pending.svg)
+![Move trusted files back into quarantine](./screenshots/06-sandbox/pasted-20261104055951.png)
 
 ### Edit and Recheck in the Remediation Zone
 
@@ -130,10 +126,6 @@ The files are removed from the Safe Zone and processed through the quarantine wo
 5. To stop remediation, select **Back to quarantine**.
 
 Moving into or out of Remediation changes the management view; the original location still contains a safe stub. Remediation works one file at a time and does not support bulk trust or dragging.
-
-![Screenshot pending: Edit, Recheck, and passing remediation result](./screenshots/pending.svg)
-
-_Screenshot pending: Remediate, Edit, Recheck, the latest result, and Trust and move to safe zone._
 
 ### Select Multiple Files
 

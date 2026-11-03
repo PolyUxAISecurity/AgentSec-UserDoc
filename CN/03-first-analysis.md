@@ -29,9 +29,8 @@
 启动监控后，AgentSec 会扫描 `C:\Users\Documents\UiPath`，发现三个 `.xaml` 文件并依次创建分析任务。扫描完成后，仪表盘会更新脚本数量和初步分析结果。
 
 **您看到的画面：**
-> ![待补：首次扫描后的规则与 AI 研判进度](./screenshots/pending.svg)
 
----
+![阶段一：扫描与发现](./screenshots/03-first-analysis/pasted-20261104053148.png)
 
 ## 阶段二：安全检查
 
@@ -78,13 +77,14 @@ AgentSec 规则扫描 → 按配置调用 AI 模型
 ## 阶段三：查看结果
 
 分析完成后，在左侧导航栏点击 **「威胁中心」**，再从脚本列表中选择文件查看详情。
-> ![待补：三个脚本的检出方式、风险和处置状态](./screenshots/pending.svg)
 
-| 文件 | 重点核对 |
-| --- | --- |
-| `Call_LLM_API.xaml` | 凭据与外部请求问题、检出方式、建议动作及当前处置状态 |
-| `Call_LLM_Secure.xaml` | 是否检出问题，以及本次是否完成 AI 研判 |
-| `Cleanup_TempFiles.xaml` | 删除命令的规则证据，以及是否已隔离 |
+![阶段三：查看结果](./screenshots/03-first-analysis/pasted-20261104054305.png)
+
+| 文件                       | 重点核对                       |
+| ------------------------ | -------------------------- |
+| `Call_LLM_API.xaml`      | 凭据与外部请求问题、检出方式、建议动作及当前处置状态 |
+| `Call_LLM_Secure.xaml`   | 是否检出问题，以及本次是否完成 AI 研判      |
+| `Cleanup_TempFiles.xaml` | 删除命令的规则证据，以及是否已隔离          |
 
 这里可以看到三个典型结果：
 
@@ -111,8 +111,6 @@ AgentSec 规则扫描 → 按配置调用 AI 模型
 
 **处理建议：** 删除明文凭据，轮换已经暴露的密钥，并改用 UiPath Orchestrator Asset 或其他密钥管理服务。
 
-> ![待补：Call_LLM_API.xaml 的当前分析结果](./screenshots/pending.svg)
-
 ---
 
 ### 脚本二：`Call_LLM_Secure.xaml`——核对整改方式
@@ -133,8 +131,6 @@ AgentSec 规则扫描 → 按配置调用 AI 模型
 #### AgentSec 的判定
 该工作流实现了相同的 LLM 与 Slack 调用，但凭据从 Orchestrator Assets 读取，并加入了异常处理、HTTP 状态检查和安全日志。查看当前报告，核对这些改动是否解决了已发现的问题；若仅完成规则扫描，不要将其理解为已完成 AI 审查。
 
-> ![待补：Call_LLM_Secure.xaml 的当前分析结果及参与引擎](./screenshots/pending.svg)
-
 ---
 
 ### 脚本三：`Cleanup_TempFiles.xaml`——检查危险删除命令
@@ -148,8 +144,6 @@ Remove-Item -Recurse -Force -Path C:\
 该命令会尝试从系统盘根目录开始强制递归删除。查看命中的规则及处置状态；默认处置方式下，命中拦截规则会自动隔离。
 
 **处理建议：** 不要直接信任或还原；应将删除目标改为明确、受控的临时目录，并在执行前校验路径和使用 `-WhatIf` 预演。
-
-> ![待补：Cleanup_TempFiles.xaml 的规则证据和隔离状态](./screenshots/pending.svg)
 
 ---
 

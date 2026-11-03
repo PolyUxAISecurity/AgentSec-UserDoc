@@ -72,9 +72,7 @@ AgentSec supports three running modes — choose what fits your environment:
 
 ## Quick Interface Overview
 
-![Screenshot pending: Updated client interface and navigation](./screenshots/pending.svg)
-
-_Screenshot pending: Security Overview, sidebar, and account entry._
+![AgentSec client interface and navigation](./screenshots/home/pasted-20261104045743.png)
 
 ---
 

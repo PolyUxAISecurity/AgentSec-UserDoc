@@ -29,7 +29,8 @@ After configuring directories, enable the **Monitoring** switch at the top of th
 After monitoring starts, AgentSec scans `C:\Users\Documents\UiPath`, discovers the three `.xaml` files, and creates analysis tasks for them one by one. Once scanning finishes, the dashboard updates the script count and initial analysis results.
 
 **What you see:**
-> ![Screenshot pending: rule and AI progress after the first scan](./screenshots/pending.svg)
+
+![Initial scan progress and analysis results](./screenshots/03-first-analysis/pasted-20261104053148.png)
 
 ---
 
@@ -79,7 +80,8 @@ Return analysis results
 ## Phase 3: View Results
 
 After analysis is complete, click **“Threat Center”** in the left navigation bar, then select a file from the script list to view its details.
-> ![Screenshot pending: detection source, risk, and disposition for the three scripts](./screenshots/pending.svg)
+
+![Analysis results for the UiPath workflow examples](./screenshots/03-first-analysis/pasted-20261104054305.png)
 
 | File | What to check |
 | --- | --- |
@@ -113,8 +115,6 @@ Inspect the plaintext API key, Slack token, and password-like fields in the XAML
 
 **Recommended action:** Remove plaintext credentials, rotate the exposed keys, and use UiPath Orchestrator Assets or another secrets-management service instead.
 
-> ![Screenshot pending: current findings for Call_LLM_API.xaml](./screenshots/pending.svg)
-
 ---
 
 ### Script 2: `Call_LLM_Secure.xaml` — Review the Remediation
@@ -136,8 +136,6 @@ The secure version still performs the same business process—calling an LLM to 
 
 This workflow performs the same LLM and Slack calls, but retrieves credentials from Orchestrator Assets and includes exception handling, HTTP status checks, and secure logging. Review the current report to check whether those changes resolve the findings. A rules-only result does not mean AI review completed.
 
-> ![Screenshot pending: current findings and participating engines for Call_LLM_Secure.xaml](./screenshots/pending.svg)
-
 ---
 
 ### Script 3: `Cleanup_TempFiles.xaml` — Inspect the Dangerous Deletion
@@ -151,8 +149,6 @@ Remove-Item -Recurse -Force -Path C:\
 This command attempts forced recursive deletion from the system-drive root. Check the matched rule and disposition; with the default enforcement policy, a blocking rule match is quarantined automatically.
 
 **Recommended action:** Do not trust or restore the file directly. Change the deletion target to an explicit, controlled temporary directory, validate the path before execution, and use `-WhatIf` for a dry run.
-
-> ![Screenshot pending: rule evidence and quarantine state for Cleanup_TempFiles.xaml](./screenshots/pending.svg)
 
 ---
 

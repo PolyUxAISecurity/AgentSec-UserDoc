@@ -11,6 +11,9 @@ hero:
     - theme: brand
       text: English
       link: /EN/
+    - theme: brand
+      text: 繁體中文
+      link: /TW/
     - theme: alt
       text: Dify 演示
       link: /CN/dify

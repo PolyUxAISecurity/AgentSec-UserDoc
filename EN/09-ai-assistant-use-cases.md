@@ -101,10 +101,6 @@ For example, to start monitoring, enter:
 
 The assistant checks configuration first. Its directory selection and monitoring start operations are limited to the AgentSec workspace and its subdirectories. Use the interface monitoring switch for external directories, and the client's **Export logs** button for log export.
 
-![Screenshot pending: configuration check and monitoring operation](./screenshots/pending.svg)
-
-_Screenshot pending: configuration check and monitoring start for a workspace directory, or guidance to use the interface switch for an external directory._
-
 For more operations that can be performed automatically and their descriptions, see [08 — AI Security Assistant](08-ai-assistant.md#2-auto-execute-operations).
 
 ## Use Case 6: Continue an Earlier Investigation
@@ -113,9 +109,7 @@ Select **History** in the assistant title bar, search for and open a saved conve
 
 > Last time we discussed credentials in Main.xaml. What else should I verify?
 
-![Screenshot pending: continue from chat history](./screenshots/pending.svg)
-
-_Screenshot pending: search history, open a conversation, and ask a follow-up question._
+![Continue an investigation from chat history](./screenshots/09-ai-assistant-use-cases/pasted-20261104060828.png)
 
 ---
 

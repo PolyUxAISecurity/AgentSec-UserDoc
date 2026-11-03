@@ -10,9 +10,7 @@ Use this guide to connect local Agents and review tool calls, risk events, and a
 
 You can also enable it directly in Settings. It is off by default and has a separate switch from RPA script directory monitoring.
 
-![Screenshot pending: runtime module and protection switch](./screenshots/pending.svg)
-
-_Screenshot pending: supported Agents, Configure protection, and enabled status._
+![Runtime protection module and settings](./screenshots/agent-runtime/pasted-20261104061606.png)
 
 ## 2. Connect an Agent
 
@@ -27,19 +25,11 @@ For an external Agent:
 
 Protection applies to connected, supported tool calls. Turn off the deployment switch to remove an Agent's connector.
 
-![Screenshot pending: Agent detection and deployment](./screenshots/pending.svg)
-
-_Screenshot pending: built-in assistant status, detected external Agents, and deployment status._
-
 ## 3. Review Activity and Risk
 
 1. Expand **Security Dashboard → Agent Monitor** to view Agents with recorded activity.
 2. Search for and select an Agent to review its risk, event counts, and status.
 3. Use the **Overview**, **Audit log**, **Session traces**, and **Rules hit** detail tabs to inspect activity.
-
-![Screenshot pending: Agent Monitor and details](./screenshots/pending.svg)
-
-_Screenshot pending: Agent list, risk details, and session traces._
 
 ## 4. Review Events and Approvals
 
@@ -49,10 +39,6 @@ _Screenshot pending: Agent list, risk details, and session traces._
 4. Review the resulting action and approval record in the event details.
 
 DeepIntent Agent audits completed calls to record risks. Review each event's actual action and handling status alongside its risk findings.
-
-![Screenshot pending: real-time events and approval details](./screenshots/pending.svg)
-
-_Screenshot pending: filters, event detail, and approval record. If there are no pending events, capture an event detail first._
 
 ## 5. Set Timeout Handling or Turn Protection Off
 
