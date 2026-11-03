@@ -1,6 +1,6 @@
 # AgentSec Desktop — 用户手册
 
-欢迎使用 AgentSec Desktop！本手册将帮助您快速上手，全面了解如何使用 AgentSec 保护您的 RPA 脚本安全。
+欢迎使用 AgentSec Desktop！本手册将帮助您快速上手，全面了解如何使用 AgentSec 保护您的 RPA 脚本安全。使用 Dify 的读者可先看 [Dify 工作流演示与审计](dify.md)。
 
 如果您想跟着「快速入门」和「第一次安全分析」一起操作，可以先下载配套的 [UiPath 示例包](https://github.com/PolyUxAISecurity/AgentSec-UserDoc/raw/main/Demo/agentsec-uipath-demo.zip)。
 
@@ -34,6 +34,8 @@ AgentSec 是一款 **AI 驱动的 RPA 脚本安全监控工具**。它可以：
 | 09 | [设置详解](10-settings.md) | 常规、账户、更新、外观等 | 按需查阅 |
 | 10 | [关键概念](11-concepts.md) | 术语解释：什么是隔离？什么是风险等级？ | 按需查阅 |
 | 11 | [常见问题](12-faq.md) | 遇到问题怎么办 | 按需查阅 |
+
+另有独立的集成指南：[Dify 工作流演示与审计](dify.md)和 [UiPath Studio 插件](uipath-client.md)。这两项与本手册前面的 Desktop 目录监控流程不同。
 
 > 💡 **新手路径**：01 → 02 → 03 三篇看完，就完全上手了。其余按需查阅。
 

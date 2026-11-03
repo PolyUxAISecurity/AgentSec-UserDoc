@@ -59,6 +59,13 @@ export default withMermaid(
               { text: '11 · 常见问题', link: '/CN/12-faq' },
             ],
           },
+          {
+            text: '集成',
+            items: [
+              { text: 'Dify 工作流演示与审计', link: '/CN/dify' },
+              { text: 'UiPath Studio 插件', link: '/CN/uipath-client' },
+            ],
+          },
         ],
         '/EN/': [
           { text: 'Home', link: '/EN/' },
@@ -89,6 +96,13 @@ export default withMermaid(
             items: [
               { text: '10 · Key Concepts', link: '/EN/11-concepts' },
               { text: '11 · FAQ', link: '/EN/12-faq' },
+            ],
+          },
+          {
+            text: 'Integrations',
+            items: [
+              { text: 'Dify Workflow Demo and Audit', link: '/EN/dify' },
+              { text: 'UiPath Studio Plugin', link: '/EN/uipath-client' },
             ],
           },
         ],

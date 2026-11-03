@@ -1,6 +1,6 @@
 # AgentSec Desktop — User Manual
 
-Welcome to AgentSec Desktop! This manual will help you quickly get started and fully understand how to use AgentSec to protect your RPA scripts.
+Welcome to AgentSec Desktop! This manual will help you quickly get started and fully understand how to use AgentSec to protect your RPA scripts. For Dify, start with the [Dify workflow demo and audit](dify.md).
 
 To follow the Quick Start and First Security Analysis hands-on, download the companion [UiPath sample package](https://github.com/PolyUxAISecurity/AgentSec-UserDoc/raw/main/Demo/agentsec-uipath-demo.zip).
 
@@ -34,6 +34,8 @@ AgentSec is an **AI-powered RPA script security monitoring tool**. It can:
 | 09 | [Settings Details](10-settings.md) | General, account, updates, appearance, version | As needed |
 | 10 | [Key Concepts](11-concepts.md) | Terminology: What is quarantine? What is risk level? | As needed |
 | 11 | [FAQ](12-faq.md) | Common issues and solutions | As needed |
+
+Separate integration guides cover the [Dify workflow demo and audit](dify.md) and [UiPath Studio plugin](uipath-client.md). These are distinct from the Desktop directory monitoring flow above.
 
 > 💡 **New user path**: 01 → 02 → 03 — three chapters and you're fully onboard. The rest is reference.
 

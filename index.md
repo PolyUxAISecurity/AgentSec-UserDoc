@@ -12,8 +12,8 @@ hero:
       text: English
       link: /EN/
     - theme: alt
-      text: Quick Start
-      link: /CN/01-quickstart
+      text: Dify 演示
+      link: /CN/dify
 features:
   - title: 🔍 Auto-Scan
     details: Real-time monitoring of UiPath, Python, PowerShell, and other RPA scripts.
