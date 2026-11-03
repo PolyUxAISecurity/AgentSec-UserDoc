@@ -1,137 +1,82 @@
 # Security Dashboard Guide
 
-> The Security Dashboard brings together AgentSec's monitoring status, risk distribution, risky files, and analysis trends, helping you quickly understand your current overall security posture.
+The sidebar's **Security Dashboard** has two entries: **Security Overview** and **Agent Monitor**. The overview brings together script detection and Agent live events. Agent Monitor shows the activity and risk of an individual Agent.
 
----
+## 1. Read the Security Overview
 
-## Dashboard Overview
+![Screenshot pending: Full Security Overview](./screenshots/pending.svg)
 
-> ![Full view of the Security Dashboard](./screenshots/02-dashboard/dashboard-full.png)
+_Screenshot pending: four metric cards, Overall Risk, Agent risk ranking, Static detection, and High-risk events._
 
-The new dashboard is divided into the following main areas:
-
-| Area                  | Purpose                                                                        |
-| --------------------- | ------------------------------------------------------------------------------ |
-| **Monitoring Status** | View AgentSec's connection and monitoring status, and start or stop monitoring |
-| **Overall Risk**      | View the overall risk distribution of analyzed scripts                         |
-| **Issue Type**        | View the number and ranking of each type of security issue                     |
-| **Risky Files**       | Quickly locate script files that contain risks                                 |
-| **Analysis Trends**   | View changes in analysis data over the last 7, 14, or 30 days                  |
-| **AI Assistant**      | Interpret analysis results and provide remediation suggestions                 |
-
-> When you first open the dashboard or no analysis has been completed, some cards display “No data.” The dashboard updates automatically after monitoring starts and script analysis is completed.
-
----
-
-## I. View and Switch Monitoring Status
-
-The status card at the top of the left sidebar shows both the current **connection status** and **monitoring status**. Click the switch on the right side of the card to start or stop monitoring.
-> ![Dashboard monitoring status switch](./screenshots/02-dashboard/dashboard-monitoring-control.png)
-
-| Displayed Status | Meaning | Image |
-| --- | --- | --- |
-| **Connected · Not Monitoring** | Connected to the AgentSec service, but monitoring has not started | ![Connected but not monitoring](./screenshots/02-dashboard/status-connected-not-monitoring.png) |
-| **Monitoring** | Monitoring script changes in the configured directories | ![Monitoring](./screenshots/02-dashboard/status-monitoring.png) |
-| **Not Connected** | Not signed in or the server is unreachable | ![Not connected](./screenshots/02-dashboard/status-not-connected.png) |
-
-Before starting monitoring, configure the monitoring directories. For directory configuration and monitoring operations, see [Monitoring Management](04-monitoring.md).
-
----
-
-## II. Overall Risk
-
-The “Overall Risk” card shows the distribution of analyzed scripts across different risk levels, helping you quickly assess the overall risk of the current environment.
-> ![Overall risk distribution](./screenshots/02-dashboard/overall-risk.png)
-
-Common risk levels include:
-
-| Risk Level | Description |
+| Area | How to read it |
 | --- | --- |
-| **Critical** | May cause a major security impact and should be addressed first |
-| **High** | Presents a clear security risk and should be remediated as soon as possible |
-| **Medium** | Presents a potential risk and should be reviewed and addressed |
-| **Low** | Presents a lower risk and can be assessed in the context of actual business needs |
+| **Protected assets** | Agent and RPA script counts |
+| **High-risk assets** | Agents and RPA scripts with high risks |
+| **Events today / Blocked today** | Today's recorded runtime events and calls actually denied |
+| **Overall Risk** | Script risk levels and dispositions |
+| **Agent risk ranking** | Locate an Agent by risk; select a row to open its details |
+| **Static detection** | Select **RPA scripts** to see the script count and recent results |
+| **High-risk events** | Agent, time, severity, and action; select an event for details or select **View all** |
 
-When there are no analysis results, this area displays “Risk composition will be shown after analysis is complete.”
+The **Skills** tab currently says that static Skill scanning is not available yet. No scanning sample is needed for it.
 
----
+Without records, the page shows **Layout preview · No data yet** and links to configuration. These preview graphics are not detection results. The page updates after you configure monitored folders or connect an Agent and generate activity.
 
-## III. Issue Type Ranking
+## 2. Switch Risk Trends
 
-The “Issue Type Ranking” lists security issue types from most to least frequently detected, making it easier to identify the most common current risks.
-> ![Issue type ranking](./screenshots/02-dashboard/issue-type-ranking.png)
+1. Select **7** or **30** days at the top right.
+2. In Risk trends, select **Script analysis** or **Agent events**.
+3. Select the metric you want to inspect.
 
-This area shows:
-
-- Which type of security issue occurs most frequently;
-- The number of findings for each issue type;
-- The risk types that currently require the most attention.
-
-When there are no analysis results, this area displays “No issue categories yet. After analysis, issue types will be ranked from most to least frequent.”
-
----
-
-## IV. Risky Files
-
-The “Risky Files” area lists scripts in which security issues were detected, along with the number of issues in each script. Use the list to quickly locate files that need review.
-> ![Risky files list](./screenshots/02-dashboard/risk-files.png)
-
-- Click a risky file to open its analysis details;
-- Click **“View All”** in the upper-right corner to open the complete list in the Threat Center;
-- If no risky files have been detected, this area displays an empty-state message.
-
-For analysis results and issue details, see [Threat Center](05-security-log.md).
-
----
-
-## V. Analysis Trends
-
-“Analysis Trends” shows how script analysis data changes over time. Click the time range in the upper-right corner to switch between reporting periods:
-> ![Analysis trends](./screenshots/02-dashboard/analysis-trend.png)
-
-- **7**: Last 7 days;
-- **14**: Last 14 days;
-- **30**: Last 30 days.
-
-If there are no analysis records in the selected period, the page displays “No analysis data in the last N days.”
-
----
-
-## VI. Sidebar Information
-
-In addition to the monitoring switch, the left sidebar provides the following navigation and information:
-> ![Sidebar navigation and account information](./screenshots/02-dashboard/sidebar-navigation.png)
-
-| Item | Description |
+| Source | Metrics |
 | --- | --- |
-| **Security Dashboard** | Return to the current security posture overview |
-| **Threat Center** | View scripts, risk issues, and detailed analysis results |
-| **AgentSec Engine™** | Expand features related to AgentSec Engine |
-| **User Information** | Display the current signed-in account and user identity |
-| **Organization Usage** | Display the current organization's quota, percentage used, and remaining quota |
-| **Settings** | Click the gear icon to the right of the user information to open Settings |
+| **Script analysis** | Completed analyses, high-risk findings, and block recommendations |
+| **Agent events** | Tool events, high-risk events, and calls actually denied |
 
----
+A script **block recommendation** does not mean the file has been quarantined. Agent block counts include calls that were actually denied.
 
-## VII. AI Assistant
+![Screenshot pending: Script and Agent risk trends](./screenshots/pending.svg)
 
-Click the floating AI Assistant button in the lower-right corner to open the AI Security Assistant.
-> ![Floating AI Assistant button](./screenshots/02-dashboard/ai-assistant-fab.png)
+_Screenshot pending: 7/30-day selector, both trend sources, and their metrics._
 
-Using the current analysis results, the AI Assistant can:
+## 3. Start or Stop Script Monitoring
 
-- Explain risks and their impact;
-- Explain why an issue occurred;
-- Provide remediation suggestions;
-- Help perform related security operations.
+The status card at the top of the sidebar shows connection and monitoring status. Its switch starts or stops script monitoring in the configured directories.
 
-For details, see [AI Security Assistant Guide](08-ai-assistant.md).
+> ![Pending: current sidebar status indicator and monitoring switch](./screenshots/pending.svg)
 
----
+First add folders under **Settings → Security → Watch Directory**, then turn monitoring on. Selecting the status indicator also opens directory configuration. See [Monitoring and Directory Setup](04-monitoring.md).
 
-## Next Steps
+Script monitoring and **Runtime protection** are separate features. To record Agent tool activity, enable runtime protection and connect the external Agents you need under **Settings → Security**. See [Agent Runtime Protection and Monitoring](agent-runtime.md).
 
-- [Configure monitoring directories and start monitoring](04-monitoring.md)
-- [View script analysis results](05-security-log.md)
-- [Configure security policies](07-security-policy.md)
-- [Use the AI Security Assistant](08-ai-assistant.md)
+## 4. View Agent Monitor
+
+1. Expand **Security Dashboard** in the sidebar and select **Agent Monitor**.
+2. Search the list by name or ID, then select an Agent.
+3. Review its risk score, recent activity, events today, total blocks, pending approvals, and active sessions.
+4. Switch between the detail tabs.
+
+| Tab | Content |
+| --- | --- |
+| **Overview** | Risk sources and related assets, tools, and Skills |
+| **Audit Log** | Tool-call audit records for this Agent |
+| **Session Traces** | Related activity grouped by session |
+| **Rules hit** | Rules matched by this Agent |
+
+![Screenshot pending: Agent list and details](./screenshots/pending.svg)
+
+_Screenshot pending: list search, selected Agent details, and the four tabs._
+
+DeepIntent Agent is integrated automatically and labeled **Audit only**. Text-only replies do not count as tool-call events. External Agents need a connector and supported tool activity before their audit and enforcement records appear.
+
+## 5. Common Navigation
+
+| Entry | Purpose |
+| --- | --- |
+| **Threat Center** | Script threats, Agent live events, Dify workflows, History, Notifications, and Security Sandbox |
+| **AgentSec Engine™** | Engine modules, Rule Lab, and Marketplace |
+| **Account / usage at the bottom of the sidebar** | Current identity and organization quota |
+| **Sidebar gear button** | Open Settings |
+| **AI Assistant at the bottom right** | Open DeepIntent Agent; also available with `Ctrl+K` / `Cmd+K` |
+
+Continue with [Threat Center](05-security-log.md), [Dify Workflow Audit](dify.md), or [AI Assistant](08-ai-assistant.md).

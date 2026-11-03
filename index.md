@@ -3,7 +3,7 @@ layout: home
 hero:
   name: AgentSec
   text: User Manual
-  tagline: AI-Powered RPA Script Security Monitoring
+  tagline: RPA Script Monitoring · Agent Protection · Dify Workflow Audit
   actions:
     - theme: brand
       text: 简体中文
@@ -21,7 +21,13 @@ features:
   - title: 🛡️ Intelligent Analysis
     details: AI-powered detection of data exfiltration, hardcoded credentials, malicious commands.
     link: /CN/03-first-analysis
-  - title: 🚫 Proactive Blocking
-    details: Auto-quarantine high-risk scripts, prevent execution, protect data security.
+  - title: 🚫 Risk Handling
+    details: Review findings and enforcement status; quarantine or restore scripts when appropriate.
     link: /CN/06-sandbox
+  - title: 🔎 Dify Workflow Audit
+    details: Run the built-in demo, inspect workflow findings, and compare remediation results.
+    link: /CN/dify
+  - title: 🛡️ Agent Runtime Protection
+    details: Connect supported Agents and review tool-call events and approvals.
+    link: /CN/agent-runtime
 ---

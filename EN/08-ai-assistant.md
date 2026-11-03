@@ -20,9 +20,11 @@
 
 ## Assistant Panel Layout
 
-The AI Assistant panel contains a title bar, current-context indicator, suggested questions, conversation area, tool execution progress, and input box. You can type a question directly or click a suggested question to get started quickly.
+The panel contains a title bar, chat history, new chat, current-context indicator, suggested questions, conversation area, tool progress, and input box. Type a question or select a suggested question to get started.
 
-> ![Full AI Assistant panel](./screenshots/08-ai-assistant/chat-panel-full.png)
+![Screenshot pending: full AI Assistant panel](./screenshots/pending.svg)
+
+_Screenshot pending: current panel, History and New chat controls, context, tool progress, and model badge._
 
 ### Three Display Modes
 
@@ -57,24 +59,42 @@ Ask in natural language:
 
 ### 2. Auto-Execute Operations
 
-The AI assistant can execute 7 built-in tools:
+The assistant can query application state and help with these operations:
 
 | Capability | Trigger |
 |-----------|---------|
 | Check config | "Check my config" → AI validates directories, LLM, server connectivity |
-| Set watch directory | "Change my watch directory" → AI opens folder picker |
-| Start/Stop monitoring | "Start monitoring" → AI checks config first, then starts |
+| Set watch directory | Opens a folder picker; assistant operations are limited to the AgentSec workspace |
+| Start/Stop monitoring | Checks configuration first; use the interface monitoring switch for directories outside the workspace |
 | View monitoring status | "What's the monitoring status?" → AI returns current state |
 | View policy | "What are the current security rules?" → AI lists enabled rules |
 | Query analysis progress | "How's the analysis going?" → AI returns in-progress scripts |
-| Export logs | "Export my logs" → AI opens save dialog |
+| View engine and rules | "What ruleset version is active? Which rules are enabled?" |
+| View lab samples and policies | "Which demo samples and policies are available?" |
+| Read and repair workspace copies | Import a script, then ask the assistant to read, explain, or modify the copy |
 
 **AI checks config before acting**. For example, if you say "Start monitoring", it verifies that the monitoring directory, AI model, and server connection are ready. If something is wrong, it explains what needs fixing before continuing.
 
-> For example, the following screenshot shows the AI Assistant exporting security logs from the last 7 days:
-> ![The AI Assistant exports security logs](./screenshots/08-ai-assistant/chat-tool-executing.png)
+Use the client's **Export logs** button to export logs. Apply policies and change rules on their respective pages.
 
-### 3. Quick Action Buttons
+![Screenshot pending: state queries and tool progress](./screenshots/pending.svg)
+
+_Screenshot pending: expand the tool progress and show the actual query result._
+
+### 3. Read and Repair a Script Copy
+
+1. Open **Settings → Security → DeepIntent Agent workspace**.
+2. Select **Import scripts for repair** and choose a script. The client places a copy in its workspace.
+3. Open the assistant and identify the file and goal, for example: "Read Main.xaml in the workspace, explain the issues, and repair hardcoded credentials."
+4. Review the changes, then select **Open workspace** to inspect the file and arrange validation and use.
+
+The assistant can read and write workspace copies. It does not directly modify the external original or execute scripts.
+
+![Screenshot pending: importing and repairing a copy](./screenshots/pending.svg)
+
+_Screenshot pending: workspace entry, successful import, and assistant reading and saving the copy._
+
+### 4. Quick Action Buttons
 
 AI replies may include suggested action buttons:
 
@@ -85,6 +105,14 @@ AI replies may include suggested action buttons:
 Click any button to auto-send that question — no typing needed.
 
 > ![Quick action buttons following an AI response](./screenshots/08-ai-assistant/chat-suggested-actions.png)
+
+### 5. Rate an Answer
+
+When signed in and enrolled in an organization, **Useful** and **Not useful** buttons appear below assistant answers. Select **Not useful** to optionally describe the problem, then select **Send**. Local mode does not show these feedback buttons.
+
+![Screenshot pending: answer rating and written feedback](./screenshots/pending.svg)
+
+_Screenshot pending: rating buttons, optional comment, and submission status._
 
 ---
 
@@ -99,14 +127,18 @@ Click any button to auto-send that question — no typing needed.
 ### ❌ Less Effective
 
 - "Security" (too vague)
-- "Write code for me" (out of scope)
+- "Just fix it" (missing the file and goal)
 - "What's the weather?" (unrelated to RPA security)
 
 ### 💡 Tips
 
 - The AI automatically replies in your current UI language
-- Conversation history keeps the last 10 rounds (preserved when closing panel, not preserved across app restarts)
-- Click "Clear Conversation" to wipe all history and start fresh
+- Select **Chat history** in the title bar to search, open, and continue saved conversations, including after restarting the app.
+- Select **New chat** to start another conversation. Older conversations remain in history. To remove one, select its delete button in the history list and confirm.
+
+![Screenshot pending: chat history](./screenshots/pending.svg)
+
+_Screenshot pending: history search, new chat button, and a saved conversation._
 
 ---
 
@@ -114,10 +146,10 @@ Click any button to auto-send that question — no typing needed.
 
 The input box bottom-left shows a **model badge** with the current AI model:
 
-- **Signed-in mode**: `AgentSec / Deepintent-v1` (server relay, no config needed)
-- **Local mode**: `OpenAI / gpt-4o-mini` or `Ollama / qwen3:latest` (per your settings)
+- **Signed-in mode**: Shows the model currently provided by your organization through AgentSec.
+- **Local mode**: Shows your configured model.
 
-Click the badge to jump to **AgentSec Engine™ → AI Model** page.
+Select the badge to open **AgentSec Engine™ → Engine → AI Model**. Select **Go to settings** there to edit a local model.
 
 ---
 
@@ -130,7 +162,7 @@ A: Depends on your mode. Signed-in mode requires internet (relayed via AgentSec 
 A: In signed-in mode, each conversation draws from the organization's AI quota (visible in sidebar). Local mode has no quota limit (depends on your own API account).
 
 **Q: Are conversations recorded?**
-A: Conversation history is stored in the local database (`chat_logs` table) — not uploaded to the server. Exported logs include conversation records.
+A: Conversations are saved locally. Signed-in clients enrolled in an organization also synchronize sessions to the organization's server. Local mode does not perform this synchronization.
 
 **Q: What if the org's AI quota runs out?**
 A: Contact your org admin to top up via the AgentSec console. When exhausted, both AI Assistant and AI analysis pause.

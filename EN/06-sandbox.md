@@ -1,4 +1,4 @@
-# Security Sandbox — Quarantine and Safe Zone Management
+# Security Sandbox — Quarantine, Remediation, and Restore
 
 > The Security Sandbox is used to manage scripts blocked by AgentSec. It lets you restore files that were blocked incorrectly or move trusted files back into quarantine.
 
@@ -6,14 +6,17 @@
 
 ## What is the Security Sandbox?
 
-The Security Sandbox is AgentSec's file security management system with two zones:
+Security Sandbox manages quarantined and trusted files, with a separate area for remediation:
 
 | Zone | Purpose |
 | --- | --- |
 | Quarantine Zone | Stores scripts blocked by AgentSec and waiting for review |
 | Safe Zone | Stores scripts confirmed as trusted and restored from quarantine |
+| Remediation Zone | Edit and recheck quarantined copies; files remain isolated |
 
-> ![Full view of the two Security Sandbox zones](./screenshots/06-sandbox/sandbox-overview.png)
+> ![Screenshot pending: Quarantine, Safe, and Remediation zones](./screenshots/pending.svg)
+
+_Screenshot pending: Quarantine, Safe, and the Remediation zone below them._
 
 ---
 
@@ -21,7 +24,7 @@ The Security Sandbox is AgentSec's file security management system with two zone
 
 The Security Sandbox is integrated into the **Threat Center**. Click **“Threat Center”** in the left navigation bar, then click the **“Security Sandbox”** tab at the top.
 
-> ![Open the Security Sandbox from the Threat Center](./screenshots/06-sandbox/sandbox-nav.png)
+> ![Screenshot pending: open Security Sandbox from the current Threat Center](./screenshots/pending.svg)
 
 ---
 
@@ -29,8 +32,8 @@ The Security Sandbox is integrated into the **Threat Center**. Click **“Threat
 
 ### When Does a Script Enter Quarantine?
 
-- AI analysis returns a `block` disposition
-- The regex pre-scan matches a high-risk malicious pattern
+- A blocking rule matches under the default enforcement policy
+- You review an AI recommendation to block and select **Quarantine**
 - A user manually moves a file from the Safe Zone back into quarantine
 
 ### What Happens During Quarantine?
@@ -48,7 +51,7 @@ Each entry in the Quarantine Zone displays:
 | Original path | Full path of the file before it was quarantined |
 | Quarantine time | When the file was quarantined |
 
-> ![High-risk file entry in the Quarantine Zone](./screenshots/06-sandbox/sandbox-quarantine-item.png)
+> ![Screenshot pending: quarantine reason, Trust, and Remediate actions](./screenshots/pending.svg)
 
 ---
 
@@ -63,7 +66,7 @@ Each entry in the Quarantine Zone displays:
 
 | Indicator | Meaning |
 | --- | --- |
-| ✅ `File exists` (green) | The file is still on disk and its contents match when it was added |
+| ✅ `File exists` (green) | A file exists at the recorded original path |
 | ❌ `File missing` (red) | The file has been deleted or moved |
 
 ### Content Change Detection
@@ -88,9 +91,9 @@ If a script was blocked incorrectly, you can restore it:
 2. Click **“Trust Selected”**
 3. Confirm the operation
 
-> ![Select quarantined files and trust them in a batch](./screenshots/06-sandbox/sandbox-trust-selected.png)
+> ![Pending: select quarantined files and trust them in the current Sandbox](./screenshots/pending.svg)
 >
-> ![Confirmation dialog for trusting selected files](./screenshots/06-sandbox/sandbox-trust-confirm.png)
+> ![Pending: current confirmation dialog for trusting selected files](./screenshots/pending.svg)
 
 **Option 2: Restore by Dragging**
 
@@ -99,11 +102,11 @@ If a script was blocked incorrectly, you can restore it:
 
 **Option 3: Restore from Protection Logs**
 
-1. Find the quarantined script in the Threat Center's Threat List
+1. Find the quarantined script under **Threat Center → Script threats**
 2. Expand its detail panel
 3. Click **“Trust”**
 
-> ![Trust a file from its threat details](./screenshots/06-sandbox/sandbox-trust-from-detail.png)
+> ![Screenshot pending: Trust in the current threat details](./screenshots/pending.svg)
 
 During restore, AgentSec deletes the safe stub, moves the quarantined file back to its original path, calculates the file hash, and adds it to the trusted list. As long as the file contents remain unchanged, future scans will not analyze it again.
 
@@ -112,18 +115,35 @@ During restore, AgentSec deletes the safe stub, moves the quarantined file back 
 If a previously restored file is found to be risky after review, or you want to revoke trust:
 
 1. Select the files to quarantine again in the Safe Zone
-2. Click **“Isolate Selected”** at the top
-3. Confirm the operation
+2. Select **Quarantine selected** at the top
 
 The files are removed from the Safe Zone and processed through the quarantine workflow again.
 
-> ![Move selected files from the Safe Zone back into quarantine](./screenshots/06-sandbox/sandbox-quarantine-from-safe.png)
+> ![Pending: quarantine selected files from the current Safe Zone](./screenshots/pending.svg)
+
+### Edit and Recheck in the Remediation Zone
+
+1. Find the script in Quarantine and select **Remediate**.
+2. Select **Edit** in the Remediation zone to open the quarantined copy with the system default program. Save your changes. To use another editor, open the quarantine folder through Threat Center's **⋯** menu.
+3. Select **Recheck** to analyze the saved content and view the updated result.
+4. If isolation is still recommended, continue editing. After a passing check, review the result and select **Trust and move to safe zone** to restore the original location.
+5. To stop remediation, select **Back to quarantine**.
+
+Moving into or out of Remediation changes the management view; the original location still contains a safe stub. Remediation works one file at a time and does not support bulk trust or dragging.
+
+![Screenshot pending: Edit, Recheck, and passing remediation result](./screenshots/pending.svg)
+
+_Screenshot pending: Remediate, Edit, Recheck, the latest result, and Trust and move to safe zone._
 
 ### Select Multiple Files
 
 - Select an individual file using its checkbox
 - Click **“Select All”** to select every file in the current zone
 - After selecting files, use a batch action or drag them together
+
+### Copy Details or Permanently Delete
+
+In a quarantined script's details, select **Copy details** to save its isolation information. If the original file is no longer needed, select **Delete permanently** and confirm. This deletes the quarantined original and its metadata while leaving the safe stub at the original location. That copy can no longer be restored from Quarantine.
 
 ---
 
@@ -133,8 +153,8 @@ Quarantined files are stored in a `.agentsec_quarantine` subdirectory **under th
 
 ```
 Original script directory/
-├── Main.xaml              ← Safe stub file (read-only, cannot execute)
-├── Process.py             ← Safe stub file (read-only, cannot execute)
+├── Main.xaml              ← Safe stub replaces original script logic
+├── Process.py             ← Safe stub replaces original script logic
 ├── .agentsec_quarantine/  ← Quarantine directory (AgentSec does not rescan it)
 │   ├── Main_20260101T120000Z.xaml           ← Quarantined original file
 │   ├── Main_20260101T120000Z.xaml.meta.json ← Quarantine metadata
@@ -143,7 +163,7 @@ Original script directory/
 └── ...
 ```
 
-> ⚠️ **Do not manually modify** files in the `.agentsec_quarantine` directory. Use the AgentSec interface to keep the allowlist and database consistent.
+> Use **Edit** in the Remediation zone to modify a quarantined copy. Do not change safe stubs or `.meta.json` metadata. Restore and trust files through AgentSec.
 
 ---
 
@@ -155,7 +175,7 @@ After a file is quarantined, a **safe stub** remains at the original path to exp
 - **UiPath script stub**: An empty Sequence containing a `Terminate` activity
 - **Other script stubs**: A plain-text warning
 
-Even if someone attempts to execute the file, they only see a warning and no actual harm occurs.
+These stubs do not execute the original script logic.
 
 ---
 
@@ -171,4 +191,4 @@ A: During the next scan, AgentSec detects the hash change, automatically removes
 A: The current version does not support adding files manually. Files enter the Safe Zone after being restored from quarantine.
 
 **Q: What happens if a file in the Safe Zone is deleted?**  
-A: The Safe Zone marks it as **“File missing”** but does not remove the record automatically. You can manually move the record back into quarantine or contact an administrator.
+A: The Safe Zone shows **File missing**. Check the original path to confirm whether the file was moved or deleted.

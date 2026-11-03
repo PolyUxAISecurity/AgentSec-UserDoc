@@ -20,7 +20,7 @@
 
 示例包中包含三个工作流：`Call_LLM_API.xaml`、`Call_LLM_Secure.xaml` 和 `Cleanup_TempFiles.xaml`，后续各阶段会逐个说明它们的分析结果和处理方式。
 
-您刚刚配置好 AgentSec，在左侧监控状态卡片中开启监控。
+配置好目录后，使用侧栏顶部 **「监控开关」** 开启监控；也可进入 **设置 → 安全配置 → 监控开关**。
 
 ---
 
@@ -29,37 +29,38 @@
 启动监控后，AgentSec 会扫描 `C:\Users\Documents\UiPath`，发现三个 `.xaml` 文件并依次创建分析任务。扫描完成后，仪表盘会更新脚本数量和初步分析结果。
 
 **您看到的画面：**
-> ![首次扫描后的仪表盘分析结果](./screenshots/03-first-analysis/scan-results-dashboard.png)
+> ![待补：首次扫描后的规则与 AI 研判进度](./screenshots/pending.svg)
 
 ---
 
 ## 阶段二：安全检查
 
-每个脚本都会先经过正则快速扫描；未命中高危规则的脚本继续进入 AI 深度分析，命中高危规则的脚本会直接被拦截。
+每个脚本先经过规则扫描。命中规则后，结果会注明规则来源和建议动作；没有命中时，按当前配置继续进行 AI 研判，或显示仅规则扫描结果。规则扫描与 AI 研判分别显示进度。
 
 ### 第1关：正则快速扫描
 
-三份脚本的正则扫描结果：
+本章用三份脚本观察以下风险。实际命中的规则、问题数量和风险等级，以当前生效策略及客户端结果为准：
 
 | 脚本                       | 正则结果                                             | 处理         |
 | ------------------------ | ------------------------------------------------ | ---------- |
-| `Call_LLM_API.xaml`      | 未命中                                              | → 进入 AI 分析 |
-| `Call_LLM_Secure.xaml`   | 未命中                                              | → 进入 AI 分析 |
-| `Cleanup_TempFiles.xaml` | ⚠️ 命中 `fs-remove-item-system`（PowerShell 强制递归删除） | → **直接拦截** |
-**Cleanup_TempFiles.xaml 的正则命中意味着**：脚本中包含 `Remove-Item -Recurse -Force C:\...` 这样的高危命令，AgentSec 不需要等 AI 分析，直接执行拦截。
+| `Call_LLM_API.xaml`      | 检查硬编码凭据和外部请求 | 查看问题详情与建议动作 |
+| `Call_LLM_Secure.xaml`   | 检查凭据读取和请求处理 | 核对是否仍有需要处理的问题 |
+| `Cleanup_TempFiles.xaml` | 检查系统目录递归删除命令 | 命中拦截规则时按处置策略隔离 |
+
+默认处置方式下，规则给出的拦截决定会自动隔离；AI 给出的拦截建议需要您在威胁中心确认后点击 **「隔离」**。风险等级与文件是否已隔离是两项信息，请分别查看。
 
 `Cleanup_TempFiles.xaml` 被隔离后：
 - 原始文件 → `.agentsec_quarantine\Cleanup_TempFiles_20260609T093000Z.xaml`
-- 原路径 → 安全桩文件（只读，无法执行）
+- 原路径 → 安全桩文件，代替原脚本逻辑
 
 ### 第2关：AI 深度分析
 
-`Call_LLM_API.xaml` 和 `Call_LLM_Secure.xaml` 进入 AI 分析。AgentSec 调用 AI 模型，分析脚本安全性。
+未命中规则且已启用 AI 研判的脚本会调用配置的模型。若某个脚本已由规则给出结果，但您仍想查看模型分析，可在其详情中点击 **「AI 深度研判」**。
 
 **Call_LLM_API.xaml 的分析过程**（登录模式）：
 
 ```
-上传脚本内容 → AgentSec 云端 → AI 分析
+AgentSec 规则扫描 → 按配置调用 AI 模型
   ↓
 检查项目（基于您启用的安全策略规则）:
   · 是否向外部发送数据？（网络请求检查）
@@ -67,7 +68,7 @@
   · 是否使用明文 HTTP？（传输安全检查）
   · 是否有异常处理？（代码质量检查）
   · 是否有 SQL 注入风险？（注入检查）
-  ...（共检查 15-21 条规则，取决于您的策略设置）
+  ...（检查范围取决于当前策略和启用的分析引擎）
   ↓
 返回分析结果
 ```
@@ -77,19 +78,21 @@
 ## 阶段三：查看结果
 
 分析完成后，在左侧导航栏点击 **「威胁中心」**，再从脚本列表中选择文件查看详情。
-> ![威胁中心中的三个脚本分析结果](./screenshots/03-first-analysis/analysis-results-overview.png)
+> ![待补：三个脚本的检出方式、风险和处置状态](./screenshots/pending.svg)
 
-| 文件                       | 分析结果         | 问题数 | 文件状态 |
-| ------------------------ | ------------ | --: | ---- |
-| `Call_LLM_API.xaml`      | **High**     |   5 | 已隔离  |
-| `Call_LLM_Secure.xaml`   | **Safe**     |   0 | 未隔离  |
-| `Cleanup_TempFiles.xaml` | **Critical** |   1 | 已隔离  |
+| 文件 | 重点核对 |
+| --- | --- |
+| `Call_LLM_API.xaml` | 凭据与外部请求问题、检出方式、建议动作及当前处置状态 |
+| `Call_LLM_Secure.xaml` | 是否检出问题，以及本次是否完成 AI 研判 |
+| `Cleanup_TempFiles.xaml` | 删除命令的规则证据，以及是否已隔离 |
 
 这里可以看到三个典型结果：
 
 - **Safe**：未发现安全问题，文件可继续使用；
-- **High**：存在高危问题，文件已被隔离，需要修复或人工确认；
-- **Critical**：存在可能造成严重破坏的操作，文件已被隔离，应优先处理。
+- **High**：存在高危问题，需要修复或人工确认；
+- **Critical**：存在可能造成严重破坏的操作，应优先处理。
+
+截图中的问题数和等级是示例。请以您当前版本的结果为准，并同时核对 **「检出方式」** 与 **「已隔离／整改中」** 等处置标签。
 
 > 分析详情页还提供 **「信任」**、**「重新分析」** 和 **「询问 AI」** 等操作。只有在确认文件安全后，才应使用「信任」。
 
@@ -97,22 +100,22 @@
 
 ## 阶段四：逐个解读
 
-### 脚本一：`Call_LLM_API.xaml`——High · 已隔离
+### 脚本一：`Call_LLM_API.xaml`——检查凭据风险
 
 #### 工作流做了什么
 
 该工作流先构造工单摘要请求，通过 HTTP 接口调用大模型；随后构造 Slack 消息，并通过另一个 HTTP 请求发送回帖。
 
 #### AgentSec 的判定
-AgentSec 检出 **5 个问题**，主要与 XAML 中的明文 API Key、Slack Token 和疑似密码字段有关，因此将文件判定为 **High** 并隔离。
+重点查看 XAML 中的明文 API Key、Slack Token 和疑似密码字段，以及它们如何进入外部请求。硬编码凭据告警不等于文件已经隔离；请根据详情中的建议和处置状态处理。
 
 **处理建议：** 删除明文凭据，轮换已经暴露的密钥，并改用 UiPath Orchestrator Asset 或其他密钥管理服务。
 
-> ![Call_LLM_API.xaml 的高风险分析结果](./screenshots/03-first-analysis/call-llm-api-analysis.png)
+> ![待补：Call_LLM_API.xaml 的当前分析结果](./screenshots/pending.svg)
 
 ---
 
-### 脚本二：`Call_LLM_Secure.xaml`——Safe · 未隔离
+### 脚本二：`Call_LLM_Secure.xaml`——核对整改方式
 
 #### 与高风险版本有什么不同
 
@@ -128,13 +131,13 @@ AgentSec 检出 **5 个问题**，主要与 XAML 中的明文 API Key、Slack To
 | 减少日志泄露 | 只记录成功状态、HTTP 状态、耗时和响应长度等元数据 |
 
 #### AgentSec 的判定
-该工作流实现了相同的 LLM 与 Slack 调用，但凭据从 Orchestrator Assets 读取，并加入了异常处理、HTTP 状态检查和安全日志。未发现安全问题，结果为 **Safe**，文件保持可用。
+该工作流实现了相同的 LLM 与 Slack 调用，但凭据从 Orchestrator Assets 读取，并加入了异常处理、HTTP 状态检查和安全日志。查看当前报告，核对这些改动是否解决了已发现的问题；若仅完成规则扫描，不要将其理解为已完成 AI 审查。
 
-> ![Call_LLM_Secure.xaml 的安全分析结果](./screenshots/03-first-analysis/call-llm-secure-analysis.png)
+> ![待补：Call_LLM_Secure.xaml 的当前分析结果及参与引擎](./screenshots/pending.svg)
 
 ---
 
-### 脚本三：`Cleanup_TempFiles.xaml`——Critical · 已隔离
+### 脚本三：`Cleanup_TempFiles.xaml`——检查危险删除命令
 
 该工作流名义上用于清理临时文件，但其 PowerShell 活动实际执行：
 
@@ -142,11 +145,11 @@ AgentSec 检出 **5 个问题**，主要与 XAML 中的明文 API Key、Slack To
 Remove-Item -Recurse -Force -Path C:\
 ```
 
-该命令会尝试从系统盘根目录开始强制递归删除。AgentSec 将其判定为 **Critical** 并立即隔离。
+该命令会尝试从系统盘根目录开始强制递归删除。查看命中的规则及处置状态；默认处置方式下，命中拦截规则会自动隔离。
 
 **处理建议：** 不要直接信任或还原；应将删除目标改为明确、受控的临时目录，并在执行前校验路径和使用 `-WhatIf` 预演。
 
-> ![Cleanup_TempFiles.xaml 的严重风险分析结果](./screenshots/03-first-analysis/cleanup-tempfiles-analysis.png)
+> ![待补：Cleanup_TempFiles.xaml 的规则证据和隔离状态](./screenshots/pending.svg)
 
 ---
 
@@ -155,12 +158,12 @@ Remove-Item -Recurse -Force -Path C:\
 | 文件 | 主要处理 |
 | --- | --- |
 | `Call_LLM_API.xaml` | 轮换已暴露的凭据，删除明文密钥，并参考安全版本改用 Orchestrator Assets |
-| `Call_LLM_Secure.xaml` | 无需隔离处理；按正常流程测试接口权限和业务逻辑 |
+| `Call_LLM_Secure.xaml` | 核对报告后，按正常流程测试接口权限和业务逻辑 |
 | `Cleanup_TempFiles.xaml` | 删除系统盘递归删除命令，改用经过校验的明确目标目录 |
 
-修改风险文件后，点击 **「重新分析」**。如果仍有问题，应继续修复；如果分析结果通过，再进行人工复核，确认安全后再信任或还原文件。
+已隔离文件可在 **威胁中心 → 安全沙箱** 点击 **「转入整改」**，再点击 **「编辑」** 修改隔离副本。保存后点击 **「再次检测」**；复检不再建议隔离时，可人工确认 **「信任并放入安全区」**，还原到原始位置。未隔离文件修改保存后，可点击 **「重新分析」**。
 
-> 请通过 AgentSec 的威胁中心和安全沙箱管理隔离文件，不要手动修改 `.agentsec_quarantine` 中的原始文件或元数据。
+> 请从安全沙箱的「编辑」入口修改隔离副本，不要修改原路径上的安全桩或隔离元数据。
 
 ---
 ## 总结：第一次分析的收获
@@ -168,10 +171,10 @@ Remove-Item -Recurse -Force -Path C:\
 | 学到的                 | 说明                            |
 | ------------------- | ----------------------------- |
 | AgentSec 扫描是**自动的** | 启动监控后全程自动，不需要手动触发             |
-| 有两层安全网              | 正则预扫（毫秒级）+ AI 分析（深度检查）        |
-| 拦截不是删除              | 文件被「隔离」而非删除，随时可以还原            |
+| 检查分阶段进行 | 先运行规则，按配置启用 AI；结果中可查看实际参与引擎 |
+| 隔离副本可整改与还原 | 保留的隔离副本可复检，确认安全后由用户信任并还原 |
 | 详情要看三个地方            | 风险等级、代码片段、修复建议                |
-| 被拦不一定危险             | Cleanup.ps1 的正则拦截可能是误报，需要人工判断 |
+| 风险与处置分别查看 | 规则或 AI 的发现、建议动作和文件是否已隔离需要一起核对 |
 
 ---
 

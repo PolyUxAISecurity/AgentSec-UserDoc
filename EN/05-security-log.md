@@ -1,7 +1,7 @@
 # Threat Center (Protection Logs)
 
-> The four features—**Threat List**, **History**, **Notifications**, and **Security Sandbox**—are combined on a unified **Threat Center** page and can be accessed using the tabs at the top.
-> The Threat Center is the main page for viewing each script's analysis result. Here you can see what issues the AI found, how severe the risks are, and how to remediate them.
+> Threat Center brings together script findings, Agent runtime events, Dify reports, history, notifications, and Security Sandbox. Switch between them using the tabs at the top.
+> This page focuses on script results: findings from rules and AI, risk levels, and file disposition.
 
 ---
 
@@ -9,13 +9,24 @@
 
 Click **“Threat Center”** in the left navigation bar.
 
-> ![Full view of the Threat Center](./screenshots/05-security-log/security-log-overview.png)
+> ![Screenshot pending: current Threat Center overview](./screenshots/pending.svg)
+
+| Tab | Content |
+| --- | --- |
+| Script threats | Local script risks, evidence, and actions |
+| Agent live events | Tool calls, risks, and pending approvals from connected Agents; see [Agent runtime protection](agent-runtime.md) |
+| Dify workflows | Archived workflow audit reports; see the [Dify guide](dify.md) |
+| History | Previous script analysis records |
+| Notifications | Security, analysis, monitoring, and system messages |
+| Security Sandbox | Quarantine, Safe, and Remediation zones |
+
+_Screenshot pending: all six tabs and current script details._
 
 ---
 
 ## Interface Layout
 
-The **Threat List** uses a **two-column layout**. When no file is selected, the threat list is the main focus. After you select a file, its analysis details appear on the right.
+The **Script threats** tab uses a **two-column layout**. When no file is selected, the script list is the main focus. After you select a file, its analysis details appear on the right.
 
 - **Left**: Displays all analyzed scripts. You can browse them by risk group in either a directory-tree or list view
 - **Right**: After you click a script, displays its analysis result, risk score, and issue list
@@ -25,27 +36,28 @@ The **Threat List** uses a **two-column layout**. When no file is selected, the 
 | Control | Purpose |
 | --- | --- |
 | `All` / `At Risk` / `Safe` | Filter files by analysis result; the number after each tab shows the file count |
-| `Sandbox Management` | Open the Security Sandbox to manage quarantined files |
+| `Manage in Sandbox` | Open the Security Sandbox to manage quarantined files |
 | Search box | Search by filename |
-| `Directory Tree` / `List` | Switch the Threat List display mode |
+| `Directory Tree` / `List` | Switch the script list display mode |
 
-> ![Two-column Threat Center layout](./screenshots/05-security-log/security-log-dual-pane.png)
+> ![Screenshot pending: current script list and detail columns](./screenshots/pending.svg)
 
 ---
 
-## Left: Threat List
+## Left: Script Threats
 
 ### Grouped Display
 
-In **Directory Tree** view, scripts are grouped by risk level and directory structure. If your monitoring directory contains subdirectories, scripts are grouped by folder. Each group heading shows the group's highest risk level, file count, and a **“Trust Entire Group”** button.
+In **Directory Tree** view, scripts are grouped by directory. Group headings show file counts and risk information. Open **Security Sandbox** for bulk trust or isolation actions.
 
 - **Critical**: Red indicator
 - **High**: Orange indicator
+- **Medium / Low**: Indicators for the corresponding severity
 - **Safe**: Green indicator
 
 Each folder can be collapsed or expanded by clicking it, and the number of scripts in the folder appears on the right.
 
-> ![Threat List grouped by folder|377](./screenshots/05-security-log/security-log-folders.png)
+> ![Screenshot pending: scripts grouped by directory with detection sources](./screenshots/pending.svg)
 
 ### Script Entry Information
 
@@ -55,9 +67,11 @@ Each script entry displays:
 | --- | --- | --- |
 | Filename | `Call_LLM_API.xaml` | Script name |
 | Risk level | `High` (orange) | Highest risk level in the file |
-| File status | `Quarantined` | File disposition; displayed in the detail panel |
+| File status | `Quarantined` / `Remediating` | Current file disposition |
 | Issue count | `5 issues` | Number of detected security issues; details appear in the detail panel |
-| Quick actions | Trust / Reanalyze / Ask AI | Perform the corresponding action on the current file |
+| Detected by | Rules engine / AI review / both | Engines responsible for the findings |
+| Intent | A classification or pending review | An auxiliary assessment of the code's purpose |
+| Quick actions | Quarantine / Trust / Re-analyze / Deep AI review / Ask AI | Available actions depend on the file state |
 | Subdirectory | `Call_LLM/` | Subdirectory containing the script |
 
 ### Status Labels
@@ -67,6 +81,7 @@ Each script entry displays:
 | `Analyzing` | Green spinning icon | AI analysis is in progress and the elapsed waiting time is displayed |
 | `Analysis Failed` | Red | An error occurred during analysis, possibly because the model timed out |
 | `Quarantined` | Red | The file has been moved to quarantine |
+| `Remediating` | Remediation label | A quarantined copy is being edited or checked; the original location still has a safe stub |
 | `Critical` | Red | The file contains a critical risk |
 | `High` | Orange | The file contains a high risk |
 | `Safe` | Green | No security issues were detected |
@@ -75,7 +90,7 @@ Each script entry displays:
 
 ## Right: Detail Panel
 
-> ![Threat analysis detail panel|364](./screenshots/05-security-log/security-log-detail-panel.png)
+> ![Screenshot pending: detection source, authoring intent, and detail actions](./screenshots/pending.svg)
 
 Click any script on the left to display its detailed analysis result on the right.
 
@@ -87,7 +102,7 @@ Click any script on the left to display its detailed analysis result on the righ
 | Risk-level label | `Critical` / `High` / `Medium` / `Low`; issue cards may display English levels such as `HIGH` |
 | File-status label | For example, `Quarantined` |
 | Issue count | Total of N issues found |
-| Action buttons | Trust / Reanalyze / Ask AI |
+| Action buttons | Quarantine, Trust, Re-analyze, Deep AI review, and Ask AI according to the current state |
 
 ### Metadata Grid
 
@@ -96,16 +111,21 @@ Click any script on the left to display its detailed analysis result on the righ
 | Analysis time | When analysis was completed, such as “3 minutes ago” |
 | Detected issues | Total number of issues |
 | Risk score | 0–100; a higher score indicates greater risk |
+| Detected by | Distinguishes rules, AI review, or findings from both |
+| Intent | Classification, supporting evidence, and an alternative explanation for manual review |
 
 Expand **“Technical Details”** below the metadata to view more complete analysis information. Each card in the issue list can also be expanded or collapsed individually.
 
+**Re-analyze** checks the script again; a rule match does not automatically call the model. **Deep AI review** explicitly requests model analysis and authoring-intent review. When the content and analysis criteria are unchanged, Re-analyze may show that the previous AI verdict was reused. **Ask AI** opens the assistant with the script as context.
+
+When a script's verdict changes, **Verdict history** in its details shows previous risks, participating engines, and times. **Copy AI verdict** copies a summary for manual review or rule authoring.
+
 ### No Security Issues Found
 
-If no security issues are found after analysis, a green message appears:
+When the current checks find no issues, the details show a corresponding pass message. Also check the participating engines: a clean rule scan does not mean AI review completed.
 
 > ✅ **No security issues found**
-> Checked: Network access · Credentials/keys · File operations · Privilege escalation · Data exfiltration · Anti-forensics
-> ![Check result when no security issues are found|367](./screenshots/05-security-log/security-log-no-issues.png)
+> ![Screenshot pending: a clean result and participating engines](./screenshots/pending.svg)
 
 ### Issue Cards
 
@@ -117,12 +137,14 @@ Click the card heading to expand or collapse the details.
 
 ### Risk Level Definitions
 
-| Level | Color | Criteria | Default Action |
-| --- | --- | --- | --- |
-| **CRITICAL** | Red | Data exfiltration, hardcoded passwords, malicious commands, credential theft | 🚫 Block |
-| **HIGH** | Orange | SQL authentication, sensitive data in logs, plaintext HTTP, disabled certificate validation | ⚠️ Warn |
-| **MEDIUM** | Yellow | Missing exception handling, unvalidated input, paths pointing to personal directories | ℹ️ Notify |
-| **LOW** | Gray | Insufficient logging, nonstandard naming | — Allow |
+| Level | Meaning |
+| --- | --- |
+| **CRITICAL** | Severe risks that should be reviewed and handled first |
+| **HIGH** | High risks requiring prompt attention |
+| **MEDIUM** | Findings requiring review against business context and evidence |
+| **LOW** | Lower-risk findings that can still be improved |
+
+Risk level does not mean a file is already quarantined. With the default enforcement policy, blocking rule matches are quarantined automatically. AI recommendations to block require you to review the evidence and select **Quarantine**. Findings such as hardcoded credentials may only warn and leave the file unchanged.
 
 ---
 
@@ -132,9 +154,9 @@ If a script was blocked incorrectly and you have confirmed that it is safe, you 
 
 1. Click the quarantined script to open the detail panel
 2. Locate the red quarantine information bar in the detail panel
-3. Click **“Trust.”** To process an entire risk group, you can also click **“Trust Entire Group”** on the left
+3. Select **Trust** and confirm; use **Security Sandbox** for bulk actions
 
-> ![Trust and reanalyze actions in the detail panel](./screenshots/05-security-log/security-log-trust-actions.png)
+> ![Screenshot pending: Quarantine, Trust, Re-analyze, and Deep AI review actions](./screenshots/pending.svg)
 
 After you confirm trust, AgentSec removes the safe stub, restores the original file to its original path, and adds the file to the **allowlist** (trusted list). Future scans skip analysis if the file's contents have not changed.
 
@@ -144,11 +166,11 @@ After you confirm trust, AgentSec removes the safe stub, restores the original f
 
 You can export analysis results as a ZIP file for submitting a support ticket or archiving:
 
-1. Click **“Export Logs”** in the upper-right corner of the Protection Logs page
+1. Open the **⋯** menu at the upper-right of Threat Center and select **Export Logs**
 2. Select a save location
 3. Click **“Save”**
 
-> ![Export Logs menu](./screenshots/05-security-log/security-log-export.png)
+> ![Screenshot pending: Export Logs in the upper-right More menu](./screenshots/pending.svg)
 
 The export contains:
 
@@ -160,7 +182,9 @@ The export contains:
 
 ## Historical Data
 
-Click **“History”** at the top to view previous analysis records. Existing records remain available after AgentSec is closed and reopened. Protection Logs automatically loads the 200 most recent historical records from the local database.
+Select **History** to view previous analysis records. Records remain available after restarting AgentSec. Filter by filename, severity, and date, and select 10, 20, or 50 records per page.
+
+In **Notifications**, browse security, analysis, monitoring, and system messages, then use **Mark all read** or **Clear** as needed. Failed analysis entries provide **Delete record**; the **⋯** menu can also clear failed records. These actions remove analysis records only and do not delete scripts from disk.
 
 ---
 

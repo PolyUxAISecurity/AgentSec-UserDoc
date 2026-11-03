@@ -12,23 +12,19 @@
 
 ### Windows 用户
 
-1. 下载 `AgentSec-Client-x64-win.zip`
-2. 解压到任意目录（如 `D:\Program Files (x86)\AgentSec Client`）(你需要新建文件夹)
+1. 从 [发布页](https://github.com/PolyUxAISecurity/AgentSec-Release/releases)下载当前版本的 Windows x64 ZIP 包（文件名包含版本号）
+2. 解压到一个新建目录（如 `D:\AgentSec Client`）
 3. 双击 `agentsec.exe`
 
 > ![install-windows-unzip](./screenshots/01-quickstart/install-windows-unzip.png)
 
 > ![run-agentsec|476](./screenshots/01-quickstart/run-agentsec.png)
 
-> ⚠️ 如果弹出 Windows SmartScreen 警告，点击「更多信息」→「仍要运行」。
->
-> ![windows-smartscreen-warning|416](./screenshots/01-quickstart/windows-smartscreen-warning.png)
-
 ### macOS 用户
 
-1. 下载 `.dmg` 文件，双击挂载
+1. 从 [发布页](https://github.com/PolyUxAISecurity/AgentSec-Release/releases)下载 `.dmg` 文件，双击挂载
 2. 拖入 `Applications` 文件夹
-3. 首次打开若被阻止：**系统设置 → 隐私与安全性 → 仍要打开**
+3. 在「应用程序」中打开 **AgentSec Desktop**
 
 ---
 
@@ -36,24 +32,11 @@
 
 打开应用后，会自动弹出引导向导。
 
-> **如果没弹出引导**，说明这台电脑之前有人配置过。两种方式重新打开：
-
-**方式一：在软件里操作（推荐）**
+如果需要重新配置：
 
 点击左侧 ⚙「设置」→ 左侧选「常规」→ 点击顶部的 **「运行引导向导」** 按钮。
 
-> ![reset-setting](./screenshots/01-quickstart/reset-setting.png)
-
-**方式二：删除配置文件（恢复出厂状态）**
-
-删掉配置文件后重新打开应用，等同于首次启动。
-
-| 系统 | 删除这个文件 |
-|------|-------------|
-| Windows | `%APPDATA%\AgentSec\config.json` |
-| macOS | `~/Library/Application Support/AgentSec/config.json` |
-
-> ⚠️ 方式二会清空所有设置，不仅是监控目录。推荐用方式一。
+![待补：常规设置中的运行引导向导](./screenshots/pending.svg)
 
 ### 2.1 选择使用方式
 
@@ -64,7 +47,7 @@
 | 选项 | 适合谁 | 需要准备 |
 |------|--------|---------|
 | **从 AgentSec 登录**（推荐👍） | 有账号、能上网 | 一个邮箱（注册账号用） |
-| **本地模式** | 完全离线、有自己的 AI 接口 | AI 模型 API Key 或安装 Ollama |
+| **本地模式** | 不登录 AgentSec，使用本机规则扫描 | 无需模型；使用 AI 功能时再配置自己的模型 |
 
 > 💡 **不确定？选「从 AgentSec 登录」**，这是最简单的方式，不需要额外配置 AI。
 
@@ -82,19 +65,7 @@
 **成功标志**：侧边栏底部出现您的邮箱和头像。
 
 > ![登录后的账户信息](./screenshots/01-quickstart/onboarding-account-details.png)
-### 2.3 本地模式配置（选择「本地」的用户）
-
-选择本地模式后，需要配置 AI 模型：
-
-| 字段 | 怎么填 |
-|------|--------|
-| 模型供应商 | 如果用了 Ollama 选 Ollama（免费）；有 OpenAI Key 选 OpenAI |
-| 模型名称 | Ollama 用户填 `qwen3:latest`；OpenAI 用户填 `gpt-4o-mini` |
-| API Key | OpenAI/Anthropic 用户填 Key；Ollama 留空 |
-
-> 💡 没有 AI Key？用 [Ollama](https://ollama.com)（完全免费）。安装后执行 `ollama pull qwen3` 下载模型即可。
-
-### 2.4 选择监控目录
+### 2.3 选择监控目录
 
 点击「添加目录」，找到您存放 RPA 脚本的文件夹；在弹出的窗口中点击「选择文件夹」确认。
 
@@ -104,13 +75,23 @@
 
 > 💡 如果电脑安装了 UiPath，AgentSec 会自动检测并显示建议目录，直接点击即可。
 
+### 2.4 配置 AI 模型（本地模式，可选）
+
+本地模式最后会显示 **「配置 AI 模型（可选）」**。不配置模型也能完成引导并使用规则扫描；配置后可使用 AI 研判和 AI 助手。
+
+选择供应商并填写模型名称，按供应商要求填写 API Key；Ollama 等本机模型可留空。使用 Ollama 或 OpenAI 兼容服务时，核对 **自定义 Base URL**。也可以以后在 **设置 → 常规 → 运行模式** 中填写，并点击 **测试 LLM**。
+
+> 使用远程模型服务时，AI 请求会发送到您配置的服务；只有使用本机模型时，AI 推理才在本机完成。
+
 ---
 
 ## 3. 启动第一次监控
 
 引导完成后，您会看到**仪表盘**。
 
-> ![dashboard-overview](./screenshots/01-quickstart/dashboard-overview.png)
+![待补：新版安全总览与侧边栏监控开关](./screenshots/pending.svg)
+
+_截图待补：安全仪表盘 → 安全总览，包含侧边栏监控开关。_
 
 现在，点击开关按钮，启动监控。
 
@@ -120,39 +101,38 @@
 | ---- | --------------------- |
 | 监控开关 | 由关闭变为开启，状态文字显示为 `监控中` |
 | 分析结果 | 分析脚本数量与风险文件列表会随扫描结果更新 |
-> ![monitoring-started](./screenshots/01-quickstart/monitoring-started.png)
+![待补：监控中状态与新版脚本检测结果](./screenshots/pending.svg)
 
 
 **AgentSec 正在做什么？**
 
-AgentSec 会扫描监控目录中的脚本，先进行正则快速检查；未命中高危规则的脚本会继续进入 AI 深度分析。根据结果，AgentSec 会自动拦截、告警或放行。
+AgentSec 会扫描监控目录中的脚本，执行规则检查，并按配置进行 AI 研判。风险结论和实际处置分别显示；需要人工确认的高危建议，请到威胁中心复核后处理。
 
 ---
 
 ## 4. 看懂分析结果
 
-等待几秒到几十秒，分析结果会陆续出现。
+规则结果会先出现；AI 研判的等待时间取决于脚本、模型和服务响应，可在详情中查看进度。
 
 ### 4.1 仪表盘概览
 
 
 | 看这里        | 说明                   |
 | ---------- | -------------------- |
-| **已分析**    | 已完成分析的脚本数量           |
-| **整体风险**   | 各风险等级的数量分布           |
-| **问题类型排行** | 监控目录下的脚本中，各类型风险的数量分布 |
-| **风险文件**   | 风险脚本及其问题数量           |
-| **分析趋势**   | 近7/14/30天的分析量与拦截量统计  |
+| **总体风险** | 脚本风险等级及处置分布 |
+| **静态检测结果 → RPA 脚本** | 已检测脚本和最近结果 |
+| **风险趋势 → 脚本分析** | 近 7 或 30 天的分析次数、高危量与拦截建议 |
+| **Agent 风险排行、实时高危事件** | 已接入 Agent 的工具调用记录；仅扫描脚本时可以暂无数据 |
 
 ### 4.2 进入威胁中心
 
 点击左侧 **「威胁中心」**，查看每个脚本的详情。
 
-> ![威胁中心脚本列表](./screenshots/01-quickstart/security-log-list.png)
+![待补：新版威胁中心脚本威胁列表](./screenshots/pending.svg)
 
 **点击任意一个脚本**，展开右侧详情面板：
 
-> ![脚本安全分析详情面板](./screenshots/01-quickstart/script-detail-panel.png)
+![待补：脚本详情、引擎状态与处置结果](./screenshots/pending.svg)
 
 **三个关键信息**：
 1. **💡 建议**：告诉您怎么修复
@@ -163,22 +143,22 @@ AgentSec 会扫描监控目录中的脚本，先进行正则快速检查；未�
 
 ## 5. 如果脚本被拦截了
 
-如果看到「已隔离」标签（红色），说明 AgentSec 认为该脚本非常危险，已自动将其移走。
+如果看到「已隔离」标签，说明该文件已移入隔离区。若显示待确认的高危建议，先查看证据，再决定是否隔离；高风险结论不一定代表已经执行隔离。
 
 ### 您确认它是恶意脚本？
 
-✅ 什么都不用做。原文件在 `.agentsec_quarantine` 目录中安全隔离，原路径被替换为无害的安全桩。
+保持隔离，不要点击「信任」或还原。展开问题查看证据，并按组织流程处理该文件；原文件保存在 `.agentsec_quarantine` 目录中，原路径由安全桩替代。
 
 ### 您确认它是误拦（脚本是安全的）？
 
 1. 点击该脚本 → 打开详情面板
 2. 点击 **「信任」** 按钮
 3. 确认操作 → 文件移至「安全区」
-> ![安全沙箱中的信任按钮](./screenshots/01-quickstart/trust-button.png)
+![待补：安全沙箱中的信任操作](./screenshots/pending.svg)
 
-> ![trust-confirm](./screenshots/01-quickstart/trust-confirm.png)
+![待补：信任确认对话框](./screenshots/pending.svg)
 
-> ![trust-success](./screenshots/01-quickstart/trust-success.png)
+![待补：信任或还原后的文件状态](./screenshots/pending.svg)
 
 > 💡 还原后该文件内容不变，以后扫描会自动跳过。如果之后修改了文件，AgentSec 会重新分析。
 
@@ -194,7 +174,7 @@ AgentSec 会扫描监控目录中的脚本，先进行正则快速检查；未�
 
 > 「哪个脚本风险最高？为什么？」
 
-> ![ai-assistant](./screenshots/01-quickstart/ai-assistant.png)
+![待补：当前版本 AI 助手及回答](./screenshots/pending.svg)
 
 AI 会基于实际的监控数据和分析结果回答，不是套话。
 

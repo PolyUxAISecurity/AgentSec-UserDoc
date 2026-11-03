@@ -67,7 +67,9 @@ The AI Assistant provides specific remediation instructions based on the analysi
 
 > ![The AI Assistant provides actionable remediation guidance based on the script analysis result](./screenshots/09-ai-assistant-use-cases/use-case-03-remediation-guidance.png)
 
-After making the changes, save the script and wait for AgentSec to analyze it again to confirm that the security issue has been resolved successfully.
+After making changes, reanalyze the updated script and review the result. For a quarantined script, follow the remediation and restore workflow in Threat Center.
+
+To let the assistant edit a copy, import the script under **Settings → Security → DeepIntent Agent workspace**, then ask it to read and repair that copy. Review the workspace file and arrange its use yourself; the original is not replaced automatically.
 
 ---
 
@@ -83,7 +85,7 @@ For example, if a particular risk is not relevant to you and you want to stop re
 
 > I am not concerned about the “missing version tag” risk. How can I adjust the current policy so AgentSec no longer warns about this issue?
 
-The AI Assistant first explains the relevant rules and the security impact of changing them, then provides detailed instructions for making the adjustment. After updating the policy, reanalyze the relevant scripts to confirm that the warning has stopped as expected, while accounting for the resulting reduction in detection coverage.
+The assistant explains the relevant rules and the impact of changing them, then gives instructions. Save the change yourself on the Engine page; contact the administrator for a read-only self-hosted deployment. Reanalyze the affected scripts and review the result.
 
 > ![The AI Assistant explains the impact of a security policy and guides the user through adjusting a rule](./screenshots/09-ai-assistant-use-cases/use-case-04-policy-adjustment.png)
 
@@ -91,17 +93,29 @@ The AI Assistant first explains the relevant rules and the security impact of ch
 
 ## Use Case 5: Perform Operations Automatically
 
-**When to use it**: You want the AI Assistant to help perform actions within the application, including checking configuration, setting monitoring directories, starting or stopping monitoring, viewing monitoring status, checking analysis progress, and exporting logs.
+**When to use it**: You want help checking configuration, viewing monitoring state, querying analysis progress, or operating monitoring within the AgentSec workspace.
 
 For example, to start monitoring, enter:
 
 > Start monitoring for me.
 
-The AI Assistant first checks the monitoring directories, AI model, and relevant connection settings. After confirming that the configuration is valid, it starts monitoring and reports the current status or scan progress.
+The assistant checks configuration first. Its directory selection and monitoring start operations are limited to the AgentSec workspace and its subdirectories. Use the interface monitoring switch for external directories, and the client's **Export logs** button for log export.
 
-> ![The AI Assistant checks configuration, displays execution progress, and starts monitoring](./screenshots/09-ai-assistant-use-cases/use-case-05-start-monitoring.png)
+![Screenshot pending: configuration check and monitoring operation](./screenshots/pending.svg)
+
+_Screenshot pending: configuration check and monitoring start for a workspace directory, or guidance to use the interface switch for an external directory._
 
 For more operations that can be performed automatically and their descriptions, see [08 — AI Security Assistant](08-ai-assistant.md#2-auto-execute-operations).
+
+## Use Case 6: Continue an Earlier Investigation
+
+Select **History** in the assistant title bar, search for and open a saved conversation, then continue asking questions. Select **New chat** to start another task while keeping the previous conversation in history.
+
+> Last time we discussed credentials in Main.xaml. What else should I verify?
+
+![Screenshot pending: continue from chat history](./screenshots/pending.svg)
+
+_Screenshot pending: search history, open a conversation, and ask a follow-up question._
 
 ---
 

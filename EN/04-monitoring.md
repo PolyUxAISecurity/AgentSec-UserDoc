@@ -10,27 +10,27 @@ AgentSec monitoring includes the following automated operations:
 
 1. **Discover scripts**: Scan all RPA scripts in the specified directories
 2. **Watch in real time**: Automatically trigger analysis when a file is created or modified in a monitored directory
-3. **Perform security checks**: Process each script through a “fast regex scan” followed by “in-depth AI analysis”
-4. **Respond automatically**: Block, warn, or allow the script according to the analysis result
+3. **Perform security checks**: Run rules first, then AI review according to your configuration
+4. **Handle risks**: Isolate according to the rule and enforcement policy, or display findings for your review
 
 ---
 
 ## How to Choose Monitoring Directories
 
-### Configure from the Dashboard
+### Add Directories in Settings
 
-1. Click **“Settings”** next to your avatar in the lower-left corner
-2. Select **“Security Configuration”** on the Settings page
+1. Select **Settings** at the bottom of the sidebar
+2. Select **Security** on the Settings page
 3. Click **“Select Directory”**
 4. **Multiple directories can be monitored simultaneously**: Add more than one folder path
 
-> ![Add a monitoring directory in Security settings](./screenshots/04-monitoring/settings-watchdir-select.png)
+> ![Pending: Watch Directory in current Security settings](./screenshots/pending.svg)
 
 ### Use Auto-Detection
 
 AgentSec automatically detects RPA tools installed on your computer and lists their default project directories in the suggestions area:
 
-> ![Automatically detected RPA directory suggestions](./screenshots/04-monitoring/settings-rpa-suggestions.png)
+> ![Pending: currently detected RPA directory suggestions](./screenshots/pending.svg)
 
 | Tool That May Be Detected | Default Directory |
 | --- | --- |
@@ -57,9 +57,9 @@ AgentSec automatically detects RPA tools installed on your computer and lists th
 1. Confirm that the **“Monitoring Directories”** are configured correctly
 2. Turn on the **“Monitoring”** switch
 
-> ![Monitoring switch off|214](./screenshots/04-monitoring/monitoring-toggle-off.png) → ![Monitoring switch on|213](./screenshots/04-monitoring/monitoring-toggle-on.png)
+> ![Pending: current sidebar monitoring switch off and on](./screenshots/pending.svg)
 
-After monitoring starts, AgentSec scans existing files, starts watching for new or modified scripts, analyzes each script, and pushes the result back to the interface in real time. Depending on the conclusion, AgentSec blocks, warns, or allows the script.
+After monitoring starts, AgentSec scans existing files, watches new or modified scripts, and updates results in real time. With the default enforcement policy, blocking rule matches are quarantined automatically. AI recommendations to block require you to select **Quarantine** in Threat Center.
 
 ### Stop Monitoring
 
@@ -73,7 +73,7 @@ After monitoring starts, AgentSec scans existing files, starts watching for new 
 
 ## What Happens During Monitoring?
 
-During monitoring, AgentSec performs basic filtering, regex pre-scan, and AI deep analysis in order, then pushes the final result to the interface. If the regex pre-scan already matches a high-risk pattern, the script is blocked immediately without waiting for AI analysis.
+AgentSec performs basic filtering and rule scanning first. Rule matches show findings and recommended actions. Scripts without a match continue to AI review when enabled. To add model review to an existing rule result, select **Deep AI review** in the script details.
 
 ### Check 1: Basic Filtering
 
@@ -85,7 +85,7 @@ Before analysis, AgentSec excludes the following files:
 
 ### Check 2: Regex Pre-Scan (Milliseconds)
 
-AgentSec performs a fast scan using 23 high-confidence rules. Typical patterns that are blocked include:
+AgentSec scans with the active ruleset. Its rule count changes with policy and ruleset updates. Typical checks include:
 
 | Category | Example |
 | --- | --- |
@@ -95,14 +95,13 @@ AgentSec performs a fast scan using 23 high-confidence rules. Typical patterns t
 | Credential theft | Mimikatz, dumping the lsass process |
 | Hardcoded secrets | AWS keys, GitHub tokens, SSH private keys |
 
-> ⚡ The regex pre-scan usually completes within **1 millisecond**. A match is blocked immediately without waiting for AI analysis, greatly improving response time.
+> Rule matches may recommend blocking or only a warning. For example, hardcoded credentials can produce a warning. Check the rule action and actual disposition to see whether a file was quarantined.
 
 ### Check 3: In-Depth AI Analysis
 
-Scripts that do not match a regex rule proceed to AI analysis:
+Scripts without rule matches use the effective model configuration when AI review is enabled. Signed-in mode uses the organization's model service; local mode uses your configured model endpoint. Duration depends on the model, script, and network.
 
-- **Signed-in mode**: The script is uploaded to AgentSec Cloud and analyzed by the cloud AI, usually within 10–30 seconds
-- **Local mode**: The local AI model you configured performs the analysis; speed depends on the model and hardware
+When AI is disabled, the client shows a rules-only result. Incomplete AI review is marked as incomplete or degraded. Check which engines actually participated; a clean rule scan does not mean AI review completed.
 
 ---
 
@@ -120,14 +119,14 @@ AgentSec recursively monitors the directories you select, up to 10 subdirectory 
 
 ## How Large Directories Are Handled
 
-If a monitoring directory contains **more than 30** script files, AgentSec uses an intelligent two-stage process:
+When scanning starts, AgentSec uses a two-stage process:
 
 | Stage | Processing |
 | --- | --- |
-| Fast pre-scan | Uses 32 concurrent tasks for regex scanning; high-risk matches are blocked immediately |
-| AI analysis | Uses 8 concurrent tasks for in-depth AI analysis of the remaining scripts |
+| Rule scanning | Quickly checks scripts and handles matches according to the rule action and enforcement policy |
+| AI review | When enabled, reviews scripts that need further analysis and updates results as they finish |
 
-As a result, even when a directory contains hundreds of scripts, high-risk scripts can be blocked immediately without waiting in the AI queue.
+Rule scanning and AI review have separate progress indicators. AI may still be running after rule progress finishes; check both the file entries and AI progress.
 
 ---
 
@@ -138,10 +137,11 @@ After analysis, a script file has one of the following states according to the r
 | Status | Label | Meaning | File Permissions |
 | --- | --- | --- | --- |
 | Quarantined | `Quarantined` (red label) | Determined to require blocking and moved to quarantine | Original path replaced with a safe stub |
-| Locked | `Read-only` (red label) | Determined to be at warning level and locked | Read-only (cannot be executed) |
-| Not blocked | `Writable` (gray label) | Lower risk and not blocked | Original permissions retained |
+| Under remediation | `Remediating` | A quarantined copy is being edited and checked | The original path still contains a safe stub |
+| Awaiting review | Risk level and **Quarantine** action | AI recommends isolation, awaiting your confirmation | File remains unchanged |
+| Not quarantined | No quarantine label | Isolation has not been performed; review risk and engine status | Warnings do not make the file read-only |
 
-> ⚠️ “Writable” does not mean “completely safe.” It only means that the AI determined the current risk level does not require blocking. Regular review is still recommended.
+> A file can have risks without being quarantined. Review its risk level, detection source, and actual disposition separately.
 
 ---
 
@@ -150,7 +150,7 @@ After analysis, a script file has one of the following states according to the r
 To change the monitoring directories:
 
 1. If monitoring is running, **stop monitoring first**
-2. Change the monitoring directories in Settings, or click the directory card on the Dashboard to open the relevant setting
+2. Change directories under **Settings → Security → Watch Directory**; you can also select the status ball at the top of the sidebar to open directory settings
 3. Turn the **“Monitoring”** switch on again
 4. AgentSec performs a new full scan of the new directories
 
@@ -159,10 +159,10 @@ To change the monitoring directories:
 ## FAQ
 
 **Q: Why are some scripts analyzed quickly while others take longer?**  
-A: Scripts that match the regex pre-scan are blocked directly within milliseconds. Scripts that require AI analysis must wait for the model to return a result. Large scripts of more than 15,000 characters may take longer.
+A: Rule scanning is usually fast. AI review also waits for a model response; duration varies with script size, model, and network.
 
 **Q: Does monitoring affect system performance?**  
-A: The effect is negligible during normal use. File monitoring uses the operating system's native event notification mechanism rather than polling the disk, and AI analysis is limited to 8 concurrent tasks to avoid exhausting resources.
+A: File watching uses operating-system events. Batch scanning and AI review use some resources; performance depends on directory size, model, and hardware.
 
 **Q: Does monitoring continue after I close the application?**  
 A: No. AgentSec must remain running to monitor files. It is recommended that you configure AgentSec to start automatically when the computer starts.

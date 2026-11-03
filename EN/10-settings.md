@@ -1,60 +1,61 @@
 # Settings and Account Guide
 
-> The Settings page is used to manage all AgentSec configuration, including General, Security Configuration, Account, AI model, automatic updates, and more.
+> The Settings page is used to manage all AgentSec configuration, including General, Security, Account, AI model, automatic updates, and more.
 
 ---
 
 ## Open Settings
 
-Click **⚙ Settings** (the gear icon) in the left navigation bar, or click the gear button at the bottom of the sidebar.
+Select the **⚙ Settings** button at the bottom of the sidebar.
 
-> ![Full view of the Settings page](./screenshots/10-settings/settings-overview.png)
+![Screenshot pending: Updated Settings categories](./screenshots/pending.svg)
 
 ---
 
 ## Settings Page Layout
 
-The Settings page uses a **left-side category navigation and right-side content** layout. Use the left side to switch between General, Security Configuration, Account, Updates, Appearance, and Version; the right side shows the settings for the selected category.
+The Settings page uses a **left-side category navigation and right-side content** layout. Use the left side to switch between General, Security, Account, Updates, Appearance, and Version; the right side shows the settings for the selected category.
 
 ### ⚡ Auto-Save
 
-AgentSec supports auto-save. Changes are written to the config file within 1-2 seconds. The bottom save bar shows status:
-
-| Status          | Message                          |
-| --------------- | -------------------------------- |
-| No changes      | “One save button for all config” |
-| Unsaved changes | “Unsaved changes”                |
-| Saving          | “Saving...”                      |
-| Saved           | “Saved”                          |
-| Error           | “Save error: ...”                |
-
-> 💡 Automatic saving applies to most changes. To save manually, click **“Save Settings”** at the bottom.
+Settings save automatically. Monitoring and runtime-protection switches take effect immediately. There is no separate save button at the bottom of the page.
 
 ---
 
 ## I. General
 
-> ![General settings page](./screenshots/10-settings/settings-general.png)
+![Screenshot pending: General, Run Mode, and Agent Island](./screenshots/pending.svg)
 
 ### Setup Wizard
 
-Click **“Setup Wizard”** to run the initial setup wizard again. This is useful when you want to reconfigure the operating mode or monitoring directories.
+Select **Run setup wizard** to run initial setup again. This is useful when you want to reconfigure the run mode or monitoring directories.
 
-### Operating Mode
+### Run Mode
 
 | Mode | Description |
 | --- | --- |
-| Local (Offline) | Does not connect to a server; AI analysis is performed entirely on the local machine |
-| Community (Cloud SaaS) | Connects to the AgentSec cloud service; AI analysis is handled in the cloud |
+| Local (Offline) | No AgentSec sign-in; rules run on this computer. AI is optional and uses your configured model service |
+| Community (Cloud SaaS) | Sign in to AgentSec cloud and use the model service provided by your organization |
 
-> ![Operating mode selector](./screenshots/10-settings/settings-mode-selector.png)
+![Screenshot pending: Local mode and optional AI model settings](./screenshots/pending.svg)
 
 After you switch modes, the corresponding messages and configuration options appear below.
+
+The **AI assessment model (optional)** form is here in local mode. Select the provider and model, and enter an API key if required. Ollama and OpenAI-compatible services also support a custom Base URL. Select **Test LLM** to check the connection. Rule scanning works without a model. For an enterprise deployment, use the server and account supplied by your administrator.
+
+### Tutorial, Notifications, and Advanced Mode
+
+- **Agent Island**: Enable a draggable desktop status island for monitoring and analysis progress; select it to restore the main window. It is off by default.
+- **Tutorial**: Replay the interface introduction.
+- **Notification level**: Show all popups, warnings and above, errors only, or no popups. Notifications remain available in the Threat Center.
+- **Advanced mode → Show custom DSL rules**: Reveals the Engine's **DSL Rules** entry. Hiding the entry does not disable saved rules.
 
 ### Developer Options
 
 - **Show Debug View**: Adds a **“Debug”** entry to the sidebar, where you can view the real-time analysis log stream
 - Enable this option only when troubleshooting
+
+Debug's **Git Vault** shows snapshot commits, tracked files, and content differences. **Live Logs** lets you view, clear, or export logs. These entries appear only after Debug is enabled; normal monitoring and audits do not need them.
 
 ### Danger Zone
 
@@ -68,15 +69,38 @@ The **“Reset All Data”** button:
 
 ---
 
-## II. Security Configuration
+## II. Security
 
-> ![Full view of the Security Configuration page](./screenshots/10-settings/settings-security.png)
+![Screenshot pending: Updated Security](./screenshots/pending.svg)
 
-### Monitoring Switch
+### DeepIntent Agent Workspace
 
-Use the switch at the top of the page to start or stop real-time protection for the monitoring directories. When monitoring is off, AgentSec no longer analyzes new or modified RPA scripts in those directories in real time. Turn it on again to resume monitoring.
+Select **Import scripts for repair** to copy scripts into the workspace, then **Open workspace** to view them. The assistant's file tools access only this workspace. Monitoring directories do not expand its access, and importing a script does not modify the original.
 
-### Monitoring Directories
+![Screenshot pending: DeepIntent Agent workspace](./screenshots/pending.svg)
+
+_Screenshot pending: workspace path, Import scripts for repair, and Open workspace._
+
+### Runtime Protection and Agent Connections
+
+Enable **Runtime protection** to record DeepIntent Agent activity and tool audits. External Agents need a connector under **Agent directory detection**:
+
+1. Select **Re-detect** to find installed Claude Code, OpenCode, Codex, Gemini, or Qwen.
+2. Turn on the deployment switch for the Agent you want to connect.
+3. Restart running external Agents after deployment or redeployment.
+4. View records under **Security Dashboard → Agent Monitor** and **Threat Center → Agent live events**.
+
+DeepIntent Agent is integrated automatically and labeled **Audit only**. External Agent protection applies to supported tool calls from connected Agents. **Timeout action** offers **Deny (default)** or **Allow + audit**.
+
+![Screenshot pending: Runtime protection and Agent directory detection](./screenshots/pending.svg)
+
+_Screenshot pending: protection switch, timeout action, and deployment status for detected Agents._
+
+### Monitoring
+
+Use the **Monitoring** card to start or stop script monitoring. When monitoring is off, AgentSec no longer analyzes new or modified RPA scripts in those directories in real time. Turn it on again to resume monitoring.
+
+### Watch Directory
 
 AgentSec supports **monitoring multiple directories simultaneously**. Add the RPA script directories you want to protect in any of the following ways:
 
@@ -85,6 +109,8 @@ AgentSec supports **monitoring multiple directories simultaneously**. Add the RP
 - Click **“Search This Computer”** to detect script directories for common RPA tools
 
 Directories found by the search appear under **“Detected RPA Directories”**, together with the tool name, path, and number of scripts. Detected directories are not added to monitoring automatically; they take effect only after you confirm them.
+
+Removing a monitored directory requires confirmation and clears its local analysis, trust, and content-snapshot records. Scripts and quarantined copies on disk remain. Handle any quarantined files in Security Sandbox first if needed.
 
 #### Start Monitoring at Launch
 
@@ -115,7 +141,7 @@ AI assessment interprets script intent and helps identify risks not yet covered 
 
 ## III. Account
 
-> ![Account settings page](./screenshots/10-settings/settings-account.png)
+![Screenshot pending: Account and organization information](./screenshots/pending.svg)
 
 ### Sign-In Status
 
@@ -141,13 +167,13 @@ Click **“Sign Out”** to disconnect from the server.
 
 Click **“Test Connection”** to verify that the server is reachable and the sign-in credentials are valid.
 
-> ![Server connection test result](./screenshots/10-settings/settings-test-server.png)
+![Screenshot pending: Account connection test result](./screenshots/pending.svg)
 
 ---
 
 ## IV. Updates
 
-> ![Update settings page](./screenshots/10-settings/settings-updates.png)
+![Screenshot pending: Updates, last check, and API URL](./screenshots/pending.svg)
 
 ### Automatically Check for Updates
 
@@ -161,6 +187,8 @@ Click **“Test Connection”** to verify that the server is reachable and the s
 | Current version | The AgentSec version you are currently using |
 | Latest version | Latest version available on GitHub Releases |
 | Last checked | Time of the most recent update check |
+
+Use the default **Update API URL** or the address supplied by your deployment administrator.
 
 ### Check for Updates Manually
 
@@ -176,12 +204,20 @@ When a new version is detected:
 
 ## V. Appearance
 
-> ![Appearance settings page](./screenshots/10-settings/settings-appearance.png)
+![Screenshot pending: Interface size, theme, accent, and language](./screenshots/pending.svg)
+
+### Interface Size
+
+Use the slider or plus/minus buttons to adjust the whole interface from 50% to 200%. Select **Reset to 100%** to restore it. You can also use `Ctrl` / `⌘` with `+`, `−`, and `0`. Changes take effect immediately and save automatically.
 
 ### Theme
 
 - **Dark Mode**: Use the switch to enable or disable it
 - By default, AgentSec follows the system preference (`prefers-color-scheme`)
+
+### Accent Style
+
+Choose **Monochrome** or **AgentSec Green**.
 
 ### Interface Language
 
@@ -197,13 +233,8 @@ The entire interface updates immediately after you switch languages. The AI Assi
 
 ## VI. Version Notes
 
-> ![Version Notes page](./screenshots/10-settings/settings-version.png)
+![Screenshot pending: v2.3.7 version notes](./screenshots/pending.svg)
 
-Displays the version history (Changelog) from v1.0.0 to the current version in reverse chronological order.
+Displays version history from v2.0.1 onward, with the latest version first.
 
-Each update entry is labeled by type:
-
-- `feat` (green) — New feature
-- `fix` (red) — Bug fix
-- `improve` (green) — Improvement and optimization
-- `ui` (yellow) — Interface adjustment
+Entries are labeled as features, fixes, improvements, or interface changes.

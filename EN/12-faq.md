@@ -1,169 +1,83 @@
-# FAQ & Troubleshooting
+# Frequently Asked Questions
 
----
+## Getting Started
 
-## Installation & Launch
+### Must I sign in or configure a model before scanning?
 
-### Q: Windows shows "Windows protected your PC" (SmartScreen)
+No. Local mode requires neither sign-in nor a model for rule scanning. To use AI assessment or the AI Assistant, sign in to use your organization's model service, or configure your own model under **Settings → General → Run Mode**.
 
-This is normal — AgentSec doesn't have a Microsoft code signing certificate yet.
+### How do I reopen initial setup?
 
-**Fix**: Click "More info" → "Run anyway".
+Go to **Settings → General** and select **Run setup wizard**. To replay the interface introduction, use **Tutorial** on the same page.
 
-### Q: macOS says "Cannot verify developer"
+### Is local mode always offline?
 
-**Fix**:
-1. Open **System Settings → Privacy & Security**
-2. Find the blocked AgentSec Desktop near the bottom
-3. Click "Open Anyway"
+Rules run locally. AI connectivity depends on the model: a local Ollama model can run on this computer, while remote services such as OpenAI require a network connection and receive AI requests.
 
-### Q: App launches with a blank window
+## Script Monitoring
 
-**Possible causes**:
-- First launch rendering is slow (normal, wait 3-5 seconds)
-- Corrupted config file
+### Where do I see results after starting monitoring?
 
-**Fix**:
-1. Wait 10 seconds
-2. If still blank, delete the config file and retry:
-   - Windows: delete `%APPDATA%\AgentSec\config.json`
-   - macOS: delete `~/Library/Application Support/AgentSec/config.json`
+Open **Threat Center → Script threats** for files and their details. **Security Dashboard → Security Overview** also summarizes script results. The monitored folders must contain supported scripts outside automatically excluded directories.
 
-### Q: Config lost after update?
+### Can I monitor several folders?
 
-Since v1.6.3, config files are stored in the OS standard user data directory — they survive uninstall/upgrade. If indeed lost:
-- Old versions (≤ v1.6.2) stored config in the install directory's `resources\config\`
-- New versions auto-detect and migrate old config on first launch
+Yes. Add them under **Settings → Security → Watch Directory**. Detected RPA directories are included only after you confirm them.
 
----
+### Why do rules finish while AI is still running?
 
-## Monitoring & Scanning
+Rules and AI have separate progress indicators. Rule checks are usually faster. AI duration depends on the script, model, and service response. Read the engine status in the report to see what completed. With AI disabled, results contain rule checks only.
 
-### Q: Nothing happens after starting monitoring
+### Does high risk mean a file is quarantined?
 
-**Checklist**:
+Not always. Risk is an analysis finding; quarantine is an actual action. By default, AI-only block recommendations need human confirmation. Review the evidence and pending-confirmation message before deciding whether to quarantine.
 
-1. ✅ Are there `.xaml`, `.py`, `.robot`, `.bpmn`, `.ps1`, or `.vb` files in the watch directories?
-2. ✅ Is the monitoring toggle switch turned on (sidebar system status block)?
-3. ✅ In signed-in mode, check server connection
-4. ✅ In local mode, check LLM configuration
+### How do I restore a file I have confirmed is safe?
 
-### Q: Analysis always seems stuck "Analyzing"?
+Select it in **Threat Center → Security Sandbox**, review it, then use the trust or restore action. If it needs changes first, check the edited contents in the remediation area before confirming restoration. See [Security Sandbox](06-sandbox.md).
 
-Three-layer fix (since v2.0.5):
-1. **Hard timeout**: Local LLM calls have a 120s timeout; cloud upload/status queries have 60s/30s network timeouts
-2. **Zombie cleanup**: On startup, stale "analyzing" records from the previous session are auto-finalized as "Failed"; every 10 minutes, zombie records older than 15 minutes are cleaned up
-3. **Cancel button**: The detail panel has a "Cancel Analysis" button to abort in-flight tasks
+### Does Allow or No Findings mean a script is absolutely safe?
 
-### Q: Script blocked — is it a false positive?
+It means this check did not produce a conclusion requiring a block or warning. Review the rule coverage, AI completion status, and business context as well.
 
-1. In the Threat Center, check detailed analysis results to see which rule was triggered
-2. In the Threat Center's "Security Sandbox" tab, restore the file (auto-whitelisted)
-3. If frequent false positives, adjust rules in AgentSec Engine™ → Current Policy
+## Dify
 
-### Q: Does "Allow" status mean the script is absolutely safe?
+### Should I put a Dify workflow in a monitored folder?
 
-**No.** "Allow" only means the AI found no issues requiring blocking or warning. The script may still have low-risk issues or risks not covered by current rules. Regular review is recommended.
+No. Retrieve or import it under **AgentSec Engine™ → Rule Lab → Dify workflows**. Choose **Direct connection, Organization connections, or Files and demos**. Reports are archived under **Threat Center → Dify workflows**. See the [Dify guide](dify.md).
 
----
+### Is Reanalyze Snapshot enough after remediating Dify?
 
-## AI Analysis
+That action checks the saved contents. To check a new draft or published version, retrieve it again. For files, import the updated DSL, then review the remediation comparison.
 
-### Q: Analysis fails — what to do?
+## Agents and the Assistant
 
-Common causes:
-- **Local mode**: LLM API key expired or model unavailable — check in Settings → Account
-- **Signed-in mode**: Organization AI quota exhausted — ask your admin to top up in the console
-- **Network issue**: Cannot reach the server — check connection in Settings → Account
+### Why are there no Agent monitoring events yet?
 
-### Q: Why does analysis take a long time?
+Enable runtime protection under **Settings → Security**. External Agents also need a connector deployed under **Agent directory detection** and a restart. Records appear after supported tool calls. Text-only replies do not count as tool events.
 
-- AI deep analysis takes 10-30 seconds per script
-- Large scripts (>4000 chars) are auto-split into chunks for parallel analysis
-- Large directories (30+ scripts) first batch-prefilter at 32x concurrency, then AI-analyze at 8x concurrency
-- The Threat Center shows "Analyzing" progress in real time
+### Can the assistant directly edit my monitored folders?
 
-### Q: Can I analyze scripts without an internet connection?
+Its file tools access only the managed workspace. Select **Import scripts for repair** under **Settings → Security → DeepIntent Agent workspace** to work on copies. Monitoring a folder does not give the assistant file access to it.
 
-Yes — use **Local Mode** with Ollama (free, local model). No internet needed.
+### Where do I configure or test my local model?
 
----
+Open **Settings → General → Run Mode**, choose local mode, fill in the model settings, and select **Test LLM**. Signed-in mode uses your organization's model service.
 
-## Quarantine & Restore
+## Settings and Updates
 
-### Q: Where do quarantined files go?
+### How do I change the interface size?
 
-Into a `.agentsec_quarantine` subdirectory in the same folder as the original script. Each file gets a timestamped name and a `.meta.json` companion file.
+Use **Settings → Appearance → Interface Size**, or `Ctrl` / `⌘` with `+`, `−`, and `0`.
 
-### Q: How do I manually check quarantined files?
+### How do I update the client?
 
-Open the `.agentsec_quarantine` folder in your file explorer. But **don't manually move files** — use the AgentSec interface to keep the database and whitelist consistent.
+Open **Settings → Updates** and select **Check for Updates Now**. Follow **Download and Install** or **Open Download** when a new version is found. On macOS, open the DMG and drag the app into Applications to replace it.
 
-### Q: Restore failed — file already exists?
+### Do exported logs include script source?
 
-The safe stub (placeholder) at the original path prevents direct overwrite. AgentSec automatically handles this when restoring — it deletes the stub, then moves the original back. If you manually deleted the stub, restore should still work.
+Analysis record exports remove the script source field. The ZIP also contains selected runtime logs and conversations. Use a Dify report's own redacted export action for Dify findings.
 
----
+### How do I reset the app's data?
 
-## Account & Login
-
-### Q: Login fails — browser doesn't open
-
-AgentSec uses the `agentsec://` protocol to redirect from the browser back to the app. If it fails:
-1. Check that AgentSec is not blocked by firewall
-2. Try re-running the setup wizard (Settings → General → Run Setup Wizard)
-
-### Q: "Organization is banned" message
-
-Your organization has been banned by the platform admin. All features requiring server access (AI analysis, AI assistant) are unavailable. Contact your platform admin for details.
-
-### Q: How to switch organizations?
-
-Click your avatar/email at the bottom of the sidebar → **Sign Out** → re-run setup wizard to choose a different organization or mode.
-
----
-
-## Configuration
-
-### Q: Where is the config file stored?
-
-| OS | Path |
-|----|------|
-| Windows | `%APPDATA%\AgentSec\config.json` |
-| macOS | `~/Library/Application Support/AgentSec/config.json` |
-| Linux | `~/.config/AgentSec/config.json` |
-
-### Q: How to completely reset AgentSec?
-
-Settings → General → Danger Zone → **Reset All Data**. This clears everything and exits the app. Re-opening acts like first install.
-
----
-
-## Updates
-
-### Q: How to update to the latest version?
-
-AgentSec auto-checks every 6 hours. Manual check: Settings → Updates → **Check for Updates Now**.
-
-When a new version is found:
-- Windows: Click "Download & Install" for one-click update
-- macOS: Opens the DMG download page
-
-### Q: What if auto-update fails?
-
-Download the latest release manually from the GitHub Release page and install over the existing version. Config and data are preserved.
-
----
-
-## AI Assistant
-
-### Q: The AI assistant doesn't respond
-
-Check:
-- Signed-in mode: Is the server connection working? (Settings → Account → Test Connection)
-- Local mode: Is the LLM configured and reachable? (Settings → Account → Test LLM)
-- Organization quota: Check sidebar bottom for usage bar
-
-### Q: Can the AI see my scripts' source code?
-
-The AI receives script content for analysis — this is how security analysis works. In signed-in mode, the content is processed via the server's LLM relay. In local mode, it's processed locally. Analysis exports do NOT include script source.
+Select **Settings → General → Danger Zone → Reset All Data**. After confirmation, the app clears configuration, identity, analysis history, conversations, trust records, and other local data, then exits. This cannot be undone. Setup is required when you reopen it.

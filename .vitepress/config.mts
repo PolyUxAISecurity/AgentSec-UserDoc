@@ -62,8 +62,8 @@ export default withMermaid(
           {
             text: '集成',
             items: [
-              { text: 'Dify 工作流演示与审计', link: '/CN/dify' },
-              { text: 'UiPath Studio 插件', link: '/CN/uipath-client' },
+              { text: 'Dify 工作流审计', link: '/CN/dify' },
+              { text: 'Agent 运行时防护', link: '/CN/agent-runtime' },
             ],
           },
         ],
@@ -101,8 +101,8 @@ export default withMermaid(
           {
             text: 'Integrations',
             items: [
-              { text: 'Dify Workflow Demo and Audit', link: '/EN/dify' },
-              { text: 'UiPath Studio Plugin', link: '/EN/uipath-client' },
+              { text: 'Dify Workflow Audit', link: '/EN/dify' },
+              { text: 'Agent Runtime Protection', link: '/EN/agent-runtime' },
             ],
           },
         ],

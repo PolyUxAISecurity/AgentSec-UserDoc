@@ -1,187 +1,99 @@
 # Key Concepts Explained
 
-> Plain-language explanations of AgentSec terminology and concepts. No programming background needed.
+## Three Usage Scenarios
 
----
+| Scenario | What is checked | Where to view it |
+| --- | --- | --- |
+| **Script monitoring** | New and modified RPA scripts in monitored folders | Threat Center → Script threats |
+| **Agent runtime protection** | Supported tool calls from connected Agents | Agent Monitor; Threat Center → Agent live events |
+| **Dify workflow audit** | A retrieved or imported workflow snapshot | Rule Lab; Threat Center → Dify workflows |
 
-## Monitoring Concepts
+Dify audits identify potential risks in a snapshot. They do not execute the workflow or directly stop Dify Cloud runs. DeepIntent Agent's built-in runtime connection records activity and audits completed tool calls. External Agent protection depends on its connector and supported coverage.
+
+## Monitoring and Analysis
 
 ### Watch Directory
 
-You tell AgentSec "keep an eye on this folder." AgentSec continuously checks this folder (including subfolders) for RPA scripts. New files or modified files auto-trigger security analysis. **Multiple directories can be monitored at once.**
+Folders containing scripts you want AgentSec to check. You can add several folders. With monitoring enabled, new or changed files trigger checks, subject to excluded folders, supported file types, and trust status.
 
-**Simple analogy**: Like assigning a security guard to a building entrance — everyone coming in or going out gets checked.
+### Rules Engine
 
-### Real-Time Monitoring
+Matches known risk patterns locally. It always runs and needs no AI model. Update rule packages from Console or import an offline package supplied by an administrator.
 
-AgentSec doesn't scan every few minutes (too slow). Instead it uses the OS event notification system: the moment a file is created or modified, the OS immediately tells AgentSec, which starts checking right away.
+### AI Assessment
 
-**Simple analogy**: Not periodic patrols — the guard stands at the door, checking every person as they arrive.
+Optional analysis that interprets script or workflow intent and explains risks. Results show which engines ran and whether they completed. Rule scanning still works when AI is disabled or no model is configured.
 
----
+### Risk Level and Score
 
-## Analysis Concepts
+Levels include **Critical**, **High**, **Medium**, and **Low**. Scores are generally shown on a 0–100 scale; higher values deserve earlier review. Read the specific findings, evidence, and coverage alongside the score. A score is not a guarantee of business safety.
 
-### Regex Prefilter (AgentSec Engine™)
+### Findings and Actual Actions
 
-Before AI analysis, a set of high-confidence "known malicious behavior" rules does a millisecond-level fast scan (AgentSec Engine™). The ruleset includes built-in fallback rules (offline mode) and auto-fetches the latest from the server when signed in. If a script contains obvious malicious commands (like `rm -rf /`, deleting system restore points, ransomware behavior), it's blocked immediately — no AI needed.
+A **block recommendation** is an analysis finding. **Quarantined** or a runtime **Blocked** action indicates an action actually taken. Review these separately.
 
-**Simple analogy**: The guard has a "wanted list." Anyone on the list is stopped immediately — no need for a slow background check.
+The default script disposition automatically handles high-risk deterministic rule decisions, while AI-only block recommendations require human confirmation. When confirmation is pending, review the evidence before choosing whether to quarantine the file.
 
-### AI Deep Analysis
+## Script Disposition
 
-Scripts not caught by the prefilter enter AI deep analysis. The AI reads the code like a security expert, checking:
-- Is data being silently sent to external servers?
-- Are passwords hardcoded in the code?
-- Is insecure communication being used?
-- Is there injection vulnerability risk?
-- ...
+### Quarantine and Safe Stub
 
-**Simple analogy**: Not on the wanted list? The guard calls in a security expert to thoroughly review the person's credentials.
+Quarantine stores the original script in a sibling `.agentsec_quarantine` directory and places a safe stub at its original path. The stub explains the quarantine and replaces the original business script. Manage quarantined files under **Threat Center → Security Sandbox**.
 
-### Concurrent Analysis
+### Trust List
 
-AgentSec can analyze up to 8 scripts simultaneously (AI analysis) and up to 32 in parallel for prefilter scanning. If you have 50 scripts, it doesn't make the 50th wait for all previous ones — they're processed in parallel batches.
+After confirming a script is safe, use the interface to trust or restore it. AgentSec identifies the trusted version by its content fingerprint; changed contents need another check.
 
-**Simple analogy**: 8 guards can check 8 people at the same time.
+### Remediation Area
 
----
-
-## Risk Concepts
-
-### Risk Level
-
-After AI analysis, each script gets a risk level:
-
-| Level | Color | Plain Meaning |
-|-------|-------|---------------|
-| **CRITICAL** | 🔴 Red | Very dangerous! May steal data, leak passwords, damage system |
-| **HIGH** | 🟠 Orange | Clear security issue, easily exploitable |
-| **MEDIUM** | 🟡 Yellow | Not secure enough, but severe consequences are unlikely |
-| **LOW** | ⚪ Gray | Room for improvement but no real threat |
-
-### Risk Score
-
-A 0-100 value from the AI's comprehensive assessment. Higher = more risk.
-
-- 0-30: Basically safe
-- 31-60: Room for improvement
-- 61-80: Fix soon recommended
-- 81-100: Needs immediate attention
-
----
-
-## Disposition Concepts
-
-### Block
-
-When AI judges a script as very dangerous, AgentSec automatically:
-1. Finds and terminates any running process executing the script
-2. Moves the script file into quarantine (`.agentsec_quarantine`)
-3. Places a "safe stub" at the original path (explains why it was quarantined), set read-only
-
-**Simple analogy**: The guard confiscates dangerous items, seals the scene, and posts a notice.
-
-### Warn
-
-The script has risks but not bad enough to block. AgentSec:
-- Sets the file to read-only (prevents accidental execution)
-- Lists issues and fixes in detail in the Threat Center
-
-**Simple analogy**: The guard says "This person is suspicious — I've suspended their pass, you decide what to do."
-
-### Allow
-
-AI finds no high-risk issues that need blocking. File stays as-is.
-
-> ⚠️ "Allow" doesn't mean "absolutely safe." The AI checks known risk patterns — it doesn't guarantee the script has zero issues or business logic risks.
-
----
-
-## Quarantine Concepts
-
-### Quarantine Zone
-
-Blocked scripts are moved to a `.agentsec_quarantine` directory (in the same folder as the original script). AgentSec auto-skips quarantine directories — no re-scanning locked-up items.
-
-### Safe Stub
-
-The placeholder left at the original path after the file is moved. It looks like the original script but actually contains an explanation + auto-exit code. Even if someone tries to execute it, no harm occurs.
-
-### Whitelist / Trust List
-
-Files restored from quarantine are auto-added to the trust list. AgentSec records the file's "fingerprint" (SHA-256 hash). Future scans skip files with matching hashes. If the file is modified, the fingerprint changes — AgentSec detects it, removes it from the trust list, and re-analyzes.
-
----
-
-## Operating Mode Concepts
-
-### Community (Cloud Mode)
-
-Your AgentSec client connects to AgentSec cloud. AI analysis runs in the cloud — no AI model config needed. All features auto-activate after login.
-
-### On-Premise (Self-Hosted)
-
-Your AgentSec client connects to your company's own AgentSec server. For organizations with data compliance requirements that can't use public cloud.
-
-### Local Mode
-
-Fully offline. You provide your own AI endpoint (OpenAI API key or local Ollama model). All analysis runs on your machine — data never leaves your computer.
-
----
-
-## AI Assistant Concepts
-
-### Tool Call
-
-The AI Assistant doesn't just chat — it can **execute operations**: check config, start monitoring, export logs, etc. When the AI decides to act, it triggers a "tool call." You'll see a progress card in the conversation showing what the AI is doing.
-
-### Agent Token
-
-After logging into AgentSec, the client receives an **identity credential**. All subsequent communication with the AgentSec server carries this token, allowing the server to identify "who you are, which organization." The token is encrypted on disk — never stored in plaintext.
-
----
-
-## Policy Concepts
-
-### Security Policy
-
-A set of detection rules telling the AI "what to check, what to do when found." Each rule has:
-- **Severity**: How serious (critical / high / medium / low)
-- **Action**: What to do on hit (block = quarantine / warn = alert)
-
-Adjust rules in the **AgentSec Engine™ → Current Policy** page.
-
-### Policy Marketplace
-
-AgentSec's official preset policy library. Pick a policy suited to your industry (e.g. finance, government) and one-click replace your current detection rules.
-
-### OWASP
-
-An international security standards organization. AgentSec's default policy is built on the **OWASP Citizen Developer Top 10** risks — meaning our detection standards align with international security best practices.
-
----
-
-## Other Concepts
+Edit a copy of a quarantined file and check the updated contents. The user confirms restoration after review. See [Security Sandbox](06-sandbox.md).
 
 ### Content Vault
 
-AgentSec internally maintains a versioned content store (git-based). Every analyzed script gets a complete snapshot saved in the vault. This means even if a script is quarantined (file moved away), you can always retrieve the original content from the vault for re-analysis.
+Stores script content snapshots for review and reanalysis. Reanalyzing a saved snapshot does not retrieve new contents from an external system. After remediating a Dify workflow, retrieve or import the new version.
 
-**Simple analogy**: Like document version history — AgentSec remembers every version of every script for audit and re-analysis.
+## Run Modes and Models
+
+| Mode | Meaning |
+| --- | --- |
+| **Community** | Connect to AgentSec cloud and use the model service provided by your organization |
+| **On-Premise** | Connect to an enterprise AgentSec service as directed by its administrator |
+| **Local** | No AgentSec sign-in; rules run on this computer and AI uses your own local or remote model |
+
+Local mode means the client does not require AgentSec sign-in. It does not make a configured remote model local. OpenAI and other remote model services receive AI requests; inference runs on this computer when you use a local model such as Ollama.
+
+## Agents and the Assistant
+
+### DeepIntent Agent
+
+The built-in AI security assistant can explain results, call tools, and work on script copies in its workspace. Text-only replies do not count as tool-call events.
+
+### Workspace
+
+A managed folder that the assistant's file tools can access. Import scripts under **Settings → Security → DeepIntent Agent workspace**. The assistant works on imported copies; monitored directories do not expand its file access.
+
+### External Agent Connections
+
+Deploy supported connectors under **Settings → Security → Agent directory detection**, then restart running external Agents. Protection records apply to supported calls from connected Agents.
+
+### Tool Call
+
+An assistant action such as querying status, checking configuration, or operating on a workspace file. Tool cards in the conversation show calls and their results so you can check what happened. Export logs manually from the client interface.
+
+## Policies and Records
+
+### Security Policies and Marketplace
+
+Policies define checks, severity, and recommended actions. Use **AgentSec Engine™ → Engine** to view modules and configuration, and **Marketplace** to choose policies for your business. Organization-managed settings may be controlled by an administrator.
 
 ### Threat Center
 
-v2.0 unifies "Threat List", "History", "Notifications", and "Security Sandbox" into a single **Threat Center** page with tab navigation. The split-pane divider is draggable to resize.
+Brings together the **Script threats, Agent live events, Dify workflows, History, Notifications, and Security Sandbox**. Each result type keeps its own checked object and disposition status.
 
-### Agent ID
+### Agent ID and Sign-In Identity
 
-Every machine with AgentSec has a unique ID (based on network MAC address). The server uses it to distinguish machines. The ID is stored in the `~/.agentsec_agent_id` file.
-
-### Heartbeat
-
-Every 60 seconds, AgentSec sends a signal to the server: "I'm alive and working." If the server receives no heartbeat for 3 consecutive minutes, it marks the machine as "offline."
+An Agent ID identifies a device. Signing in joins the client to an organization. View account and organization information under **Settings → Account**.
 
 ### Log Export
 
-Pack analysis records, runtime logs, and AI conversation records into a ZIP file. Useful for support tickets or troubleshooting. To protect privacy, exported analysis records **do not include script source code**.
+Saves analysis records, runtime logs, and conversations in a ZIP for archiving or support. Analysis record exports remove the script source field. Dify audits have a separate redacted-report export action.

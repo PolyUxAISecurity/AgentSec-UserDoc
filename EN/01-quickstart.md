@@ -12,7 +12,7 @@ If you want to use the companion sample for the later security analysis steps, d
 
 ### Windows
 
-1. Download `AgentSec-Client-x64-win.zip`
+1. Download the current Windows x64 ZIP from the [release page](https://github.com/PolyUxAISecurity/AgentSec-Release/releases); its filename includes the version
 2. Extract to any directory (e.g. `D:\AgentSec Client`) — create a new folder if needed
 3. Double-click `agentsec.exe`
 
@@ -20,15 +20,11 @@ If you want to use the companion sample for the later security analysis steps, d
 
 > ![run-agentsec|356](./screenshots/01-quickstart/run-agentsec.png)
 
-> ⚠️ If Windows SmartScreen warns you, click "More info" → "Run anyway".
->
-> ![windows-smartscreen-warning|353](./screenshots/01-quickstart/windows-smartscreen-warning.png)
-
 ### macOS
 
-1. Download the `.dmg` file, double-click to mount
+1. Download the `.dmg` from the [release page](https://github.com/PolyUxAISecurity/AgentSec-Release/releases), then double-click to mount
 2. Drag into the `Applications` folder
-3. If blocked on first launch: **System Settings → Privacy & Security → Open Anyway**
+3. Open **AgentSec Desktop** from Applications
 
 ---
 
@@ -36,24 +32,11 @@ If you want to use the companion sample for the later security analysis steps, d
 
 After launching the app, the onboarding wizard will appear automatically.
 
-> **If the wizard doesn't appear**, this machine has been configured before. Re-open it two ways:
-
-**Option 1: From within the app (recommended)**
+To configure the app again:
 
 Click the ⚙ **Settings** icon at the bottom of the sidebar → select **General** on the left → click the **"Run setup wizard"** button.
 
-> ![reset-setting](./screenshots/01-quickstart/reset-setting.png)
-
-**Option 2: Delete config file (factory reset)**
-
-Delete the config file and restart the app — it will act like first launch.
-
-| OS      | Delete this file                                     |
-| ------- | ---------------------------------------------------- |
-| Windows | `%APPDATA%\AgentSec\config.json`                     |
-| macOS   | `~/Library/Application Support/AgentSec/config.json` |
-
-> ⚠️ Option 2 clears ALL settings. Option 1 is recommended.
+![Screenshot pending: Run setup wizard in General settings](./screenshots/pending.svg)
 
 ### 2.1 Choose your mode
 
@@ -64,7 +47,7 @@ You'll see two options:
 | Option | Best For | Needs |
 |--------|----------|-------|
 | **Login via AgentSec** (Recommended 👍) | Have an account, can connect to internet | An email address (to sign up) |
-| **Local Mode** | Fully offline, have your own AI API | AI model API key or installed Ollama |
+| **Local Mode** | Use local rule scanning without signing in to AgentSec | No model required; configure your own model to use AI features |
 
 > 💡 **Not sure?** Choose "Login via AgentSec" — no extra AI config needed.
 
@@ -83,26 +66,22 @@ You'll see two options:
 
 > ![onboarding-login-success](./screenshots/01-quickstart/onboarding-login-success.png)
 
-### 2.3 Local Mode Setup (for "Local" users)
+### 2.3 Choose Watch Directory
 
-After choosing local mode, configure your AI model:
-
-| Field | What to enter |
-|-------|---------------|
-| Model Provider | Ollama for free local model; OpenAI if you have a key |
-| Model Name | Ollama users use `qwen3:latest`; OpenAI users use `gpt-4o-mini` |
-| API Key | OpenAI/Anthropic users enter key; Ollama leave blank |
-
-> 💡 No AI key? Use [Ollama](https://ollama.com) (completely free). Run `ollama pull qwen3` to download a model.
-
-### 2.4 Choose Monitoring Directories
-
-Click "Select Directory" and pick the folder containing your RPA scripts. **Multiple directories can be monitored simultaneously.**
+Click **Add Directory** and pick the folder containing your RPA scripts. **Multiple directories can be monitored simultaneously.**
 
 > ![onboarding-select-dir|554](./screenshots/01-quickstart/onboarding-select-dir.png)
 > ![chose-ok](./screenshots/01-quickstart/chose-ok.png)
 
 > 💡 If UiPath is installed, AgentSec will auto-detect and suggest the default directory — just click it.
+
+### 2.4 Configure an AI Model (Local Mode, Optional)
+
+Local mode ends with **Configure AI model (optional)**. You can finish without a model and use rule scanning; configuring a model adds AI assessment and the AI Assistant.
+
+Select a provider and model name, then enter an API key if required. Local services such as Ollama can leave the key blank. For Ollama or an OpenAI-compatible service, check the **Custom Base URL**. You can also configure this later under **Settings → General → Run Mode** and select **Test LLM**.
+
+> A remote model service receives AI requests. AI inference stays on this computer only when you use a local model.
 
 ---
 
@@ -110,7 +89,9 @@ Click "Select Directory" and pick the folder containing your RPA scripts. **Mult
 
 After the wizard, you'll see the **Dashboard**.
 
-> ![dashboard-overview](./screenshots/01-quickstart/dashboard-overview.png)
+![Screenshot pending: Security Overview and sidebar monitoring switch](./screenshots/pending.svg)
+
+_Screenshot pending: Security Dashboard → Security Overview, including the sidebar monitoring switch._
 
 Now turn on the monitoring switch.
 
@@ -119,40 +100,38 @@ Now turn on the monitoring switch.
 | Change | Explanation |
 |--------|-------------|
 | Monitoring switch | Changes from off to on; the status text displays `Monitoring` |
-| Risk notification | A banner at the top shows the number of at-risk scripts pending action |
-| Analysis results | The analyzed-script count and Risk Files list update as scanning completes |
+| Analysis results | Script results and risk distribution update as scanning completes |
 
-> ![monitoring-started](./screenshots/01-quickstart/monitoring-started.png)
+![Screenshot pending: Monitoring status and updated script results](./screenshots/pending.svg)
 
 **What AgentSec is doing:**
 
-AgentSec scans scripts in the monitored directory and runs a fast regex check first. Scripts that do not match high-risk rules continue to AI deep analysis. Based on the result, AgentSec automatically blocks, warns, or allows the script.
+AgentSec scans scripts in the monitored directory, runs rule checks, and performs AI assessment when configured. Risk findings and actual actions are shown separately. Review high-risk recommendations that need confirmation in the Threat Center before acting.
 
 ---
 
 ## 4. Understanding Analysis Results
 
-Wait a few seconds to tens of seconds, and results will appear.
+Rule results appear first. AI assessment time depends on the script, model, and service response; its progress is shown in the details.
 
 ### 4.1 Dashboard Overview
 
 | Look at | Meaning |
 |---------|---------|
-| **Analyzed** | Number of scripts with completed analysis |
-| **Overall Risk** | Distribution of scripts across risk levels |
-| **Issue Types** | Distribution of detected issue types across monitored scripts |
-| **Risk Files** | Risky scripts and their issue counts |
-| **Analysis Trend** | Analysis and blocked-script totals for the past 7, 14, or 30 days |
+| **Overall Risk** | Script risk and disposition distribution |
+| **Static detection → RPA scripts** | Detected scripts and recent results |
+| **Risk trends → Script analysis** | Analyses, high-risk findings, and block recommendations over 7 or 30 days |
+| **Agent risk ranking / High-risk events** | Tool activity from connected Agents; these can be empty when only scanning scripts |
 
 ### 4.2 Enter Threat Center
 
 Click **"Threat Center"** in the sidebar to view per-script details.
 
-![security-log-list](./screenshots/01-quickstart/security-log-list.png)
+![Screenshot pending: Updated Script threats](./screenshots/pending.svg)
 
 **Click any script** to expand the detail panel:
 
-![script-detail-panel](./screenshots/01-quickstart/script-detail-panel.png)
+![Screenshot pending: Script details, engine status, and action taken](./screenshots/pending.svg)
 
 **Three key pieces of information:**
 1. **💡 Recommendation**: How to fix the issue
@@ -163,11 +142,11 @@ Click **"Threat Center"** in the sidebar to view per-script details.
 
 ## 5. If a Script Gets Blocked
 
-If you see a "Quarantined" label (red), AgentSec considers the script very dangerous and has moved it away.
+A **Quarantined** label means the file has been moved to quarantine. For a high-risk recommendation awaiting confirmation, review the evidence before deciding whether to quarantine it. A high-risk finding does not always mean quarantine has happened.
 
 ### You think it's actually malicious?
 
-✅ Do nothing. The original file is safely stored in `.agentsec_quarantine`, the original path replaced with a harmless stub.
+Keep it quarantined; do not select **Trust** or restore it. Review the finding and handle the file through your organization's process. The original is stored in `.agentsec_quarantine`, and a safe stub replaces it at the original path.
 
 ### You think it's a false positive (safe script)?
 
@@ -175,11 +154,11 @@ If you see a "Quarantined" label (red), AgentSec considers the script very dange
 2. Click **"Trust"**
 3. Confirm → the file moves to the **Safe** area
 
-> ![trust-button](./screenshots/01-quickstart/trust-button.png)
+![Screenshot pending: Trust action in Security Sandbox](./screenshots/pending.svg)
 >
-> ![trust-confirm](./screenshots/01-quickstart/trust-confirm.png)
+![Screenshot pending: Trust confirmation dialog](./screenshots/pending.svg)
 >
-> ![trust-success](./screenshots/01-quickstart/trust-success.png)
+![Screenshot pending: File status after trust or restore](./screenshots/pending.svg)
 
 > 💡 After restore, the file content stays the same. If you later modify it, AgentSec will re-analyze it.
 
@@ -195,7 +174,7 @@ Try asking:
 
 > "Which script has the highest risk? Why?"
 
-> ![ai-assistant](./screenshots/01-quickstart/ai-assistant.png)
+![Screenshot pending: Current AI Assistant and response](./screenshots/pending.svg)
 
 The AI responds based on actual monitoring data and analysis results — not generic replies.
 
