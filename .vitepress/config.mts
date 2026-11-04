@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // AgentSec Desktop User Manual site config.
-// Content organized by language: CN/ (Simplified Chinese), EN/ (English), TW/ (Traditional Chinese).
+// Content organized by language: CN/ (Simplified Chinese), EN/ (English), zh-Hant/ (Traditional Chinese).
 // All content is md files — edit with Obsidian or any editor.
 export default withMermaid(
   defineConfig({
@@ -19,14 +19,14 @@ export default withMermaid(
     rewrites: {
       'CN/README.md': 'CN/index.md',
       'EN/README.md': 'EN/index.md',
-      'TW/README.md': 'TW/index.md',
+      'zh-Hant/README.md': 'zh-Hant/index.md',
     },
 
     themeConfig: {
       nav: [
         { text: '简体中文', link: '/CN/' },
         { text: 'English', link: '/EN/' },
-        { text: '繁體中文', link: '/TW/' },
+        { text: '繁體中文', link: '/zh-Hant/' },
       ],
 
       sidebar: {
@@ -108,42 +108,42 @@ export default withMermaid(
             ],
           },
         ],
-        '/TW/': [
-          { text: '手冊首頁', link: '/TW/' },
+        '/zh-Hant/': [
+          { text: '手冊首頁', link: '/zh-Hant/' },
           {
             text: '開始使用',
             collapsed: false,
             items: [
-              { text: '01 · 快速入門（跟我做）', link: '/TW/01-quickstart' },
-              { text: '02 · 儀表盤（概覽）', link: '/TW/02-dashboard' },
-              { text: '03 · 第一次安全分析', link: '/TW/03-first-analysis' },
+              { text: '01 · 快速入門（跟我做）', link: '/zh-Hant/01-quickstart' },
+              { text: '02 · 儀表盤（概覽）', link: '/zh-Hant/02-dashboard' },
+              { text: '03 · 第一次安全分析', link: '/zh-Hant/03-first-analysis' },
             ],
           },
           {
             text: '功能詳解',
             collapsed: false,
             items: [
-              { text: '04 · 監控與目錄配置', link: '/TW/04-monitoring' },
-              { text: '05 · 威脅中心（威脅列表 · 歷史 · 通知 · 沙箱）', link: '/TW/05-security-log' },
-              { text: '06 · AgentSec Engine™（策略 · 實驗室 · AI 模型 · 市場）', link: '/TW/07-security-policy' },
-              { text: '07 · AI 安全助手', link: '/TW/08-ai-assistant' },
-              { text: '08 · AI 助手使用場景', link: '/TW/09-ai-assistant-use-cases' },
-              { text: '09 · 設置詳解', link: '/TW/10-settings' },
+              { text: '04 · 監控與目錄配置', link: '/zh-Hant/04-monitoring' },
+              { text: '05 · 威脅中心（威脅列表 · 歷史 · 通知 · 沙箱）', link: '/zh-Hant/05-security-log' },
+              { text: '06 · AgentSec Engine™（策略 · 實驗室 · AI 模型 · 市場）', link: '/zh-Hant/07-security-policy' },
+              { text: '07 · AI 安全助手', link: '/zh-Hant/08-ai-assistant' },
+              { text: '08 · AI 助手使用場景', link: '/zh-Hant/09-ai-assistant-use-cases' },
+              { text: '09 · 設置詳解', link: '/zh-Hant/10-settings' },
             ],
           },
           {
             text: '參考',
             collapsed: false,
             items: [
-              { text: '10 · 關鍵概念', link: '/TW/11-concepts' },
-              { text: '11 · 常見問題', link: '/TW/12-faq' },
+              { text: '10 · 關鍵概念', link: '/zh-Hant/11-concepts' },
+              { text: '11 · 常見問題', link: '/zh-Hant/12-faq' },
             ],
           },
           {
             text: '集成',
             items: [
-              { text: 'Dify 工作流審計', link: '/TW/dify' },
-              { text: 'Agent 運行時防護', link: '/TW/agent-runtime' },
+              { text: 'Dify 工作流審計', link: '/zh-Hant/dify' },
+              { text: 'Agent 運行時防護', link: '/zh-Hant/agent-runtime' },
             ],
           },
         ],

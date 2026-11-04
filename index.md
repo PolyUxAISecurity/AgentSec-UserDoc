@@ -13,7 +13,7 @@ hero:
       link: /EN/
     - theme: brand
       text: 繁體中文
-      link: /TW/
+      link: /zh-Hant/
     - theme: alt
       text: Dify 演示
       link: /CN/dify
