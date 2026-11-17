@@ -56,3 +56,5 @@ AgentSec Desktop 可以檢查 Dify 工作流中的明文憑據和敏感數據流
 ## 4. 關聯演示運行回執（可選）
 
 已入組客戶端的報告同步到 Console 後，可在 **威脅中心 → Dify 工作流**選中報告，點擊 **創建演示關聯碼**。如果你的 Dify 演示應用提供 `demo_run_token` 輸入，將關聯碼填入後運行合成案例，再回到報告查看**關聯運行回執**。回執與靜態審計結論分別顯示。
+
+![關聯演示運行回執](../CN/screenshots/dify/dify-run-receipt.png)

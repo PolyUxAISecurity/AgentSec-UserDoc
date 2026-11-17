@@ -56,3 +56,5 @@ The client saves the retrieved DSL automatically and displays the rule and AI an
 ## 4. Link a demo runtime receipt (optional)
 
 After an enrolled client's report has synced to Console, select it in **Threat Center → Dify workflows** and choose **Create demo correlation code**. If your Dify demo app provides a `demo_run_token` input, enter the code and run the synthetic case. Return to the report to inspect **Linked runtime receipts**. The receipts and static audit findings are displayed separately.
+
+![Example of a linked demo runtime receipt](./screenshots/dify/dify-run-receipt.png)
